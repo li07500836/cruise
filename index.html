@@ -1808,6 +1808,33 @@
           </div>
         </div>
 
+        <!-- 岸上購物即時雙向換算輸入框 -->
+        <div class="bg-blue-50/70 border border-blue-200/80 rounded-xl p-3.5 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-blue-900 flex items-center gap-1.5">
+              <i class="ph-bold ph-arrows-left-right text-blue-600"></i>
+              岸上購物快速換算（輸入日幣或台幣，自動雙向轉換）
+            </span>
+            <span class="text-[10px] text-blue-600 font-mono" id="conv-rate-tip">依即時匯率換算</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="relative">
+              <label class="block text-[11px] font-semibold text-slate-600 mb-1">日幣金額 (JPY ¥)</label>
+              <div class="relative flex items-center">
+                <span class="absolute left-3 text-slate-400 font-bold text-xs">¥</span>
+                <input type="number" id="input-jpy" oninput="convertCurrency('jpy')" placeholder="例: 3500" class="w-full pl-7 pr-3 py-2 bg-white border border-slate-300 rounded-lg text-sm font-mono font-bold text-slate-800 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+              </div>
+            </div>
+            <div class="relative">
+              <label class="block text-[11px] font-semibold text-slate-600 mb-1">台幣金額 (TWD NT$)</label>
+              <div class="relative flex items-center">
+                <span class="absolute left-3 text-slate-400 font-bold text-xs">NT$</span>
+                <input type="number" id="input-twd" oninput="convertCurrency('twd')" placeholder="例: 750" class="w-full pl-11 pr-3 py-2 bg-white border border-slate-300 rounded-lg text-sm font-mono font-bold text-slate-800 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- 試算結果面板 -->
         <div class="bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-2xl p-5 grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
@@ -2073,6 +2100,7 @@
           const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
           if (timeLabel) timeLabel.innerText = `更新時間 ${timeStr}`;
           calculateBudget();
+          updateQuickConverter();
           showToast(`已更新即時匯率：1 JPY = ${formattedRate} TWD`);
         } else {
           throw new Error('無 TWD 報價');
@@ -2087,8 +2115,46 @@
         }
         if (timeLabel) timeLabel.innerText = '離線基準匯率';
         calculateBudget();
+        updateQuickConverter();
       } finally {
         if (refreshIcon) refreshIcon.classList.remove('animate-spin');
+      }
+    }
+
+    // 雙向換算邏輯
+    function convertCurrency(source) {
+      const jpyInput = document.getElementById('input-jpy');
+      const twdInput = document.getElementById('input-twd');
+      if (!jpyInput || !twdInput) return;
+
+      const rate = currentJpyToTwdRate || 0.2150;
+
+      if (source === 'jpy') {
+        const jpyVal = parseFloat(jpyInput.value);
+        if (!isNaN(jpyVal) && jpyVal >= 0) {
+          twdInput.value = Math.round(jpyVal * rate);
+        } else {
+          twdInput.value = '';
+        }
+      } else if (source === 'twd') {
+        const twdVal = parseFloat(twdInput.value);
+        if (!isNaN(twdVal) && twdVal >= 0 && rate > 0) {
+          jpyInput.value = Math.round(twdVal / rate);
+        } else {
+          jpyInput.value = '';
+        }
+      }
+    }
+
+    // 匯率更新時同步刷新換算提示與既有數值
+    function updateQuickConverter() {
+      const tip = document.getElementById('conv-rate-tip');
+      if (tip) {
+        tip.innerText = `匯率: 1 JPY ≈ ${currentJpyToTwdRate.toFixed(4)} TWD`;
+      }
+      const jpyInput = document.getElementById('input-jpy');
+      if (jpyInput && jpyInput.value) {
+        convertCurrency('jpy');
       }
     }
 
@@ -2203,6 +2269,7 @@
     // 頁面載入時執行初始化與取得即時匯率與各島天氣
     window.onload = function() {
       calculateBudget();
+      updateQuickConverter();
       fetchLiveExchangeRate();
       fetchAllWeather();
     };
