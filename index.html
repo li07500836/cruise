@@ -46,6 +46,9 @@
     <!-- 主頁面 Tab 切換器 -->
     <div class="max-w-6xl mx-auto px-4">
       <nav class="flex space-x-2 overflow-x-auto custom-scrollbar pb-2 pt-1 text-sm font-medium" id="tabNav">
+        <button onclick="switchTab('ship')" id="btn-ship" class="tab-btn px-4 py-2 rounded-xl transition flex items-center gap-1.5 whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200">
+          <i class="ph-bold ph-boat"></i> 探索星號設施
+        </button>
         <button onclick="switchTab('naha')" id="btn-naha" class="tab-btn px-4 py-2 rounded-xl transition flex items-center gap-1.5 whitespace-nowrap bg-indigo-600 text-white shadow-sm shadow-indigo-600/30">
           <i class="ph-bold ph-bus"></i> 那霸沖繩 (10/05)
         </button>
@@ -69,6 +72,339 @@
   </header>
 
   <main class="flex-grow max-w-6xl w-full mx-auto px-4 py-6">
+
+    <!-- TAB: 探索星號船上設施與美食全覽 -->
+    <section id="tab-ship" class="tab-content hidden space-y-6">
+      <!-- 郵輪特色主橫幅 -->
+      <div class="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white rounded-2xl p-5 sm:p-6 shadow-xl relative overflow-hidden">
+        <div class="absolute -right-10 -bottom-10 opacity-10 pointer-events-none">
+          <i class="ph-fill ph-boat text-[240px]"></i>
+        </div>
+        <div class="relative z-10 max-w-3xl space-y-2">
+          <span class="inline-block bg-blue-500/30 text-blue-200 text-xs px-3 py-1 rounded-full font-semibold border border-blue-400/30">
+            舌尖上的郵輪 • 最懂台灣人的移動度假村
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-black tracking-tight">探索星號（Star Navigator）船上設施導覽</h2>
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            排水量 75,338 噸、13 層甲板，全船高比例中文服務與新台幣計價！三大免費主餐廳輪流吃、12樓羅馬泳池與滑水梯、星空劇院百老匯秀、以及 4 歲小孩專屬小小夢想家遊戲天地。
+          </p>
+        </div>
+        <!-- 快速規格標籤 -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4 pt-4 border-t border-white/10 text-xs">
+          <div class="bg-white/10 backdrop-blur-sm p-2.5 rounded-xl">
+            <span class="text-slate-400 block text-[11px]">結帳計費幣別</span>
+            <span class="font-bold text-sm text-amber-300">新台幣 (TWD)</span>
+          </div>
+          <div class="bg-white/10 backdrop-blur-sm p-2.5 rounded-xl">
+            <span class="text-slate-400 block text-[11px]">免費主餐廳</span>
+            <span class="font-bold text-sm text-white">3 間（中式/西式/自助餐）</span>
+          </div>
+          <div class="bg-white/10 backdrop-blur-sm p-2.5 rounded-xl">
+            <span class="text-slate-400 block text-[11px]">特色設施</span>
+            <span class="font-bold text-sm text-white">凱撒滑水道・溫水按摩池</span>
+          </div>
+          <div class="bg-white/10 backdrop-blur-sm p-2.5 rounded-xl">
+            <span class="text-slate-400 block text-[11px]">兒童友善空間</span>
+            <span class="font-bold text-sm text-emerald-300">小小夢想家俱樂部 (2-12歲)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 區塊一：三大免費主餐廳指南 -->
+      <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center font-bold">
+              <i class="ph-bold ph-fork-knife text-lg"></i>
+            </div>
+            <div>
+              <h3 class="text-base font-bold text-slate-900">三大免費主餐廳（持房卡入座・吃飽吃好）</h3>
+              <p class="text-xs text-slate-500">同一餐期擇一享用，菜色可無限加點！</p>
+            </div>
+          </div>
+          <span class="text-xs bg-amber-50 text-amber-800 border border-amber-200 px-2.5 py-1 rounded-full font-semibold">
+            不需額外付費
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- 餐廳 1: 星夢餐廳 -->
+          <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 flex flex-col justify-between hover:border-amber-300 transition">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="bg-amber-100 text-amber-800 text-[11px] font-bold px-2 py-0.5 rounded">人氣最高 • 中式合菜</span>
+                <span class="text-xs font-semibold text-slate-500">6 樓船尾</span>
+              </div>
+              <h4 class="font-bold text-slate-900 text-base">星夢餐廳 (Dream Dining Room)</h4>
+              
+              <!-- 開放時間表 -->
+              <div class="bg-white/80 p-2 rounded-lg border border-amber-200/70 text-[11px] space-y-1 font-mono">
+                <div class="text-amber-900 font-bold flex items-center gap-1">
+                  <i class="ph-bold ph-clock"></i> 營業時段（台灣時間為基準）：
+                </div>
+                <div class="flex justify-between text-slate-600"><span>• 早餐：</span><span class="font-semibold text-slate-800">07:00 - 09:30</span></div>
+                <div class="flex justify-between text-slate-600"><span>• 午餐：</span><span class="font-semibold text-slate-800">11:30 - 14:00</span></div>
+                <div class="flex justify-between text-slate-600"><span>• 晚餐：</span><span class="font-semibold text-slate-800">17:30 - 21:00</span></div>
+              </div>
+
+              <p class="text-xs text-slate-600 leading-relaxed">
+                全船人氣最旺的主餐廳！復古歐風水晶吊燈裝潢，落地窗可看船尾航行海浪。正餐供應精心烹製的粵菜桌菜、煲燉鮮湯、燒臘拼盤，道道濃郁合台灣人口味，吃不夠皆可單道免費續點！
+              </p>
+            </div>
+            <div class="mt-3 pt-2 border-t border-slate-200/80 text-[11px] text-amber-900 bg-amber-50/70 p-2 rounded-lg font-medium">
+              💡 早餐供應熱騰騰現煮中式清粥小菜與蒸籠包點；尖峰時段建議開餐前 10 分鐘排隊。
+            </div>
+          </div>
+
+          <!-- 餐廳 2: 百味軒 -->
+          <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 flex flex-col justify-between hover:border-amber-300 transition">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="bg-blue-100 text-blue-800 text-[11px] font-bold px-2 py-0.5 rounded">典雅浪漫 • 西式套餐</span>
+                <span class="text-xs font-semibold text-slate-500">6 樓船中</span>
+              </div>
+              <h4 class="font-bold text-slate-900 text-base">百味軒 (Pavilion)</h4>
+
+              <!-- 開放時間表 -->
+              <div class="bg-white/80 p-2 rounded-lg border border-blue-200/70 text-[11px] space-y-1 font-mono">
+                <div class="text-blue-900 font-bold flex items-center gap-1">
+                  <i class="ph-bold ph-clock"></i> 營業時段（台灣時間為基準）：
+                </div>
+                <div class="flex justify-between text-slate-600"><span>• 早餐：</span><span class="font-semibold text-slate-800">07:00 - 09:30</span></div>
+                <div class="flex justify-between text-slate-600"><span>• 午餐：</span><span class="font-semibold text-slate-800">12:00 - 14:00</span></div>
+                <div class="flex justify-between text-slate-600"><span>• 晚餐：</span><span class="font-semibold text-slate-800">17:30 - 20:30</span></div>
+              </div>
+
+              <p class="text-xs text-slate-600 leading-relaxed">
+                環境優雅安靜，以西式排餐與套餐為主。每道菜由侍者專人依順序呈上（前菜、湯品、主餐、甜點與冰淇淋），主餐提供牛排、鮮煎魚排或焗烤通心粉，排盤講究，主菜同樣可無限加點。
+              </p>
+            </div>
+            <div class="mt-3 pt-2 border-t border-slate-200/80 text-[11px] text-blue-900 bg-blue-50/70 p-2 rounded-lg font-medium">
+              💡 適合喜愛安靜氛圍、慢慢品嚐西式料理的家庭；晚餐建議稍微端莊便服入座。
+            </div>
+          </div>
+
+          <!-- 餐廳 3: 麗都自助餐廳 -->
+          <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 flex flex-col justify-between hover:border-amber-300 transition">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="bg-emerald-100 text-emerald-800 text-[11px] font-bold px-2 py-0.5 rounded">無拘無束 • 多國百匯</span>
+                <span class="text-xs font-semibold text-slate-500">12 樓船尾</span>
+              </div>
+              <h4 class="font-bold text-slate-900 text-base">麗都自助餐 (The Lido)</h4>
+
+              <!-- 開放時間表 -->
+              <div class="bg-white/80 p-2 rounded-lg border border-emerald-200/70 text-[11px] space-y-1 font-mono">
+                <div class="text-emerald-900 font-bold flex items-center gap-1">
+                  <i class="ph-bold ph-clock"></i> 供餐時段（時段最廣最彈性）：
+                </div>
+                <div class="flex justify-between text-slate-600"><span>• 早晨早茶：</span><span class="font-semibold text-slate-800">06:30 - 07:00</span></div>
+                <div class="flex justify-between text-slate-600"><span>• 自助早餐：</span><span class="font-semibold text-slate-800">07:00 - 10:00</span></div>
+                <div class="flex justify-between text-slate-600"><span>• 自助午餐：</span><span class="font-semibold text-slate-800">11:30 - 14:30</span></div>
+                <div class="flex justify-between text-slate-600"><span>• 下午茶點：</span><span class="font-semibold text-slate-800">15:00 - 16:30</span></div>
+                <div class="flex justify-between text-slate-600"><span>• 自助晚餐：</span><span class="font-semibold text-slate-800">17:30 - 21:30</span></div>
+              </div>
+
+              <p class="text-xs text-slate-600 leading-relaxed">
+                全天候人潮絡繹不絕的高樓層景觀自助餐廳！供應各國料理、現切烤肉、現煮麵食、義大利麵、甜點沙拉吧，甚至有台味肉燥飯！備有室內區與半戶外海風用餐區，座位多、排隊最快。
+              </p>
+            </div>
+            <div class="mt-3 pt-2 border-t border-slate-200/80 text-[11px] text-emerald-900 bg-emerald-50/70 p-2 rounded-lg font-medium">
+              💡 帶 4 歲小孩首選！現煎歐姆蛋、水果蛋糕任選，岸上行程返船後隨時有熱湯熱飲可吃。
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-slate-100 p-3 rounded-xl text-xs text-slate-600 flex items-start gap-2">
+          <i class="ph-fill ph-info text-blue-600 text-base mt-0.5"></i>
+          <span>
+            <strong>用餐溫馨提醒：</strong> 每張房卡在同一個用餐時段（早餐/午餐/晚餐）僅能在 3 間免費餐廳中選擇 1 間刷卡入座。時間以每日艙房內派發的「星夢情報（Daily Program）」為準；靠港日早午餐時間可能依下船時段彈性提前 30 分鐘開放。
+          </span>
+        </div>
+      </div>
+
+      <!-- 區塊二：親子放電與頂層水上休閒 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <!-- 設施 1: 羅馬泳池與滑水梯 -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
+            <div class="flex items-center gap-2">
+              <div class="w-8 h-8 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center font-bold">
+                <i class="ph-bold ph-swimming-pool text-lg"></i>
+              </div>
+              <div>
+                <h4 class="font-bold text-slate-900 text-sm sm:text-base">羅馬泳池 & 凱撒滑水道</h4>
+                <span class="text-[11px] text-slate-400">甲板 12 樓中央</span>
+              </div>
+            </div>
+            <span class="text-xs bg-sky-50 text-sky-700 px-2.5 py-0.5 rounded-full font-bold">免費開放</span>
+          </div>
+
+          <!-- 水上開放時間清單 -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 bg-sky-50/70 p-2.5 rounded-xl border border-sky-100 text-[11px] font-mono">
+            <div>
+              <span class="text-sky-900 font-bold block">🏊 羅馬主泳池</span>
+              <span class="text-slate-700 font-semibold">07:00 - 22:00</span>
+              <span class="text-[10px] text-slate-400 block font-sans">常溫深水區</span>
+            </div>
+            <div>
+              <span class="text-sky-900 font-bold block">♨️ 4座溫水按摩池</span>
+              <span class="text-slate-700 font-semibold">07:00 - 23:00</span>
+              <span class="text-[10px] text-slate-400 block font-sans">水溫約38°C極舒適</span>
+            </div>
+            <div>
+              <span class="text-sky-900 font-bold block">🎢 凱撒滑水梯</span>
+              <span class="text-slate-700 font-semibold">10:00-12:00 / 14:00-18:00</span>
+              <span class="text-[10px] text-slate-400 block font-sans">限身高100cm以上</span>
+            </div>
+          </div>
+
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            以古羅馬風格打造的戶外主甲板，也是全船白天最熱鬧的地方！包含常溫主泳池、<strong>4 座溫水按摩水療池（超舒服）</strong>、以及伸出船身外側的<strong>「透明旋轉滑水道」</strong>。夜晚池畔旁巨型 LED 大螢幕更會播放星空電影與樂團現場演奏！
+          </p>
+          <div class="bg-sky-50 p-2.5 rounded-xl border border-sky-100 text-xs text-sky-800 space-y-1">
+            <div>• <strong>小孩玩水：</strong> 4歲小童可在溫水按摩池或淺水區踏水，記得自備兒童泳裝、泳圈或手臂圈。</div>
+            <div>• <strong>浴巾借用：</strong> 池畔旁毛巾站開放時間為 07:00 - 22:00，可憑房卡免費借用大浴巾。</div>
+          </div>
+        </div>
+
+        <!-- 設施 2: 小小夢想家天地 (4歲小孩核心) -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
+            <div class="flex items-center gap-2">
+              <div class="w-8 h-8 rounded-lg bg-pink-100 text-pink-700 flex items-center justify-center font-bold">
+                <i class="ph-bold ph-game-controller text-lg"></i>
+              </div>
+              <div>
+                <h4 class="font-bold text-slate-900 text-sm sm:text-base">小小夢想家天地 (Little Dreamers)</h4>
+                <span class="text-[11px] text-slate-400">甲板 13 樓船頭（專屬 2-12 歲）</span>
+              </div>
+            </div>
+            <span class="text-xs bg-pink-50 text-pink-700 px-2.5 py-0.5 rounded-full font-bold">兒童專屬</span>
+          </div>
+
+          <!-- 兒童俱樂部開放時段 -->
+          <div class="bg-pink-50/70 p-2.5 rounded-xl border border-pink-100 text-[11px] font-mono space-y-1">
+            <div class="text-pink-900 font-bold flex items-center justify-between">
+              <span><i class="ph-bold ph-clock"></i> 每日開放時段（分三時段營運）：</span>
+              <span class="text-[10px] font-normal text-pink-700">航海日與航行晚間開放</span>
+            </div>
+            <div class="grid grid-cols-3 gap-1 text-slate-700">
+              <div>• 上午：<strong class="text-slate-900">09:00 - 12:00</strong></div>
+              <div>• 下午：<strong class="text-slate-900">14:00 - 17:30</strong></div>
+              <div>• 晚間：<strong class="text-slate-900">19:00 - 22:00</strong></div>
+            </div>
+          </div>
+
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            專為 2~12 歲兒童打造的室內遊樂俱樂部！備有安全軟質地墊、積木玩具、畫畫工作坊、卡通電影、變裝派對與專業哥哥姊姊帶動唱活動。讓大人能稍作喘息，小孩也能在船上結交各國小玩伴。
+          </p>
+          <div class="bg-pink-50 p-2.5 rounded-xl border border-pink-100 text-xs text-pink-800 space-y-1">
+            <div>• <strong>4 歲幼童入內：</strong> 部分特定活動需家長陪同入場，上船後可先前往 13 樓索取當日活動表。</div>
+            <div>• <strong>戶外遊憩場（13樓露天）：</strong> 開放時間為 08:00 - 20:00（視海象天候調整）。</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 區塊三：精彩娛樂秀與全船生活設施清單 -->
+      <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm space-y-4">
+        <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+          <i class="ph-bold ph-sparkle text-indigo-600"></i> 夜間娛樂、劇院秀與放鬆生活設施使用時間
+        </h3>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+          <!-- 卡片 1 -->
+          <div class="bg-slate-50 border border-slate-200 p-3.5 rounded-xl space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-slate-900 text-sm flex items-center gap-1">
+                <i class="ph-bold ph-film-slate text-indigo-600"></i> 星座劇院
+              </span>
+              <span class="bg-indigo-100 text-indigo-800 text-[10px] font-bold px-1.5 py-0.5 rounded">免費入場</span>
+            </div>
+            <span class="text-[11px] text-slate-400 block">7 樓船頭 • 演出時開門</span>
+            <div class="bg-white p-2 rounded-lg border border-indigo-100 text-[11px] font-mono text-indigo-950 space-y-0.5">
+              <div class="font-bold text-indigo-600">每晚固定演出兩場次：</div>
+              <div>• 第一場：19:30 - 20:15</div>
+              <div>• 第二場：21:30 - 22:15</div>
+            </div>
+            <p class="text-slate-600 leading-relaxed text-[11px]">
+              大型百老匯歌舞秀與特技魔術！採自由入座免預約，建議開演前 20 分鐘抵達挑選最佳中前排視野。
+            </p>
+          </div>
+
+          <!-- 卡片 2 -->
+          <div class="bg-slate-50 border border-slate-200 p-3.5 rounded-xl space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-slate-900 text-sm flex items-center gap-1">
+                <i class="ph-bold ph-confetti text-pink-600"></i> 7樓中央大堂
+              </span>
+              <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-1.5 py-0.5 rounded">24小時開放</span>
+            </div>
+            <span class="text-[11px] text-slate-400 block">7 樓船中 • 諮詢櫃台所在地</span>
+            <div class="bg-white p-2 rounded-lg border border-pink-100 text-[11px] font-mono text-pink-950 space-y-0.5">
+              <div class="font-bold text-pink-600">主要活動時間：</div>
+              <div>• 服務台諮詢：24 小時服務</div>
+              <div>• 樂團演唱/團康：14:00 - 23:30</div>
+            </div>
+            <p class="text-slate-600 leading-relaxed text-[11px]">
+              挑高三層樓宏偉大廳，隨時有小提琴與流行樂團駐唱；若對行程或消費帳單有疑問可隨時至櫃台辦理。
+            </p>
+          </div>
+
+          <!-- 卡片 3 -->
+          <div class="bg-slate-50 border border-slate-200 p-3.5 rounded-xl space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-slate-900 text-sm flex items-center gap-1">
+                <i class="ph-bold ph-heartbeat text-emerald-600"></i> 海景健身房 & SPA
+              </span>
+              <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-1.5 py-0.5 rounded">健身免費</span>
+            </div>
+            <span class="text-[11px] text-slate-400 block">12 樓船頭 • 運動需著球鞋</span>
+            <div class="bg-white p-2 rounded-lg border border-emerald-100 text-[11px] font-mono text-emerald-950 space-y-0.5">
+              <div class="font-bold text-emerald-600">開放時間：</div>
+              <div>• 健身房：06:00 - 23:00</div>
+              <div>• 水療 SPA / 三溫暖：08:00 - 22:00</div>
+            </div>
+            <p class="text-slate-600 leading-relaxed text-[11px]">
+              跑步機直接面向大海！配備重訓器材、三溫暖熱療室與付費芳療 SPA（健身房限 16 歲以上進入）。
+            </p>
+          </div>
+
+          <!-- 卡片 4 -->
+          <div class="bg-slate-50 border border-slate-200 p-3.5 rounded-xl space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-slate-900 text-sm flex items-center gap-1">
+                <i class="ph-bold ph-bowl-food text-amber-600"></i> 藍湖美食
+              </span>
+              <span class="bg-amber-100 text-amber-800 text-[10px] font-bold px-1.5 py-0.5 rounded">24小時營業</span>
+            </div>
+            <span class="text-[11px] text-slate-400 block">7 樓船中 • 平價付費宵夜</span>
+            <div class="bg-white p-2 rounded-lg border border-amber-100 text-[11px] font-mono text-amber-950 space-y-0.5">
+              <div class="font-bold text-amber-600">營業時間：</div>
+              <div>• 全天 24 小時不打烊</div>
+              <div>• 深夜熱食熱湯供應無休</div>
+            </div>
+            <p class="text-slate-600 leading-relaxed text-[11px]">
+              半夜肚子餓隨時來吃碗南洋叻沙、肉骨茶、海南雞飯或酥脆炸雞，下船行程晚回船也不用擔心沒東西吃。
+            </p>
+          </div>
+        </div>
+
+        <!-- 每日船上記者日報小貼士 -->
+        <div class="bg-indigo-50/70 border border-indigo-200 rounded-xl p-3.5 text-xs text-indigo-900 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div class="flex items-center gap-2">
+            <i class="ph-bold ph-newspaper text-indigo-600 text-xl"></i>
+            <div>
+              <span class="font-bold block">每日必讀：船上「星夢情報 / 每日活動表（Daily Program）」</span>
+              <span class="text-indigo-700">房務員每晚會將隔天的節目單送至艙房，或可透過手機連線船上免費內網查看當日各餐廳開放時段與劇院演出時間！</span>
+            </div>
+          </div>
+          <span class="bg-indigo-600 text-white font-semibold px-3 py-1.5 rounded-lg whitespace-nowrap text-center">
+            全船支援繁體中文
+          </span>
+        </div>
+      </div>
+    </section>
 
     <!-- TAB 0: 那霸沖繩本島 (10/05) 19人團體包車 -->
     <section id="tab-naha" class="tab-content space-y-6">
