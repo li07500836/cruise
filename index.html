@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>探索星號三島指南：沖繩那霸 ＆ 石垣島 ＆ 宮古島精華導覽與包車攻略</title>
+  <title>探索星號三島指南：沖繩那霸 ＆ 石垣島 ＆ 宮古島全攻略</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Phosphor Icons for clean visual icons -->
+  <!-- Phosphor Icons CDN -->
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
   <style>
     body {
@@ -25,6 +25,7 @@
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
 
+  <!-- 頂部導航與標題列 -->
   <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
     <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center space-x-3">
@@ -32,7 +33,7 @@
           <i class="ph-bold ph-compass text-2xl"></i>
         </div>
         <div>
-          <h1 class="text-base sm:text-lg font-bold text-slate-900 leading-tight">探索星號 • 三島岸上寶典</h1>
+          <h1 class="text-base sm:text-lg font-bold text-slate-900 leading-tight">探索星號 • 三島岸上與船上寶典</h1>
           <p class="text-xs text-slate-500">2026/10/04 - 10/08 那霸・石垣・宮古島</p>
         </div>
       </div>
@@ -69,114 +70,205 @@
         </button>
       </nav>
     </div>
+
+    <!-- 即時氣溫與港口海況天氣面板 (特定功能頁籤切換時自動隱藏) -->
+    <div id="weather-panel-container" class="max-w-6xl mx-auto px-4 pt-1 pb-2 transition-all duration-200">
+      <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-blue-950 text-white rounded-2xl p-3 sm:p-3.5 shadow-md border border-slate-700/60">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-2 mb-2">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span class="text-xs font-bold text-slate-100 flex items-center gap-1">
+              <i class="ph-bold ph-cloud-sun text-amber-300"></i> 各港口即時室外氣溫與海況天氣
+            </span>
+            <span class="text-[10px] text-slate-400 hidden md:inline">（串接即時觀測，可點擊更新）</span>
+          </div>
+          <div class="flex items-center gap-3 text-[11px] text-slate-300">
+            <span id="weather-update-time" class="font-mono text-[10px] text-slate-400">天氣資訊載入中...</span>
+            <button onclick="fetchAllWeather()" title="更新各島天氣" class="flex items-center gap-1 bg-white/10 hover:bg-white/20 px-2 py-0.5 rounded text-white text-xs transition">
+              <i class="ph-bold ph-arrows-clockwise text-xs" id="weather-refresh-icon"></i>
+              <span>更新天氣</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 4大港口即時氣溫橫向卡片 -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-2 text-xs">
+          <!-- 基隆港 -->
+          <div class="bg-white/5 hover:bg-white/10 p-2 sm:p-2.5 rounded-xl border border-white/5 transition flex items-center justify-between">
+            <div>
+              <div class="flex items-center gap-1 text-slate-300 font-semibold text-[11px]">
+                <i class="ph-bold ph-anchor text-cyan-400"></i> 基隆港 (出發/返港)
+              </div>
+              <div class="flex items-baseline gap-1.5 mt-0.5">
+                <span id="wt-temp-keelung" class="text-lg sm:text-xl font-black font-mono text-white">--°C</span>
+                <span id="wt-desc-keelung" class="text-[11px] text-slate-300">取得中</span>
+              </div>
+              <div class="text-[10px] text-slate-400 font-mono flex items-center gap-1.5 mt-0.5">
+                <span>體感 <strong id="wt-feel-keelung" class="text-slate-200">--°C</strong></span>
+                <span>• 降雨 <strong id="wt-rain-keelung" class="text-cyan-300">--%</strong></span>
+              </div>
+            </div>
+            <div id="wt-icon-keelung" class="text-2xl text-amber-300">
+              <i class="ph-bold ph-sun"></i>
+            </div>
+          </div>
+
+          <!-- 沖繩那霸 -->
+          <div class="bg-white/5 hover:bg-white/10 p-2 sm:p-2.5 rounded-xl border border-white/5 transition flex items-center justify-between">
+            <div>
+              <div class="flex items-center gap-1 text-slate-300 font-semibold text-[11px]">
+                <i class="ph-bold ph-bus text-indigo-400"></i> 沖繩那霸 (10/05)
+              </div>
+              <div class="flex items-baseline gap-1.5 mt-0.5">
+                <span id="wt-temp-naha" class="text-lg sm:text-xl font-black font-mono text-amber-300">--°C</span>
+                <span id="wt-desc-naha" class="text-[11px] text-slate-300">取得中</span>
+              </div>
+              <div class="text-[10px] text-slate-400 font-mono flex items-center gap-1.5 mt-0.5">
+                <span>體感 <strong id="wt-feel-naha" class="text-slate-200">--°C</strong></span>
+                <span>• 降雨 <strong id="wt-rain-naha" class="text-cyan-300">--%</strong></span>
+              </div>
+            </div>
+            <div id="wt-icon-naha" class="text-2xl text-amber-300">
+              <i class="ph-bold ph-sun"></i>
+            </div>
+          </div>
+
+          <!-- 石垣島 -->
+          <div class="bg-white/5 hover:bg-white/10 p-2 sm:p-2.5 rounded-xl border border-white/5 transition flex items-center justify-between">
+            <div>
+              <div class="flex items-center gap-1 text-slate-300 font-semibold text-[11px]">
+                <i class="ph-bold ph-island text-blue-400"></i> 石垣島 (10/06)
+              </div>
+              <div class="flex items-baseline gap-1.5 mt-0.5">
+                <span id="wt-temp-ishigaki" class="text-lg sm:text-xl font-black font-mono text-cyan-300">--°C</span>
+                <span id="wt-desc-ishigaki" class="text-[11px] text-slate-300">取得中</span>
+              </div>
+              <div class="text-[10px] text-slate-400 font-mono flex items-center gap-1.5 mt-0.5">
+                <span>體感 <strong id="wt-feel-ishigaki" class="text-slate-200">--°C</strong></span>
+                <span>• 降雨 <strong id="wt-rain-ishigaki" class="text-cyan-300">--%</strong></span>
+              </div>
+            </div>
+            <div id="wt-icon-ishigaki" class="text-2xl text-amber-300">
+              <i class="ph-bold ph-sun"></i>
+            </div>
+          </div>
+
+          <!-- 宮古島 -->
+          <div class="bg-white/5 hover:bg-white/10 p-2 sm:p-2.5 rounded-xl border border-white/5 transition flex items-center justify-between">
+            <div>
+              <div class="flex items-center gap-1 text-slate-300 font-semibold text-[11px]">
+                <i class="ph-bold ph-waves text-teal-400"></i> 宮古島 (10/07)
+              </div>
+              <div class="flex items-baseline gap-1.5 mt-0.5">
+                <span id="wt-temp-miyakojima" class="text-lg sm:text-xl font-black font-mono text-teal-300">--°C</span>
+                <span id="wt-desc-miyakojima" class="text-[11px] text-slate-300">取得中</span>
+              </div>
+              <div class="text-[10px] text-slate-400 font-mono flex items-center gap-1.5 mt-0.5">
+                <span>體感 <strong id="wt-feel-miyakojima" class="text-slate-200">--°C</strong></span>
+                <span>• 降雨 <strong id="wt-rain-miyakojima" class="text-cyan-300">--%</strong></span>
+              </div>
+            </div>
+            <div id="wt-icon-miyakojima" class="text-2xl text-amber-300">
+              <i class="ph-bold ph-sun"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </header>
 
-  <main class="flex-grow max-w-6xl w-full mx-auto px-4 py-6">
+  <!-- 主內容容器 -->
+  <main class="max-w-6xl mx-auto px-4 py-5 flex-1 w-full space-y-6">
 
-    <!-- TAB: 探索星號船上設施與美食全覽 -->
+    <!-- TAB: 探索星號設施 (預設頁籤) -->
     <section id="tab-ship" class="tab-content space-y-6">
-      <!-- 郵輪特色主橫幅 -->
-      <div class="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white rounded-2xl p-5 sm:p-6 shadow-xl relative overflow-hidden">
-        <div class="absolute -right-10 -bottom-10 opacity-10 pointer-events-none">
-          <i class="ph-fill ph-boat text-[240px]"></i>
+      <!-- 橫幅介紹 -->
+      <div class="bg-gradient-to-r from-blue-700 via-indigo-700 to-sky-600 text-white rounded-2xl p-5 shadow-lg shadow-indigo-500/15 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <span class="inline-block bg-white/20 text-white text-xs px-2.5 py-0.5 rounded-full font-semibold mb-2">船上全天候享樂生活指南</span>
+          <h2 class="text-xl sm:text-2xl font-black">探索星號（Explorer Dream）船上全設施導覽</h2>
+          <p class="text-blue-100 text-xs sm:text-sm mt-1">三大免費主餐廳、羅馬巨型水上樂園、4歲幼童俱樂部與夜晚劇院秀全攻略</p>
         </div>
-        <div class="relative z-10 max-w-3xl space-y-2">
-          <span class="inline-block bg-blue-500/30 text-blue-200 text-xs px-3 py-1 rounded-full font-semibold border border-blue-400/30">
-            舌尖上的郵輪 • 最懂台灣人的移動度假村
-          </span>
-          <h2 class="text-2xl sm:text-3xl font-black tracking-tight">探索星號（Star Navigator）船上設施導覽</h2>
-          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-            排水量 75,338 噸、13 層甲板，全船高比例中文服務與新台幣計價！三大免費主餐廳輪流吃、12樓羅馬泳池與滑水梯、星空劇院百老匯秀、以及 4 歲小孩專屬小小夢想家遊戲天地。
-          </p>
-        </div>
-        <!-- 快速規格標籤 -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4 pt-4 border-t border-white/10 text-xs">
-          <div class="bg-white/10 backdrop-blur-sm p-2.5 rounded-xl">
-            <span class="text-slate-400 block text-[11px]">結帳計費幣別</span>
-            <span class="font-bold text-sm text-amber-300">新台幣 (TWD)</span>
+        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/20 text-xs sm:text-sm min-w-[240px] space-y-1">
+          <div class="flex items-center justify-between">
+            <span class="text-blue-200">全船總噸位：</span>
+            <span class="font-bold">75,338 噸</span>
           </div>
-          <div class="bg-white/10 backdrop-blur-sm p-2.5 rounded-xl">
-            <span class="text-slate-400 block text-[11px]">免費主餐廳</span>
-            <span class="font-bold text-sm text-white">3 間（中式/西式/自助餐）</span>
+          <div class="flex items-center justify-between">
+            <span class="text-blue-200">載客甲板層數：</span>
+            <span class="font-bold">共 13 層甲板</span>
           </div>
-          <div class="bg-white/10 backdrop-blur-sm p-2.5 rounded-xl">
-            <span class="text-slate-400 block text-[11px]">特色設施</span>
-            <span class="font-bold text-sm text-white">凱撒滑水道・溫水按摩池</span>
-          </div>
-          <div class="bg-white/10 backdrop-blur-sm p-2.5 rounded-xl">
-            <span class="text-slate-400 block text-[11px]">兒童友善空間</span>
-            <span class="font-bold text-sm text-emerald-300">小小夢想家俱樂部 (2-12歲)</span>
+          <div class="flex items-center justify-between text-amber-200 font-semibold pt-1 border-t border-white/15">
+            <span>免費餐廳：</span>
+            <span>3 間主餐廳無限次免費吃</span>
           </div>
         </div>
       </div>
 
-      <!-- 區塊一：三大免費主餐廳指南 -->
+      <!-- 區塊一：三大免費主餐廳 -->
       <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm space-y-4">
-        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-          <div class="flex items-center gap-2">
-            <div class="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center font-bold">
-              <i class="ph-bold ph-fork-knife text-lg"></i>
-            </div>
-            <div>
-              <h3 class="text-base font-bold text-slate-900">三大免費主餐廳（持房卡入座・吃飽吃好）</h3>
-              <p class="text-xs text-slate-500">同一餐期擇一享用，菜色可無限加點！</p>
-            </div>
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+          <div>
+            <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+              <i class="ph-bold ph-fork-knife text-indigo-600"></i> 三大免費主餐廳（中西合璧・主菜無限續點）
+            </h3>
+            <p class="text-xs text-slate-500">每餐期憑房卡於 3 間中任選 1 間享用，餐點皆包含在船票費用內</p>
           </div>
-          <span class="text-xs bg-amber-50 text-amber-800 border border-amber-200 px-2.5 py-1 rounded-full font-semibold">
-            不需額外付費
+          <span class="text-xs bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-full font-semibold border border-emerald-200">
+            全部無需額外付費
           </span>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <!-- 餐廳 1: 星夢餐廳 -->
-          <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 flex flex-col justify-between hover:border-amber-300 transition">
+          <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 flex flex-col justify-between hover:border-indigo-300 transition">
             <div class="space-y-2">
               <div class="flex items-center justify-between">
-                <span class="bg-amber-100 text-amber-800 text-[11px] font-bold px-2 py-0.5 rounded">人氣最高 • 中式合菜</span>
+                <span class="bg-indigo-100 text-indigo-800 text-[11px] font-bold px-2 py-0.5 rounded">中式合菜 • 家庭首選</span>
                 <span class="text-xs font-semibold text-slate-500">6 樓船尾</span>
               </div>
               <h4 class="font-bold text-slate-900 text-base">星夢餐廳 (Dream Dining Room)</h4>
-              
+
               <!-- 開放時間表 -->
-              <div class="bg-white/80 p-2 rounded-lg border border-amber-200/70 text-[11px] space-y-1 font-mono">
-                <div class="text-amber-900 font-bold flex items-center gap-1">
-                  <i class="ph-bold ph-clock"></i> 營業時段（台灣時間為基準）：
+              <div class="bg-white/80 p-2 rounded-lg border border-indigo-100 text-[11px] space-y-1 font-mono">
+                <div class="text-indigo-900 font-bold flex items-center gap-1">
+                  <i class="ph-bold ph-clock"></i> 每日開放時段：
                 </div>
-                <div class="flex justify-between text-slate-600"><span>• 早餐：</span><span class="font-semibold text-slate-800">07:00 - 09:30</span></div>
-                <div class="flex justify-between text-slate-600"><span>• 午餐：</span><span class="font-semibold text-slate-800">11:30 - 14:00</span></div>
-                <div class="flex justify-between text-slate-600"><span>• 晚餐：</span><span class="font-semibold text-slate-800">17:30 - 21:00</span></div>
+                <div class="flex justify-between text-slate-600"><span>• 早餐時段：</span><span class="font-semibold text-slate-800">07:00 - 09:30</span></div>
+                <div class="flex justify-between text-slate-600"><span>• 午餐時段：</span><span class="font-semibold text-slate-800">11:30 - 14:00</span></div>
+                <div class="flex justify-between text-slate-600"><span>• 晚餐時段：</span><span class="font-semibold text-slate-800">17:30 - 21:00</span></div>
               </div>
 
               <p class="text-xs text-slate-600 leading-relaxed">
-                全船人氣最旺的主餐廳！復古歐風水晶吊燈裝潢，落地窗可看船尾航行海浪。正餐供應精心烹製的粵菜桌菜、煲燉鮮湯、燒臘拼盤，道道濃郁合台灣人口味，吃不夠皆可單道免費續點！
+                挑高典雅的中式餐廳，供應傳統中式精緻桌菜料理。菜色包含港式燒臘拼盤、老火燉排骨湯、清蒸海上鮮、時蔬炒肉片等，所有菜色與米飯熱湯皆能免費續點加量！
               </p>
             </div>
-            <div class="mt-3 pt-2 border-t border-slate-200/80 text-[11px] text-amber-900 bg-amber-50/70 p-2 rounded-lg font-medium">
-              💡 早餐供應熱騰騰現煮中式清粥小菜與蒸籠包點；尖峰時段建議開餐前 10 分鐘排隊。
+            <div class="mt-3 pt-2 border-t border-slate-200/80 text-[11px] text-indigo-900 bg-indigo-50/70 p-2 rounded-lg font-medium">
+              💡 最適合長輩與小孩口味！入座後服務生整套上齊，不需端著盤子排隊夾菜。
             </div>
           </div>
 
           <!-- 餐廳 2: 百味軒 -->
-          <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 flex flex-col justify-between hover:border-amber-300 transition">
+          <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 flex flex-col justify-between hover:border-blue-300 transition">
             <div class="space-y-2">
               <div class="flex items-center justify-between">
-                <span class="bg-blue-100 text-blue-800 text-[11px] font-bold px-2 py-0.5 rounded">典雅浪漫 • 西式套餐</span>
+                <span class="bg-blue-100 text-blue-800 text-[11px] font-bold px-2 py-0.5 rounded">西式排餐 • 精緻套餐</span>
                 <span class="text-xs font-semibold text-slate-500">6 樓船中</span>
               </div>
               <h4 class="font-bold text-slate-900 text-base">百味軒 (Pavilion)</h4>
 
               <!-- 開放時間表 -->
-              <div class="bg-white/80 p-2 rounded-lg border border-blue-200/70 text-[11px] space-y-1 font-mono">
+              <div class="bg-white/80 p-2 rounded-lg border border-blue-100 text-[11px] space-y-1 font-mono">
                 <div class="text-blue-900 font-bold flex items-center gap-1">
-                  <i class="ph-bold ph-clock"></i> 營業時段（台灣時間為基準）：
+                  <i class="ph-bold ph-clock"></i> 每日開放時段：
                 </div>
-                <div class="flex justify-between text-slate-600"><span>• 早餐：</span><span class="font-semibold text-slate-800">07:00 - 09:30</span></div>
-                <div class="flex justify-between text-slate-600"><span>• 午餐：</span><span class="font-semibold text-slate-800">12:00 - 14:00</span></div>
-                <div class="flex justify-between text-slate-600"><span>• 晚餐：</span><span class="font-semibold text-slate-800">17:30 - 20:30</span></div>
+                <div class="flex justify-between text-slate-600"><span>• 早餐時段：</span><span class="font-semibold text-slate-800">07:00 - 09:30</span></div>
+                <div class="flex justify-between text-slate-600"><span>• 午餐時段：</span><span class="font-semibold text-slate-800">12:00 - 14:00</span></div>
+                <div class="flex justify-between text-slate-600"><span>• 晚餐時段：</span><span class="font-semibold text-slate-800">17:30 - 20:30</span></div>
               </div>
 
               <p class="text-xs text-slate-600 leading-relaxed">
-                環境優雅安靜，以西式排餐與套餐為主。每道菜由侍者專人依順序呈上（前菜、湯品、主餐、甜點與冰淇淋），主餐提供牛排、鮮煎魚排或焗烤通心粉，排盤講究，主菜同樣可無限加點。
+                浪漫西式風格半自助排餐。提供現烤法式麵包、每日主廚特調濃湯、清脆生菜沙拉、精選主餐（如煎鮭魚排、慢烤雞腿排、義大利麵）與法式精緻甜點蛋糕。
               </p>
             </div>
             <div class="mt-3 pt-2 border-t border-slate-200/80 text-[11px] text-blue-900 bg-blue-50/70 p-2 rounded-lg font-medium">
@@ -218,7 +310,7 @@
         <div class="bg-slate-100 p-3 rounded-xl text-xs text-slate-600 flex items-start gap-2">
           <i class="ph-fill ph-info text-blue-600 text-base mt-0.5"></i>
           <span>
-            <strong>用餐溫馨提醒：</strong> 每張房卡在同一個用餐時段（早餐/午餐/晚餐）僅能在 3 間免費餐廳中選擇 1 間刷卡入座。時間以每日艙房內派發的「星夢情報（Daily Program）」為準；靠港日早午餐時間可能依下船時段彈性提前 30 分鐘開放。
+            <strong>用餐溫馨提醒：</strong> 每張房卡在同一個用餐時段（早餐/午餐/晚餐）僅能在 3 間免費餐廳中選擇 1 間刷卡入座。時間以每日艙房內派發的「星夢情報（Daily Program）」為準；靠港日早午餐時間可能依下船時段彈性提前開放。
           </span>
         </div>
       </div>
@@ -406,7 +498,7 @@
       </div>
     </section>
 
-    <!-- TAB 0: 那霸沖繩本島 (10/05) 19人團體包車 -->
+    <!-- TAB: 那霸沖繩本島 (10/05) 19人團體包車 -->
     <section id="tab-naha" class="tab-content hidden space-y-6">
       <!-- 停靠資訊 Alert 橫幅 -->
       <div class="bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-600 text-white rounded-2xl p-5 shadow-lg shadow-indigo-500/20 flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -625,7 +717,7 @@
       </div>
     </section>
 
-    <!-- TAB 1: 石垣島 -->
+    <!-- TAB: 石垣島 (10/06) -->
     <section id="tab-ishigaki" class="tab-content hidden space-y-6">
       <!-- 停靠資訊 Alert 橫幅 -->
       <div class="bg-gradient-to-r from-blue-600 via-cyan-600 to-teal-500 text-white rounded-2xl p-5 shadow-lg shadow-blue-500/15 flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -641,7 +733,7 @@
           </div>
           <div>
             <span class="text-blue-200 block text-xs">啟航時間 (日本時間)</span>
-            <span class="font-bold text-base">21:00 (20:00關閘)</span>
+            <span class="font-bold text-base">20:00 (21:00離港)</span>
           </div>
           <div class="col-span-2 pt-1 border-t border-white/15 flex items-center justify-between text-amber-200 font-medium">
             <span>建議包車時段</span>
@@ -688,7 +780,7 @@
           <button onclick="changeMap('ishigaki', 'Ishigaki+Port+Terminal', '石垣港碼頭 (起點/終點)', 'https://maps.google.com/?cid=10486969247499552330', this)" class="map-chip-ishigaki px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-blue-50 text-slate-700 font-medium flex items-center gap-1.5 transition">
             <i class="ph-bold ph-anchor"></i> 石垣港
           </button>
-          <button onclick="changeMap('ishigaki', '石垣島+川平灣', '第 1 站：川平灣（玻璃底船）', 'https://maps.google.com/?cid=11166848582745545969', this)" class="map-chip-ishigaki px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-blue-50 text-slate-700 font-medium flex items-center gap-1.5 transition">
+          <button onclick="changeMap('ishigaki', '川平灣', '第 1 站：川平灣（玻璃底船）', 'https://maps.google.com/?cid=11166848582745545969', this)" class="map-chip-ishigaki px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-blue-50 text-slate-700 font-medium flex items-center gap-1.5 transition">
             <i class="ph-bold ph-sparkle"></i> 川平灣玻璃船
           </button>
           <button onclick="changeMap('ishigaki', 'Mirumiru+Honpo+Ishigaki', '第 2 站：MiruMiru 本舖吃冰', 'https://maps.google.com/?cid=1679559266464648017', this)" class="map-chip-ishigaki px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-blue-50 text-slate-700 font-medium flex items-center gap-1.5 transition">
@@ -704,7 +796,7 @@
           <iframe id="ishigaki-map-frame" class="w-full h-full border-0" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?saddr=Ishigaki+Port+Terminal&daddr=川平灣+to:Mirumiru+Honpo+to:Euglena+Mall+to:Ishigaki+Port+Terminal&ll=24.3946,124.148&spn=0.18,0.14&dirflg=d&output=embed"></iframe>
           <div class="absolute bottom-2 left-2 bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-md text-[11px] font-semibold text-slate-700 border border-slate-200/80 shadow-sm flex items-center gap-1">
             <i class="ph-fill ph-map-pin text-blue-500"></i>
-            <span id="ishigaki-map-label">目前標記：全程巡迴路線（石垣港 ➔ 川平灣 ➔ MiruMiru ➔ 公設市場 ➔ 石垣港）</span>
+            <span id="ishigaki-map-label">目前標記：石垣島全程巡迴路線（石垣港 ➔ 川平灣 ➔ MiruMiru ➔ 公設市場 ➔ 石垣港）</span>
           </div>
         </div>
       </div>
@@ -863,7 +955,7 @@
       </div>
     </section>
 
-    <!-- TAB 2: 宮古島 -->
+    <!-- TAB: 宮古島 (10/07) -->
     <section id="tab-miyakojima" class="tab-content hidden space-y-6">
       <!-- 停靠資訊 Alert 橫幅 -->
       <div class="bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-2xl p-5 shadow-lg shadow-teal-500/15 flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -942,7 +1034,7 @@
           <iframe id="miyakojima-map-frame" class="w-full h-full border-0" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?saddr=Hirara+Port+Miyakojima&daddr=Irabu+Bridge+to:Toguchi+no+Hama+to:Yukisio+Museum+to:Hirara+Port+Miyakojima&dirflg=d&output=embed"></iframe>
           <div class="absolute bottom-2 left-2 bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-md text-[11px] font-semibold text-slate-700 border border-slate-200/80 shadow-sm flex items-center gap-1">
             <i class="ph-fill ph-map-pin text-teal-600"></i>
-            <span id="miyakojima-map-label">目前標記：全程巡迴路線（平良港 ➔ 伊良部大橋 ➔ 渡口之濱 ➔ 雪鹽工坊 ➔ 平良港）</span>
+            <span id="miyakojima-map-label">目前標記：宮古島全程巡迴路線（平良港 ➔ 伊良部大橋 ➔ 渡口之濱 ➔ 雪鹽工坊 ➔ 平良港）</span>
           </div>
         </div>
       </div>
@@ -1106,7 +1198,7 @@
       </div>
     </section>
 
-    <!-- TAB 3: 司機溝通字卡 (現場給司機看) -->
+    <!-- TAB: 司機溝通字卡 (現場給司機看) -->
     <section id="tab-flashcards" class="tab-content hidden space-y-6">
       <div class="bg-amber-50 border border-amber-200 rounded-2xl p-5 text-amber-900">
         <h3 class="text-base font-bold flex items-center gap-2">
@@ -1239,24 +1331,24 @@
       </div>
     </section>
 
-    <!-- TAB 4: 2大1小 行前打包與備品檢核清單 -->
+    <!-- TAB: 2大1小 行前打包與備品檢核清單 -->
     <section id="tab-packing" class="tab-content hidden space-y-6">
       <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-5">
-        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-3 gap-2">
           <div>
             <h3 class="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
               <i class="ph-bold ph-check-square-offset text-blue-600"></i> 2大1小 行李裝備隨身檢核表
             </h3>
-            <p class="text-xs text-slate-500">符合探索星號郵輪規範與 4 歲幼童長途上岸必備物品</p>
+            <p class="text-xs text-slate-500">探索星號郵輪規範、大人個人衣著泳具、4歲幼童與長途上岸隨行必備</p>
           </div>
-          <span class="text-xs bg-blue-100 text-blue-700 px-2.5 py-1 rounded-full font-semibold">出發前隨時勾選確認</span>
+          <span class="text-xs bg-blue-100 text-blue-700 px-2.5 py-1 rounded-full font-semibold w-fit">出發前隨時勾選確認</span>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-          <!-- 區塊 1: 重要證件與財物 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <!-- 區塊 1: 重要證件與財物通訊 -->
           <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-3">
             <h4 class="font-bold text-sm text-slate-800 flex items-center gap-1.5 border-b border-slate-200 pb-2">
-              <i class="ph-bold ph-identification-card text-blue-600"></i> 重要證件（隨身切勿託運）
+              <i class="ph-bold ph-identification-card text-blue-600"></i> 重要證件與通訊（切勿託運）
             </h4>
             <div class="space-y-2 text-xs text-slate-700">
               <label class="flex items-center gap-2 cursor-pointer">
@@ -1265,53 +1357,102 @@
               </label>
               <label class="flex items-center gap-2 cursor-pointer">
                 <input type="checkbox" class="rounded text-blue-600 focus:ring-0"> 
-                <span>A4 比例護照影本每人 1 份（請勿裁剪）</span>
+                <span>A4 比例護照影本每人 2 份（請勿裁剪）</span>
               </label>
               <label class="flex items-center gap-2 cursor-pointer">
                 <input type="checkbox" class="rounded text-blue-600 focus:ring-0"> 
-                <span>郵輪訂位單／登船報到憑證</span>
+                <span>郵輪訂位單／登船報到憑證印本</span>
               </label>
               <label class="flex items-center gap-2 cursor-pointer">
                 <input type="checkbox" class="rounded text-blue-600 focus:ring-0"> 
-                <span>日圓現金（多換千圓小鈔及零錢）</span>
+                <span class="font-semibold text-indigo-700">日本上網 SIM 卡 / eSIM 設定（含退卡針，岸上通訊導航必備）</span>
               </label>
               <label class="flex items-center gap-2 cursor-pointer">
                 <input type="checkbox" class="rounded text-blue-600 focus:ring-0"> 
-                <span>海外回饋信用卡 2 張（已開通海外交易）</span>
+                <span>日圓現金現鈔（多換千圓鈔與百圓零錢）</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" class="rounded text-blue-600 focus:ring-0"> 
+                <span>海外回饋信用卡 2~3 張（已開通海外交易）</span>
               </label>
             </div>
           </div>
 
-          <!-- 區塊 2: 4歲小孩專案 -->
-          <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-3">
-            <h4 class="font-bold text-sm text-slate-800 flex items-center gap-1.5 border-b border-slate-200 pb-2">
+          <!-- 區塊 2: 大人專屬衣物與泳具配備 -->
+          <div class="bg-indigo-50/50 border border-indigo-200 rounded-xl p-4 space-y-3">
+            <h4 class="font-bold text-sm text-indigo-950 flex items-center gap-1.5 border-b border-indigo-200 pb-2">
+              <i class="ph-bold ph-t-shirt text-indigo-600"></i> 大人專屬裝備（衣著/泳具/衛生）
+            </h4>
+            <div class="space-y-2 text-xs text-slate-700">
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" class="rounded text-indigo-600 focus:ring-0"> 
+                <span>大人換洗衣物 5~6 套（透氣排汗短袖、短褲）</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" class="rounded text-indigo-600 focus:ring-0"> 
+                <span>大人泳衣/泳褲/泳帽（羅馬泳池與水療SPA）</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" class="rounded text-indigo-600 focus:ring-0"> 
+                <span>防曬長袖薄外套/防風外套（船內與車內冷氣強）</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" class="rounded text-indigo-600 focus:ring-0"> 
+                <span>正裝便服一套（西式百味軒/劇院秀建議著微正式）</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" class="rounded text-indigo-600 focus:ring-0"> 
+                <span>運動球鞋（使用海景健身房必須著運動鞋）</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" class="rounded text-indigo-600 focus:ring-0"> 
+                <span class="font-semibold text-indigo-800">女性衛生用品（衛生棉/棉條/護墊，防備旅途突發）</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" class="rounded text-indigo-600 focus:ring-0"> 
+                <span>個人衛生修容組（牙線棒、指甲剪、棉花棒、刮鬍刀）</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" class="rounded text-indigo-600 focus:ring-0"> 
+                <span>大人常備藥品（暈船藥、止痛藥、胃腸藥）</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- 區塊 3: 4歲小孩專案 -->
+          <div class="bg-amber-50/50 border border-amber-200 rounded-xl p-4 space-y-3">
+            <h4 class="font-bold text-sm text-amber-950 flex items-center gap-1.5 border-b border-amber-200 pb-2">
               <i class="ph-bold ph-baby text-amber-600"></i> 4 歲小童專屬配備
             </h4>
             <div class="space-y-2 text-xs text-slate-700">
               <label class="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" class="rounded text-blue-600 focus:ring-0"> 
-                <span>輕便折疊傘車（推車進房好收折放中巴）</span>
+                <input type="checkbox" class="rounded text-amber-600 focus:ring-0"> 
+                <span>輕便折疊傘車（登船排隊好推、放中巴車廂好收）</span>
               </label>
               <label class="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" class="rounded text-blue-600 focus:ring-0"> 
-                <span>小童換洗衣物 5~6 套（多備以防弄髒）</span>
+                <input type="checkbox" class="rounded text-amber-600 focus:ring-0"> 
+                <span>小童換洗衣物 6~7 套（多備一套以防弄髒流汗）</span>
               </label>
               <label class="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" class="rounded text-blue-600 focus:ring-0"> 
-                <span>小童防風連帽薄外套（船艙/車內冷氣強）</span>
+                <input type="checkbox" class="rounded text-amber-600 focus:ring-0"> 
+                <span>兒童防曬連身泳裝、手臂泳圈/救生圈</span>
               </label>
               <label class="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" class="rounded text-blue-600 focus:ring-0"> 
-                <span>小兒常備藥（退燒藥水/止吐/防暈/外傷藥膏）</span>
+                <input type="checkbox" class="rounded text-amber-600 focus:ring-0"> 
+                <span>小童連帽薄外套（防曬防風且進冷氣房保暖）</span>
               </label>
               <label class="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" class="rounded text-blue-600 focus:ring-0"> 
-                <span>兒童吸管水壺、濕紙巾、安撫小玩具</span>
+                <input type="checkbox" class="rounded text-amber-600 focus:ring-0"> 
+                <span>小兒科常備藥（退燒藥水/止瀉止吐/防蚊液/OK繃）</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" class="rounded text-amber-600 focus:ring-0"> 
+                <span>兒童吸管保溫水壺、純水濕紙巾、安撫小玩具</span>
               </label>
             </div>
           </div>
 
-          <!-- 區塊 3: 船上生活與禁忌 -->
+          <!-- 區塊 4: 船上生活與禁忌 -->
           <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-3">
             <h4 class="font-bold text-sm text-slate-800 flex items-center gap-1.5 border-b border-slate-200 pb-2">
               <i class="ph-bold ph-shield-warning text-rose-600"></i> 船上生活與嚴格禁忌
@@ -1323,11 +1464,15 @@
               </label>
               <label class="flex items-center gap-2 cursor-pointer">
                 <input type="checkbox" class="rounded text-blue-600 focus:ring-0"> 
-                <span>多孔 USB 充電頭（房內設 110V/220V 插座）</span>
+                <span class="font-semibold text-slate-800">隨身衛生紙包、抗菌濕紙巾、隨身小瓶乾洗手</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" class="rounded text-blue-600 focus:ring-0"> 
+                <span>多孔 USB 快充頭（房內設 110V/220V 萬國插座）</span>
               </label>
               <label class="flex items-center gap-2 text-rose-700 font-semibold cursor-pointer">
                 <i class="ph-bold ph-x text-rose-600"></i> 
-                <span>嚴禁帶延長線、快煮壺、熨斗、對講機</span>
+                <span>嚴禁帶延長線、快煮壺、熨斗、對講機上船</span>
               </label>
               <label class="flex items-center gap-2 text-rose-700 font-semibold cursor-pointer">
                 <i class="ph-bold ph-x text-rose-600"></i> 
@@ -1335,7 +1480,7 @@
               </label>
               <label class="flex items-center gap-2 cursor-pointer">
                 <input type="checkbox" class="rounded text-blue-600 focus:ring-0"> 
-                <span>大容量摺疊環保袋（Outlet/商場採買裝戰利品）</span>
+                <span>大容量摺疊購物袋（裝 Outlet/超市戰利品）</span>
               </label>
             </div>
           </div>
@@ -1343,7 +1488,7 @@
       </div>
     </section>
 
-    <!-- TAB 5: 預算試算機與伴手禮檢疫 -->
+    <!-- TAB: 預算試算機與伴手禮檢疫 -->
     <section id="tab-budget" class="tab-content hidden space-y-6">
       
       <!-- 互動式預算計算機 -->
@@ -1356,8 +1501,15 @@
             <p class="text-xs text-slate-500">計算石垣島、宮古島計程車包車、門票及小吃所需的日幣與折合台幣</p>
           </div>
           <div class="text-right">
-            <span class="text-xs text-slate-500 block">參考匯率</span>
-            <span class="text-xs font-mono font-bold bg-slate-100 px-2 py-0.5 rounded text-slate-700">1 JPY = 0.215 TWD</span>
+            <div class="flex items-center justify-end gap-1.5">
+              <span id="rate-pulse-dot" class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span class="text-xs text-slate-500 font-medium" id="rate-source-label">即時匯率</span>
+              <button onclick="fetchLiveExchangeRate()" title="重新整理最新匯率" class="text-slate-400 hover:text-blue-600 transition p-0.5">
+                <i class="ph-bold ph-arrows-clockwise text-xs" id="rate-refresh-icon"></i>
+              </button>
+            </div>
+            <span class="text-xs font-mono font-bold bg-slate-100 px-2 py-0.5 rounded text-slate-700 block mt-0.5" id="display-rate-badge">1 JPY = 0.2150 TWD</span>
+            <span class="text-[10px] text-slate-400 block" id="rate-updated-time">載入即時牌告中...</span>
           </div>
         </div>
 
@@ -1396,14 +1548,14 @@
             <span class="text-[11px] text-slate-400 block mt-0.5">含兩島包車/餐飲/小吃/¥15,000備用金</span>
           </div>
           <div>
-            <span class="text-xs text-slate-400 block">折合新台幣總額 (匯率 0.215)</span>
+            <span class="text-xs text-slate-400 block">折合新台幣總額 (<span id="res-rate-text">匯率 0.2150</span>)</span>
             <span id="res-total-twd" class="text-2xl font-black text-white font-mono">NT$ 20,478</span>
-            <span class="text-[11px] text-emerald-400 block mt-0.5">建議準備約 2.1 萬台幣</span>
+            <span class="text-[11px] text-emerald-400 block mt-0.5" id="res-rec-budget">建議準備約 2.1 萬台幣</span>
           </div>
           <div class="border-t sm:border-t-0 sm:border-l border-slate-700 sm:pl-4 pt-3 sm:pt-0">
             <span class="text-xs text-slate-400 block">每位大人平均換鈔</span>
             <span id="res-per-adult" class="text-xl font-bold text-sky-300 font-mono">¥48,000 / 人</span>
-            <span class="text-[11px] text-slate-400 block mt-0.5">約 NT$ 10,240 / 位大人</span>
+            <span class="text-[11px] text-slate-400 block mt-0.5" id="res-per-adult-twd">約 NT$ 10,240 / 位大人</span>
           </div>
         </div>
       </div>
@@ -1452,6 +1604,7 @@
     <span id="toast-msg">已成功複製日文字句！</span>
   </div>
 
+  <!-- 頁尾與版權宣告 -->
   <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-400 mt-auto">
     <div class="max-w-6xl mx-auto px-4 space-y-1.5">
       <p class="font-medium text-slate-600">探索星號（2026/10/04 - 10/08）私人自由行隨身手冊</p>
@@ -1462,6 +1615,7 @@
     </div>
   </footer>
 
+  <!-- 核心 JavaScript 邏輯 -->
   <script>
     // 各島嶼全程循環路線設定
     const islandRouteConfigs = {
@@ -1488,9 +1642,23 @@
     // Tab 切換控制
     function switchTab(tabId) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-      document.getElementById('tab-' + tabId).classList.remove('hidden');
+      const targetTab = document.getElementById('tab-' + tabId);
+      if (targetTab) {
+        targetTab.classList.remove('hidden');
+      }
 
-      // 更新按鈕樣式
+      // 司機溝通字卡、2大1小行囊、預算伴手禮頁籤隱藏頂部氣象面板，保持版面清爽
+      const weatherContainer = document.getElementById('weather-panel-container');
+      const hideWeatherTabs = ['flashcards', 'packing', 'budget'];
+      if (weatherContainer) {
+        if (hideWeatherTabs.includes(tabId)) {
+          weatherContainer.classList.add('hidden');
+        } else {
+          weatherContainer.classList.remove('hidden');
+        }
+      }
+
+      // 更新所有頁籤按鈕樣式
       document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.classList.remove('bg-indigo-600', 'bg-blue-600', 'text-white', 'shadow-sm', 'shadow-indigo-600/30', 'shadow-blue-600/30');
         btn.classList.add('bg-slate-100', 'text-slate-600');
@@ -1505,7 +1673,7 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // 切換地圖焦點至指定單一景點（修復 ReferenceError: changeMap is not defined）
+    // 切換地圖焦點至指定單一景點
     function changeMap(island, query, labelText, extUrl, btnElement) {
       const iframe = document.getElementById(island + '-map-frame');
       const label = document.getElementById(island + '-map-label');
@@ -1567,7 +1735,7 @@
       }
     }
 
-    // 複製純文字到剪貼簿相容方案
+    // 複製純文字相容方案
     function copyText(text, btnElement) {
       const textarea = document.createElement('textarea');
       textarea.value = text;
@@ -1592,20 +1760,71 @@
       copyText(text, btnElement);
     }
 
-    // Toast 提示
+    // Toast 彈窗提示
     function showToast(msg) {
       const toast = document.getElementById('toast');
       const toastMsg = document.getElementById('toast-msg');
-      toastMsg.innerText = msg;
-      toast.classList.remove('opacity-0');
-      toast.classList.add('opacity-100');
-      setTimeout(() => {
-        toast.classList.remove('opacity-100');
-        toast.classList.add('opacity-0');
-      }, 2000);
+      if (toast && toastMsg) {
+        toastMsg.innerText = msg;
+        toast.classList.remove('opacity-0');
+        toast.classList.add('opacity-100');
+        setTimeout(() => {
+          toast.classList.remove('opacity-100');
+          toast.classList.add('opacity-0');
+        }, 2000);
+      }
     }
 
-    // 即時預算計算
+    // 當前即時匯率全域變數 (預設基準 0.215)
+    let currentJpyToTwdRate = 0.2150;
+
+    // 即時匯率抓取函式 (非同步串接開放匯率 API)
+    async function fetchLiveExchangeRate() {
+      const refreshIcon = document.getElementById('rate-refresh-icon');
+      const rateLabel = document.getElementById('rate-source-label');
+      const timeLabel = document.getElementById('rate-updated-time');
+      const dot = document.getElementById('rate-pulse-dot');
+
+      if (refreshIcon) refreshIcon.classList.add('animate-spin');
+      if (rateLabel) rateLabel.innerText = '匯率更新中...';
+
+      try {
+        const response = await fetch('https://open.er-api.com/v6/latest/JPY', { cache: 'no-store' });
+        if (!response.ok) throw new Error('匯率 API 回應異常');
+        const data = await response.json();
+        
+        if (data && data.rates && data.rates.TWD) {
+          currentJpyToTwdRate = parseFloat(data.rates.TWD);
+          const formattedRate = currentJpyToTwdRate.toFixed(4);
+          document.getElementById('display-rate-badge').innerText = `1 JPY = ${formattedRate} TWD`;
+          if (rateLabel) rateLabel.innerText = '即時即期匯率';
+          if (dot) {
+            dot.className = 'w-2 h-2 rounded-full bg-emerald-500 animate-pulse';
+          }
+          const now = new Date();
+          const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+          if (timeLabel) timeLabel.innerText = `更新時間 ${timeStr}`;
+          calculateBudget();
+          showToast(`已更新即時匯率：1 JPY = ${formattedRate} TWD`);
+        } else {
+          throw new Error('無 TWD 報價');
+        }
+      } catch (err) {
+        console.warn('即時匯率取得失敗，使用離線基準匯率', err);
+        currentJpyToTwdRate = 0.2150;
+        document.getElementById('display-rate-badge').innerText = '1 JPY = 0.2150 TWD (離線)';
+        if (rateLabel) rateLabel.innerText = '參考匯率 (離線)';
+        if (dot) {
+          dot.className = 'w-2 h-2 rounded-full bg-amber-400';
+        }
+        if (timeLabel) timeLabel.innerText = '離線基準匯率';
+        calculateBudget();
+      } finally {
+        if (refreshIcon) refreshIcon.classList.remove('animate-spin');
+      }
+    }
+
+    // 即時預算計算 (結合動態匯率)
     function calculateBudget() {
       const ishigakiTaxi = parseInt(document.getElementById('calc-ishigaki-hours').value) || 24000;
       const miyakoTaxi = parseInt(document.getElementById('calc-miyako-hours').value) || 26000;
@@ -1615,19 +1834,109 @@
       const bufferCash = 15000;     // 零錢備用週轉金
 
       const totalJPY = ishigakiTaxi + miyakoTaxi + boat + mealsAndSnacks + bufferCash;
-      const rate = 0.215;
+      const rate = currentJpyToTwdRate;
       const totalTWD = Math.round(totalJPY * rate);
       const perAdultJPY = Math.round((totalJPY / 2) / 1000) * 1000;
-      const perAdultTWD = Math.round(totalTWD / 2);
+      const perAdultTWD = Math.round((totalJPY / 2) * rate);
 
       document.getElementById('res-total-jpy').innerText = '¥' + totalJPY.toLocaleString();
+      document.getElementById('res-rate-text').innerText = `即時匯率 ${rate.toFixed(4)}`;
       document.getElementById('res-total-twd').innerText = 'NT$ ' + totalTWD.toLocaleString();
+      document.getElementById('res-rec-budget').innerText = `建議準備約 ${(Math.ceil(totalTWD / 1000) / 10).toFixed(1)} 萬台幣`;
       document.getElementById('res-per-adult').innerText = '¥' + perAdultJPY.toLocaleString() + ' / 人';
+      document.getElementById('res-per-adult-twd').innerText = `約 NT$ ${perAdultTWD.toLocaleString()} / 位大人`;
     }
 
-    // 頁面載入時執行初始化
+    // 港口經緯度設定
+    const portLocations = {
+      keelung: { name: "基隆港", lat: 25.1276, lon: 121.7392 },
+      naha: { name: "沖繩那霸", lat: 26.2124, lon: 127.6809 },
+      ishigaki: { name: "石垣島", lat: 24.3448, lon: 124.1572 },
+      miyakojima: { name: "宮古島", lat: 24.8055, lon: 125.2811 }
+    };
+
+    // WMO 天氣代碼轉換
+    function interpretWeatherCode(code) {
+      if (code === 0) return { desc: "晴天晴朗", icon: "ph-sun text-amber-400" };
+      if (code === 1 || code === 2) return { desc: "晴時多雲", icon: "ph-cloud-sun text-amber-300" };
+      if (code === 3) return { desc: "陰天多雲", icon: "ph-cloud text-slate-300" };
+      if (code === 45 || code === 48) return { desc: "有霧薄霧", icon: "ph-cloud-fog text-slate-300" };
+      if (code >= 51 && code <= 55) return { desc: "局部細雨", icon: "ph-cloud-rain text-cyan-300" };
+      if (code >= 61 && code <= 65) return { desc: "有短暫雨", icon: "ph-cloud-rain text-blue-300" };
+      if (code >= 80 && code <= 82) return { desc: "短暫陣雨", icon: "ph-cloud-rain text-blue-400" };
+      if (code >= 95) return { desc: "雷雨注意", icon: "ph-cloud-lightning text-yellow-400" };
+      return { desc: "多雲舒適", icon: "ph-cloud-sun text-amber-300" };
+    }
+
+    // 單點非同步抓取即時天氣 (串接 Open-Meteo)
+    async function fetchPortWeather(key) {
+      const loc = portLocations[key];
+      if (!loc) return;
+      try {
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${loc.lat}&longitude=${loc.lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m&daily=precipitation_probability_max,temperature_2m_max,temperature_2m_min&timezone=auto`;
+        const res = await fetch(url, { cache: 'no-store' });
+        if (!res.ok) throw new Error('天氣回應異常');
+        const data = await res.json();
+        
+        if (data && data.current) {
+          const temp = Math.round(data.current.temperature_2m);
+          const feel = Math.round(data.current.apparent_temperature);
+          const wInfo = interpretWeatherCode(data.current.weather_code);
+          const rainProb = (data.daily && data.daily.precipitation_probability_max && data.daily.precipitation_probability_max[0] !== undefined)
+            ? data.daily.precipitation_probability_max[0] : 10;
+
+          document.getElementById(`wt-temp-${key}`).innerText = `${temp}°C`;
+          document.getElementById(`wt-desc-${key}`).innerText = wInfo.desc;
+          document.getElementById(`wt-feel-${key}`).innerText = `${feel}°C`;
+          document.getElementById(`wt-rain-${key}`).innerText = `${rainProb}%`;
+          const iconEl = document.getElementById(`wt-icon-${key}`);
+          if (iconEl) {
+            iconEl.innerHTML = `<i class="ph-fill ${wInfo.icon}"></i>`;
+          }
+        }
+      } catch (err) {
+        console.warn(`無法取得 ${loc.name} 即時天氣，使用秋季海風預估值`, err);
+        const fallbacks = {
+          keelung: { temp: "26°C", desc: "舒適微風", feel: "27°C", rain: "20%" },
+          naha: { temp: "28°C", desc: "晴時多雲", feel: "29°C", rain: "15%" },
+          ishigaki: { temp: "29°C", desc: "海島陽光", feel: "31°C", rain: "10%" },
+          miyakojima: { temp: "28°C", desc: "涼爽晴朗", feel: "30°C", rain: "10%" }
+        };
+        const fb = fallbacks[key];
+        if (fb) {
+          document.getElementById(`wt-temp-${key}`).innerText = fb.temp;
+          document.getElementById(`wt-desc-${key}`).innerText = fb.desc;
+          document.getElementById(`wt-feel-${key}`).innerText = fb.feel;
+          document.getElementById(`wt-rain-${key}`).innerText = fb.rain;
+        }
+      }
+    }
+
+    // 抓取所有港口即時天氣
+    async function fetchAllWeather() {
+      const refreshIcon = document.getElementById('weather-refresh-icon');
+      const timeLabel = document.getElementById('weather-update-time');
+      if (refreshIcon) refreshIcon.classList.add('animate-spin');
+      if (timeLabel) timeLabel.innerText = '正在連線港口氣象觀測站...';
+
+      await Promise.all([
+        fetchPortWeather('keelung'),
+        fetchPortWeather('naha'),
+        fetchPortWeather('ishigaki'),
+        fetchPortWeather('miyakojima')
+      ]);
+
+      const now = new Date();
+      const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+      if (timeLabel) timeLabel.innerText = `更新於 ${timeStr}`;
+      if (refreshIcon) refreshIcon.classList.remove('animate-spin');
+    }
+
+    // 頁面載入時執行初始化與取得即時匯率與各島天氣
     window.onload = function() {
       calculateBudget();
+      fetchLiveExchangeRate();
+      fetchAllWeather();
     };
   </script>
 </body>
