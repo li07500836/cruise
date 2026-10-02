@@ -46,10 +46,10 @@
     <!-- 主頁面 Tab 切換器 -->
     <div class="max-w-6xl mx-auto px-4">
       <nav class="flex space-x-2 overflow-x-auto custom-scrollbar pb-2 pt-1 text-sm font-medium" id="tabNav">
-        <button onclick="switchTab('ship')" id="btn-ship" class="tab-btn px-4 py-2 rounded-xl transition flex items-center gap-1.5 whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200">
+        <button onclick="switchTab('ship')" id="btn-ship" class="tab-btn px-4 py-2 rounded-xl transition flex items-center gap-1.5 whitespace-nowrap bg-indigo-600 text-white shadow-sm shadow-indigo-600/30">
           <i class="ph-bold ph-boat"></i> 探索星號設施
         </button>
-        <button onclick="switchTab('naha')" id="btn-naha" class="tab-btn px-4 py-2 rounded-xl transition flex items-center gap-1.5 whitespace-nowrap bg-indigo-600 text-white shadow-sm shadow-indigo-600/30">
+        <button onclick="switchTab('naha')" id="btn-naha" class="tab-btn px-4 py-2 rounded-xl transition flex items-center gap-1.5 whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200">
           <i class="ph-bold ph-bus"></i> 那霸沖繩 (10/05)
         </button>
         <button onclick="switchTab('ishigaki')" id="btn-ishigaki" class="tab-btn px-4 py-2 rounded-xl transition flex items-center gap-1.5 whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200">
@@ -74,7 +74,7 @@
   <main class="flex-grow max-w-6xl w-full mx-auto px-4 py-6">
 
     <!-- TAB: 探索星號船上設施與美食全覽 -->
-    <section id="tab-ship" class="tab-content hidden space-y-6">
+    <section id="tab-ship" class="tab-content space-y-6">
       <!-- 郵輪特色主橫幅 -->
       <div class="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white rounded-2xl p-5 sm:p-6 shadow-xl relative overflow-hidden">
         <div class="absolute -right-10 -bottom-10 opacity-10 pointer-events-none">
@@ -407,7 +407,7 @@
     </section>
 
     <!-- TAB 0: 那霸沖繩本島 (10/05) 19人團體包車 -->
-    <section id="tab-naha" class="tab-content space-y-6">
+    <section id="tab-naha" class="tab-content hidden space-y-6">
       <!-- 停靠資訊 Alert 橫幅 -->
       <div class="bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-600 text-white rounded-2xl p-5 shadow-lg shadow-indigo-500/20 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
@@ -1453,9 +1453,12 @@
   </div>
 
   <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-400 mt-auto">
-    <div class="max-w-6xl mx-auto px-4 space-y-1">
+    <div class="max-w-6xl mx-auto px-4 space-y-1.5">
       <p class="font-medium text-slate-600">探索星號（2026/10/04 - 10/08）私人自由行隨身手冊</p>
       <p>祝旅途平安愉快！下船請注意靠港與關閘時刻，預留充足回港時間。</p>
+      <p class="pt-2 text-[11px] text-slate-400 border-t border-slate-100">
+        © 2026 本手冊內容編排與設計為 <span class="font-semibold text-slate-600">盈盈企業社</span> 所有 • 著作權所有 翻印必究
+      </p>
     </div>
   </footer>
 
