@@ -60,7 +60,7 @@
           <i class="ph-bold ph-waves"></i> 宮古島 (10/07)
         </button>
         <button onclick="switchTab('flashcards')" id="btn-flashcards" class="tab-btn px-4 py-2 rounded-xl transition flex items-center gap-1.5 whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200">
-          <i class="ph-bold ph-chat-circle-dots"></i> 司機溝通字卡
+          <i class="ph-bold ph-chat-circle-dots"></i> 司機・商家日語卡
         </button>
         <button onclick="switchTab('packing')" id="btn-packing" class="tab-btn px-4 py-2 rounded-xl transition flex items-center gap-1.5 whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200">
           <i class="ph-bold ph-backpack"></i> 2大1小行囊清單
@@ -1198,100 +1198,308 @@
       </div>
     </section>
 
-    <!-- TAB: 司機溝通字卡 (現場給司機看) -->
+    <!-- TAB: 司機溝通字卡 & 實用日語 (現場給司機/商家看) -->
     <section id="tab-flashcards" class="tab-content hidden space-y-6">
-      <div class="bg-amber-50 border border-amber-200 rounded-2xl p-5 text-amber-900">
-        <h3 class="text-base font-bold flex items-center gap-2">
-          <i class="ph-fill ph-chat-centered-dots text-amber-600 text-xl"></i>
-          碼頭司機與導遊溝通字卡（直接出示手機畫面）
+      
+      <!-- 頂部指引 -->
+      <div class="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-2xl p-5 text-amber-950 shadow-sm space-y-2">
+        <h3 class="text-base font-bold flex items-center gap-2 text-amber-900">
+          <i class="ph-fill ph-translate text-amber-600 text-xl"></i>
+          日本旅遊實用日文溝通字卡（司機・通關・購物・餐飲）
         </h3>
-        <p class="text-xs sm:text-sm text-amber-700 mt-1">
-          包含 10/05 那霸中巴導遊會合卡、石垣島與宮古島的計程車包車字卡，點選按鈕可直接「複製日文字句」。
+        <p class="text-xs sm:text-sm text-amber-800 leading-relaxed">
+          岸上觀光遇到司機、海關、超市收銀員或餐廳店員時，可<strong>直接將手機螢幕出示給對方閱讀</strong>，亦可點擊每張卡片右上角的「複製文字」貼至通訊軟體或翻譯工具。
         </p>
       </div>
 
-      <!-- 快速情境卡 0: 10/05 那霸中巴導遊會合確認卡 -->
-      <div class="bg-white rounded-2xl border-2 border-indigo-300 p-5 shadow-sm space-y-4">
-        <div class="flex items-center justify-between">
-          <span class="bg-indigo-100 text-indigo-800 text-xs px-2.5 py-1 rounded-md font-bold">10/05 那霸 • 20人座中巴與導遊接送卡</span>
-          <button onclick="copyToClipboard('card-naha-text', this)" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg flex items-center gap-1 transition">
-            <i class="ph ph-copy"></i> 複製文字
-          </button>
+      <!-- 分類一：包車司機與導遊接送卡 -->
+      <div class="space-y-4">
+        <div class="flex items-center gap-2 text-slate-800 font-bold text-sm sm:text-base border-b border-slate-200 pb-2">
+          <i class="ph-bold ph-taxi text-indigo-600 text-lg"></i>
+          <span>一、 包車司機與導遊接送會合字卡</span>
         </div>
-        <div id="card-naha-text" class="bg-indigo-50/60 p-4 rounded-xl border border-indigo-200 text-slate-800 text-sm sm:text-base leading-relaxed font-mono">
-          こんにちは！本日貸切バス（20人乗り・ガイド付き）を予約しているグループです。<br>
-          （您好！我們是今天預約20人座中巴含導遊的團體。）<br><br>
-          【予約代表者】石凱仁 様（セキ カイジン）<br>
-          【迎えのプラカード名】李多人不怪<br>
-          【乗車人数】19名（4歳の子供を含みます）<br>
-          【利用時間】下船後（約14:30発）〜 21:30 港到着<br>
-          【コース】瀬長島 → Outlet Ashibinaa → DMMかりゆし水族館（18:00最終入館）＆ イーアス沖縄豊崎（夕食・買物） → 若狭港
+
+        <!-- 快速情境卡 0: 10/05 那霸中巴導遊會合確認卡 -->
+        <div class="bg-white rounded-2xl border-2 border-indigo-300 p-5 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="bg-indigo-100 text-indigo-800 text-xs px-2.5 py-1 rounded-md font-bold">10/05 那霸 • 20人座中巴與導遊接送卡</span>
+            <button onclick="copyToClipboard('card-naha-text', this)" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg flex items-center gap-1 transition">
+              <i class="ph ph-copy"></i> 複製文字
+            </button>
+          </div>
+          <div id="card-naha-text" class="bg-indigo-50/60 p-4 rounded-xl border border-indigo-200 text-slate-800 text-sm sm:text-base leading-relaxed font-mono">
+            こんにちは！本日貸切バス（20人乗り・ガイド付き）を予約しているグループです。<br>
+            （您好！我們是今天預約20人座中巴含導遊的團體。）<br><br>
+            【予約代表者】石凱仁 様（セキ カイジン）<br>
+            【迎えのプラカード名】李多人不怪<br>
+            【乗車人数】19名（4歳の子供を含みます）<br>
+            【利用時間】下船後（約14:30発）〜 21:30 港到着<br>
+            【コース】瀬長島 → Outlet Ashibinaa → DMMかりゆし水族館（18:00最終入館）＆ イーアス沖縄豊崎（夕食・買物） → 若狭港
+          </div>
+          <p class="text-xs text-slate-500">中文釋意：出示給那霸若狹港舉牌人員核對代表人（石凱仁）、團體名稱（李多人不怪）與預計下車時間。</p>
         </div>
-        <p class="text-xs text-slate-500">中文釋意：出示給那霸若狹港舉牌人員核對代表人（石凱仁）、團體名稱（李多人不怪）與預計下車時間。</p>
+
+        <!-- 快速情境卡 1: 石垣島 4小時包車 -->
+        <div class="bg-white rounded-2xl border-2 border-blue-200 p-5 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="bg-blue-100 text-blue-800 text-xs px-2.5 py-1 rounded-md font-bold">石垣島 • 4小時包車字卡</span>
+            <button onclick="copyToClipboard('card-ishigaki-text', this)" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg flex items-center gap-1 transition">
+              <i class="ph ph-copy"></i> 複製文字
+            </button>
+          </div>
+          <div id="card-ishigaki-text" class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-slate-800 text-sm sm:text-base leading-relaxed font-mono">
+            こんにちは！観光タクシー（4時間）をお願いできますか？<br>
+            （您好，請問可以預約 4 小時的觀光包車嗎？）<br><br>
+            【乗車人数】大人 2名、子供 1名（4歳）<br>
+            【希望コース】<br>
+            1. 川平湾（グラスボート）<br>
+            2. ミルミル本舗（アイス・軽食）<br>
+            3. ユーグレナモール（公設市場） または マックスバリュ<br>
+            4. クルーズ船の港に戻る<br><br>
+            料金はいくらになりますか？現金でお支払いします。
+          </div>
+          <p class="text-xs text-slate-500">中文釋意：大人2位、小孩1位（4歲）。前往川平灣玻璃船、MiruMiru吃冰、公設市場採買，最後回港。以現金付款。</p>
+        </div>
+
+        <!-- 快速情境卡 2: 宮古島 4.5小時包車 -->
+        <div class="bg-white rounded-2xl border-2 border-teal-200 p-5 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="bg-teal-100 text-teal-800 text-xs px-2.5 py-1 rounded-md font-bold">宮古島 • 4.5小時包車字卡</span>
+            <button onclick="copyToClipboard('card-miyakojima-text', this)" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg flex items-center gap-1 transition">
+              <i class="ph ph-copy"></i> 複製文字
+            </button>
+          </div>
+          <div id="card-miyakojima-text" class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-slate-800 text-sm sm:text-base leading-relaxed font-mono">
+            こんにちは！観光タクシー（約4.5時間）をお願いします。<br>
+            （您好，我們想包觀光計程車約 4.5 小時。）<br><br>
+            【乗車人数】大人 2名、子供 1名（4歳）<br>
+            【希望コース】<br>
+            1. 伊良部大橋を渡る<br>
+            2. 渡口の浜（砂浜で少し遊びます）<br>
+            3. 雪塩ミュージアム（雪塩ソフト・お土産）<br>
+            4. サンエー または 古謝そば屋（昼食）<br>
+            5. 平良港（クルーズ船）に戻る【15:30頃までに到着希望】<br><br>
+            概算料金を教えていただけますか？
+          </div>
+          <p class="text-xs text-slate-500">中文釋意：前往伊良部大橋、渡口之濱沙灘、雪鹽博物館、San-A或古謝麵，預計 15:30 前返回平良港。</p>
+        </div>
+
+        <!-- 快速情境卡 3: 6-9人座 Jumbo 大車現場詢問 -->
+        <div class="bg-white rounded-2xl border-2 border-amber-300 p-5 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="bg-amber-100 text-amber-800 text-xs px-2.5 py-1 rounded-md font-bold">現場尋找 • 6~9人座大車 (Jumbo Taxi)</span>
+            <button onclick="copyToClipboard('card-jumbo-text', this)" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg flex items-center gap-1 transition">
+              <i class="ph ph-copy"></i> 複製文字
+            </button>
+          </div>
+          <div id="card-jumbo-text" class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-slate-800 text-sm sm:text-base leading-relaxed font-mono">
+            すみません、6名（または8名）乗れるジャンボタクシーは今利用できますか？<br>
+            観光で4時間ほどお願いしたいです。<br>
+            （不好意思，請問現在有可以坐6人或8人的大台計程車嗎？我們想包車觀光約4小時。）
+          </div>
+          <p class="text-xs text-slate-500">法規提醒：日本營業用計程車依法免兒童座椅，4歲小孩搭乘時可直接繫後座安全帶入座。</p>
+        </div>
       </div>
 
-      <!-- 快速情境卡 1: 石垣島 4小時包車 -->
-      <div class="bg-white rounded-2xl border-2 border-slate-200 p-5 shadow-sm space-y-4">
-        <div class="flex items-center justify-between">
-          <span class="bg-blue-100 text-blue-800 text-xs px-2.5 py-1 rounded-md font-bold">石垣島 • 4小時包車字卡</span>
-          <button onclick="copyToClipboard('card-ishigaki-text', this)" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg flex items-center gap-1 transition">
-            <i class="ph ph-copy"></i> 複製文字
-          </button>
+      <!-- 分類二：商家購物・超市・免稅退稅用語 -->
+      <div class="space-y-4">
+        <div class="flex items-center gap-2 text-slate-800 font-bold text-sm sm:text-base border-b border-slate-200 pb-2">
+          <i class="ph-bold ph-storefront text-pink-600 text-lg"></i>
+          <span>二、 商家購物、Outlet・超市與免稅（Tax Free）用語</span>
         </div>
-        <div id="card-ishigaki-text" class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-slate-800 text-sm sm:text-base leading-relaxed font-mono">
-          こんにちは！観光タクシー（4時間）をお願いできますか？<br>
-          （您好，請問可以預約 4 小時的觀光包車嗎？）<br><br>
-          【乗車人数】大人 2名、子供 1名（4歳）<br>
-          【希望コース】<br>
-          1. 川平湾（グラスボート）<br>
-          2. ミルミル本舗（アイス・軽食）<br>
-          3. ユーグレナモール（公設市場） または マックスバリュ<br>
-          4. クルーズ船の港に戻る<br><br>
-          料金はいくらになりますか？現金でお支払いします。
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- 購物 1: 免稅詢問 -->
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-pink-700 bg-pink-50 px-2 py-0.5 rounded">免稅 Tax Free</span>
+              <button onclick="copyText('免税（Tax Free）の手続きはできますか？パスポートを持っています。', this)" class="text-xs text-blue-600 hover:underline flex items-center gap-1">
+                <i class="ph ph-copy"></i> 複製
+              </button>
+            </div>
+            <p class="text-sm font-bold text-slate-900 font-mono">「免税（Tax Free）の手続きはできますか？パスポートを持っています。」</p>
+            <p class="text-xs text-slate-500">（請問可以辦理免稅手續嗎？我有帶護照。）</p>
+          </div>
+
+          <!-- 購物 2: 免稅櫃台位置 -->
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-pink-700 bg-pink-50 px-2 py-0.5 rounded">免稅櫃台</span>
+              <button onclick="copyText('免税カウンターはどこにありますか？', this)" class="text-xs text-blue-600 hover:underline flex items-center gap-1">
+                <i class="ph ph-copy"></i> 複製
+              </button>
+            </div>
+            <p class="text-sm font-bold text-slate-900 font-mono">「免税カウンターはどこにありますか？」</p>
+            <p class="text-xs text-slate-500">（請問免稅服務櫃台在哪裡？）</p>
+          </div>
+
+          <!-- 購物 3: 全新品與庫存 -->
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">商品庫存</span>
+              <button onclick="copyText('これの新しいもの（在庫）はありますか？', this)" class="text-xs text-blue-600 hover:underline flex items-center gap-1">
+                <i class="ph ph-copy"></i> 複製
+              </button>
+            </div>
+            <p class="text-sm font-bold text-slate-900 font-mono">「これの新しいもの（在庫）はありますか？」</p>
+            <p class="text-xs text-slate-500">（請問這個有新的未拆封現貨庫存嗎？）</p>
+          </div>
+
+          <!-- 購物 4: 試穿試用 -->
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">試穿詢問</span>
+              <button onclick="copyText('試着（しちゃく）してもいいですか？', this)" class="text-xs text-blue-600 hover:underline flex items-center gap-1">
+                <i class="ph ph-copy"></i> 複製
+              </button>
+            </div>
+            <p class="text-sm font-bold text-slate-900 font-mono">「試着（しちゃく）してもいいですか？」</p>
+            <p class="text-xs text-slate-500">（請問可以試穿這件衣服/鞋子嗎？）</p>
+          </div>
+
+          <!-- 購物 5: 付款方式（信用卡/電子支付） -->
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">結帳刷卡</span>
+              <button onclick="copyText('クレジットカード（VISA / Master）や電子マネーは使えますか？', this)" class="text-xs text-blue-600 hover:underline flex items-center gap-1">
+                <i class="ph ph-copy"></i> 複製
+              </button>
+            </div>
+            <p class="text-sm font-bold text-slate-900 font-mono">「クレジットカード（VISA / Master）や電子マネーは使えますか？」</p>
+            <p class="text-xs text-slate-500">（請問可以刷信用卡或行動支付嗎？）</p>
+          </div>
+
+          <!-- 購物 6: 購物袋加購/不要袋子 -->
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">購物袋需求</span>
+              <button onclick="copyText('袋を1枚ください。（不要な時：レジ袋はいりません、このままで大丈夫です）', this)" class="text-xs text-blue-600 hover:underline flex items-center gap-1">
+                <i class="ph ph-copy"></i> 複製
+              </button>
+            </div>
+            <p class="text-sm font-bold text-slate-900 font-mono">「袋を1枚ください。」／「レジ袋はいりません。」</p>
+            <p class="text-xs text-slate-500">（需要袋子：請給我一個塑膠袋／不要袋子：不用塑膠袋，直接拿即可）</p>
+          </div>
         </div>
-        <p class="text-xs text-slate-500">中文釋意：大人2位、小孩1位（4歲）。前往川平灣玻璃船、MiruMiru吃冰、公設市場採買，最後回港。以現金付款。</p>
       </div>
 
-      <!-- 快速情境卡 2: 宮古島 4.5小時包車 -->
-      <div class="bg-white rounded-2xl border-2 border-slate-200 p-5 shadow-sm space-y-4">
-        <div class="flex items-center justify-between">
-          <span class="bg-teal-100 text-teal-800 text-xs px-2.5 py-1 rounded-md font-bold">宮古島 • 4.5小時包車字卡</span>
-          <button onclick="copyToClipboard('card-miyakojima-text', this)" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg flex items-center gap-1 transition">
-            <i class="ph ph-copy"></i> 複製文字
-          </button>
+      <!-- 分類三：機場・港口通關與大眾服務用語 -->
+      <div class="space-y-4">
+        <div class="flex items-center gap-2 text-slate-800 font-bold text-sm sm:text-base border-b border-slate-200 pb-2">
+          <i class="ph-bold ph-airplane-landing text-blue-600 text-lg"></i>
+          <span>三、 機場・港口通關、行李與設施指引</span>
         </div>
-        <div id="card-miyakojima-text" class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-slate-800 text-sm sm:text-base leading-relaxed font-mono">
-          こんにちは！観光タクシー（約4.5時間）をお願いします。<br>
-          （您好，我們想包觀光計程車約 4.5 小時。）<br><br>
-          【乗車人数】大人 2名、子供 1名（4歳）<br>
-          【希望コース】<br>
-          1. 伊良部大橋を渡る<br>
-          2. 渡口の浜（砂浜で少し遊びます）<br>
-          3. 雪塩ミュージアム（雪塩ソフト・お土産）<br>
-          4. サンエー または 古謝そば屋（昼食）<br>
-          5. 平良港（クルーズ船）に戻る【15:30頃までに到着希望】<br><br>
-          概算料金を教えていただけますか？
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- 通關 1: 全家人一起審查 -->
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded">海關查驗</span>
+              <button onclick="copyText('家族全員分です。一緒に審査をお願いします。', this)" class="text-xs text-blue-600 hover:underline flex items-center gap-1">
+                <i class="ph ph-copy"></i> 複製
+              </button>
+            </div>
+            <p class="text-sm font-bold text-slate-900 font-mono">「家族全員分です。一緒に審査をお願いします。」</p>
+            <p class="text-xs text-slate-500">（這是我們全家人的護照/入境卡，請讓我們一起接受通關審查。）</p>
+          </div>
+
+          <!-- 通關 2: 無需申報物品 -->
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded">行李檢查</span>
+              <button onclick="copyText('特に申告する物はありません。観光目的です。', this)" class="text-xs text-blue-600 hover:underline flex items-center gap-1">
+                <i class="ph ph-copy"></i> 複製
+              </button>
+            </div>
+            <p class="text-sm font-bold text-slate-900 font-mono">「特に申告する物はありません。観光目的です。」</p>
+            <p class="text-xs text-slate-500">（沒有需要特別申報的違禁物品，來日本純屬觀光旅遊。）</p>
+          </div>
+
+          <!-- 通關 3: 寄物櫃/行李寄存 -->
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-teal-700 bg-teal-50 px-2 py-0.5 rounded">寄放行李</span>
+              <button onclick="copyText('コインロッカー、または荷物を預けられる場所はありますか？', this)" class="text-xs text-blue-600 hover:underline flex items-center gap-1">
+                <i class="ph ph-copy"></i> 複製
+              </button>
+            </div>
+            <p class="text-sm font-bold text-slate-900 font-mono">「コインロッカー、または荷物を預けられる場所はありますか？」</p>
+            <p class="text-xs text-slate-500">（請問哪裡有投幣式寄物櫃，或是可以寄放行李的地方？）</p>
+          </div>
+
+          <!-- 通關 4: 計程車排班處與哺乳室 -->
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-teal-700 bg-teal-50 px-2 py-0.5 rounded">交通與親子</span>
+              <button onclick="copyText('タクシー乗り場（授乳室・オムツ替えスペース）はどこですか？', this)" class="text-xs text-blue-600 hover:underline flex items-center gap-1">
+                <i class="ph ph-copy"></i> 複製
+              </button>
+            </div>
+            <p class="text-sm font-bold text-slate-900 font-mono">「タクシー乗り場はどこですか？」／「授乳室はありますか？」</p>
+            <p class="text-xs text-slate-500">（請問計程車乘車處在哪裡？／請問有哺乳室或換尿布台嗎？）</p>
+          </div>
         </div>
-        <p class="text-xs text-slate-500">中文釋意：前往伊良部大橋、渡口之濱沙灘、雪鹽博物館、San-A或古謝麵，預計 15:30 前返回平良港。</p>
       </div>
 
-      <!-- 快速情境卡 3: 6-9人座 Jumbo 大車現場詢問 -->
-      <div class="bg-white rounded-2xl border-2 border-amber-300 p-5 shadow-sm space-y-4">
-        <div class="flex items-center justify-between">
-          <span class="bg-amber-100 text-amber-800 text-xs px-2.5 py-1 rounded-md font-bold">現場尋找 • 6~9人座大車 (Jumbo Taxi)</span>
-          <button onclick="copyToClipboard('card-jumbo-text', this)" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg flex items-center gap-1 transition">
-            <i class="ph ph-copy"></i> 複製文字
-          </button>
+      <!-- 分類四：餐廳點餐・幼童用餐需求常用句 -->
+      <div class="space-y-4">
+        <div class="flex items-center gap-2 text-slate-800 font-bold text-sm sm:text-base border-b border-slate-200 pb-2">
+          <i class="ph-bold ph-fork-knife text-amber-600 text-lg"></i>
+          <span>四、 餐廳用餐、點餐與 4 歲幼童需求</span>
         </div>
-        <div id="card-jumbo-text" class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-slate-800 text-sm sm:text-base leading-relaxed font-mono">
-          すみません、6名（または8名）乗れるジャンボタクシーは今利用できますか？<br>
-          観光で4時間ほどお願いしたいです。<br>
-          （不好意思，請問現在有可以坐6人或8人的大台計程車嗎？我們想包車觀光約4小時。）
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- 餐廳 1: 兒童椅與餐具 -->
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded">幼童餐具座椅</span>
+              <button onclick="copyText('子供用の椅子とフォーク・お皿を貸していただけますか？', this)" class="text-xs text-blue-600 hover:underline flex items-center gap-1">
+                <i class="ph ph-copy"></i> 複製
+              </button>
+            </div>
+            <p class="text-sm font-bold text-slate-900 font-mono">「子供用の椅子とフォーク・お皿を貸していただけますか？」</p>
+            <p class="text-xs text-slate-500">（請問可以借一張兒童餐椅，以及兒童用的小叉子和小盤子嗎？）</p>
+          </div>
+
+          <!-- 餐廳 2: 去冰 / 溫水 -->
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded">飲品調整</span>
+              <button onclick="copyText('飲み物は氷なしでお願いします。子供用に常温のお水（ぬるま湯）はありますか？', this)" class="text-xs text-blue-600 hover:underline flex items-center gap-1">
+                <i class="ph ph-copy"></i> 複製
+              </button>
+            </div>
+            <p class="text-sm font-bold text-slate-900 font-mono">「氷なしでお願いします。常温のお水はありますか？」</p>
+            <p class="text-xs text-slate-500">（飲料請幫我去冰。請問有給小孩喝的常溫水或溫水嗎？）</p>
+          </div>
+
+          <!-- 餐廳 3: 招牌推薦與不辣料理 -->
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded">點餐推薦</span>
+              <button onclick="copyText('おすすめは何ですか？辛くない、子供でも食べられる料理はどれですか？', this)" class="text-xs text-blue-600 hover:underline flex items-center gap-1">
+                <i class="ph ph-copy"></i> 複製
+              </button>
+            </div>
+            <p class="text-sm font-bold text-slate-900 font-mono">「おすすめは何ですか？辛くない料理はどれですか？」</p>
+            <p class="text-xs text-slate-500">（請問店裡的招牌推薦是什麼？哪一道是不辣、小孩也能吃的？）</p>
+          </div>
+
+          <!-- 餐廳 4: 結帳買單 -->
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded">結帳買單</span>
+              <button onclick="copyText('お会計をお願いします。別々に支払えますか？', this)" class="text-xs text-blue-600 hover:underline flex items-center gap-1">
+                <i class="ph ph-copy"></i> 複製
+              </button>
+            </div>
+            <p class="text-sm font-bold text-slate-900 font-mono">「お会計（おかいけい）をお願いします。」</p>
+            <p class="text-xs text-slate-500">（麻煩請幫我們結帳／請問可以分開付款嗎？）</p>
+          </div>
         </div>
-        <p class="text-xs text-slate-500">法規提醒：日本營業用計程車依法免兒童座椅，4歲小孩搭乘時可直接繫後座安全帶入座。</p>
       </div>
 
-      <!-- 常用短句卡 (大鈔/安全帶/洗手間) -->
+      <!-- 常用司機緊急短句卡 -->
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div class="bg-white p-4 rounded-xl border border-slate-200 space-y-2">
           <div class="flex items-center justify-between">
@@ -1336,7 +1544,7 @@
       <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-5">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-3 gap-2">
           <div>
-            <h3 class="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+            <h3 class="text-base sm:lg font-bold text-slate-900 flex items-center gap-2">
               <i class="ph-bold ph-check-square-offset text-blue-600"></i> 2大1小 行李裝備隨身檢核表
             </h3>
             <p class="text-xs text-slate-500">探索星號郵輪規範、大人個人衣著泳具、4歲幼童與長途上岸隨行必備</p>
