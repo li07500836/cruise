@@ -3370,6 +3370,12 @@
     window.onload = function() {
       updateLiveClocks();
       setInterval(updateLiveClocks, 1000);
+      
+      // 人數統計與在線心跳監控
+      trackVisitorData();
+      updateLiveOnlineCount();
+      setInterval(updateLiveOnlineCount, 6000);
+
       calculateBudget();
       calcFromJpy(50000);
       fetchAllWeather();
