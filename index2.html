@@ -1,0 +1,2707 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>探索星號三島指南：沖繩那霸 ＆ 石垣島 ＆ 宮古島全攻略</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Phosphor Icons CDN -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      height: 6px;
+      width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background-color: #cbd5e1;
+      border-radius: 9999px;
+    }
+    /* 條碼純 CSS 視覺擬真樣式 */
+    .barcode-lines {
+      background: repeating-linear-gradient(
+        90deg,
+        #111827,
+        #111827 2px,
+        transparent 2px,
+        transparent 4px,
+        #111827 4px,
+        #111827 7px,
+        transparent 7px,
+        transparent 9px,
+        #111827 9px,
+        #111827 10px,
+        transparent 10px,
+        transparent 13px
+      );
+    }
+    @keyframes pulse-subtle {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.85; transform: scale(0.97); }
+    }
+    .live-dot {
+      animation: pulse-subtle 2s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
+
+  <!-- 頂部導航與標題列（常駐頁面最上方） -->
+  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 py-2 flex flex-col md:flex-row md:items-center justify-between gap-2.5">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-blue-600 to-cyan-500 flex items-center justify-center text-white shadow-md shadow-blue-500/20 shrink-0">
+          <i class="ph-bold ph-compass text-2xl"></i>
+        </div>
+        <div>
+          <h1 class="text-base sm:text-lg font-bold text-slate-900 leading-tight flex items-center gap-1.5">
+            <span>探索星號 • 三島岸上與船上寶典</span>
+            <span class="hidden sm:inline text-[11px] bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded-full font-bold border border-indigo-100">2026/10/04-10/08</span>
+          </h1>
+          <p class="text-xs text-slate-500">沖繩那霸・石垣・宮古島全覽 ＆ 船上娛樂生活指南</p>
+        </div>
+      </div>
+
+      <!-- 右側資訊群：即時線上人數 + 今日瀏覽 + 雙時區時鐘 -->
+      <div class="flex flex-wrap items-center gap-2 text-xs">
+        <!-- 💡 即時線上人數 ＆ 今日人數計數看板 -->
+        <button onclick="openStatsModal()" title="點擊查看全年度 365 天人數統計報表" class="flex items-center gap-2 bg-gradient-to-r from-slate-900 to-indigo-950 hover:from-slate-800 hover:to-indigo-900 text-white px-2.5 py-1.5 rounded-xl border border-slate-700/80 shadow-sm transition active:scale-95 group">
+          <!-- 即時在線 -->
+          <div class="flex items-center gap-1.5 pr-2 border-r border-slate-700">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 live-dot"></span>
+            <span class="text-[10px] text-slate-300">在線:</span>
+            <span id="live-online-count" class="font-mono font-bold text-emerald-300 text-xs">1</span>
+          </div>
+          <!-- 今日造訪 -->
+          <div class="flex items-center gap-1">
+            <i class="ph-bold ph-chart-line-up text-amber-300 text-xs"></i>
+            <span class="text-[10px] text-slate-300">今日:</span>
+            <span id="today-visit-count" class="font-mono font-bold text-amber-300 text-xs">--</span>
+          </div>
+          <!-- 統計圖表捷徑小標 -->
+          <span class="text-[10px] bg-white/10 group-hover:bg-white/20 text-indigo-200 px-1.5 py-0.5 rounded font-medium flex items-center gap-0.5">
+            一年數據 <i class="ph-bold ph-caret-right text-[10px]"></i>
+          </span>
+        </button>
+
+        <!-- 即時雙時區時鐘（台灣時間 vs 日本時間） -->
+        <div class="flex items-center gap-2 bg-slate-900 text-white px-2.5 py-1.5 rounded-xl border border-slate-700 shadow-sm text-xs">
+          <!-- 台灣時間 (GMT+8) -->
+          <div class="flex items-center gap-1 pr-2 border-r border-slate-700">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <div>
+              <span class="text-[9px] text-slate-400 block leading-none">台時(船時)</span>
+              <span id="live-tw-clock" class="font-mono font-bold text-emerald-300 text-xs tracking-wide">--:--:--</span>
+            </div>
+          </div>
+          <!-- 日本時間 (GMT+9) -->
+          <div class="flex items-center gap-1 pl-0.5">
+            <i class="ph-bold ph-clock text-amber-300 text-xs"></i>
+            <div>
+              <span class="text-[9px] text-amber-300/80 block leading-none">日時(+1h)</span>
+              <span id="live-jp-clock" class="font-mono font-bold text-amber-300 text-xs tracking-wide">--:--:--</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 主頁面 Tab 切換器 -->
+    <div class="max-w-6xl mx-auto px-4">
+      <nav class="flex space-x-2 overflow-x-auto custom-scrollbar pb-2 pt-1 text-sm font-medium" id="tabNav">
+        <button onclick="switchTab('ship')" id="btn-ship" class="tab-btn px-4 py-2 rounded-xl transition flex items-center gap-1.5 whitespace-nowrap bg-indigo-600 text-white shadow-sm shadow-indigo-600/30">
+          <i class="ph-bold ph-boat"></i> 探索星號設施 & 服務
+        </button>
+        <button onclick="switchTab('naha')" id="btn-naha" class="tab-btn px-4 py-2 rounded-xl transition flex items-center gap-1.5 whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200">
+          <i class="ph-bold ph-bus"></i> 那霸沖繩 (10/05)
+        </button>
+        <button onclick="switchTab('ishigaki')" id="btn-ishigaki" class="tab-btn px-4 py-2 rounded-xl transition flex items-center gap-1.5 whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200">
+          <i class="ph-bold ph-island"></i> 石垣島 (10/06)
+        </button>
+        <button onclick="switchTab('miyakojima')" id="btn-miyakojima" class="tab-btn px-4 py-2 rounded-xl transition flex items-center gap-1.5 whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200">
+          <i class="ph-bold ph-waves"></i> 宮古島 (10/07)
+        </button>
+        <button onclick="switchTab('shopping')" id="btn-shopping" class="tab-btn px-4 py-2 rounded-xl transition flex items-center gap-1.5 whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200">
+          <i class="ph-bold ph-shopping-bag-open"></i> 購物天堂・折價券 & 伴手禮
+        </button>
+        <button onclick="switchTab('flashcards')" id="btn-flashcards" class="tab-btn px-4 py-2 rounded-xl transition flex items-center gap-1.5 whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200">
+          <i class="ph-bold ph-chat-circle-dots"></i> 司機・商家日語卡
+        </button>
+        <button onclick="switchTab('packing')" id="btn-packing" class="tab-btn px-4 py-2 rounded-xl transition flex items-center gap-1.5 whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200">
+          <i class="ph-bold ph-backpack"></i> 2大1小行囊清單
+        </button>
+        <button onclick="switchTab('budget')" id="btn-budget" class="tab-btn px-4 py-2 rounded-xl transition flex items-center gap-1.5 whitespace-nowrap bg-amber-500 text-slate-900 font-black shadow-sm shadow-amber-500/30 hover:bg-amber-400">
+          <i class="ph-bold ph-currency-jpy text-base"></i> 💴 換鈔試算機 & 費用
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 主內容容器 -->
+  <main class="max-w-6xl mx-auto px-4 py-5 flex-1 w-full space-y-6">
+
+    <!-- 即時氣溫與港口海況天氣面板 -->
+    <div id="weather-panel-container" class="transition-all duration-200">
+      <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-blue-950 text-white rounded-2xl p-3 sm:p-3.5 shadow-md border border-slate-700/60">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-2 mb-2">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span class="text-xs font-bold text-slate-100 flex items-center gap-1">
+              <i class="ph-bold ph-cloud-sun text-amber-300"></i> 各港口即時室外氣溫與海況天氣
+            </span>
+            <span class="text-[10px] text-slate-400 hidden md:inline">（串接即時觀測，可點擊更新）</span>
+          </div>
+          <div class="flex items-center gap-3 text-[11px] text-slate-300">
+            <span id="weather-update-time" class="font-mono text-[10px] text-slate-400">天氣資訊載入中...</span>
+            <button onclick="fetchAllWeather()" title="更新各島天氣" class="flex items-center gap-1 bg-white/10 hover:bg-white/20 px-2 py-0.5 rounded text-white text-xs transition">
+              <i class="ph-bold ph-arrows-clockwise text-xs" id="weather-refresh-icon"></i>
+              <span>更新天氣</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 4大港口即時氣溫卡片 -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-2 text-xs">
+          <!-- 基隆港 -->
+          <div class="bg-white/5 hover:bg-white/10 p-2 sm:p-2.5 rounded-xl border border-white/5 transition flex items-center justify-between">
+            <div>
+              <div class="flex items-center gap-1 text-slate-300 font-semibold text-[11px]">
+                <i class="ph-bold ph-anchor text-cyan-400"></i> 基隆港 (出發/返港)
+              </div>
+              <div class="flex items-baseline gap-1.5 mt-0.5">
+                <span id="wt-temp-keelung" class="text-lg sm:text-xl font-black font-mono text-white">--°C</span>
+                <span id="wt-desc-keelung" class="text-[11px] text-slate-300">取得中</span>
+              </div>
+              <div class="text-[10px] text-slate-400 font-mono flex items-center gap-1.5 mt-0.5">
+                <span>體感 <strong id="wt-feel-keelung" class="text-slate-200">--°C</strong></span>
+                <span>• 降雨 <strong id="wt-rain-keelung" class="text-cyan-300">--%</strong></span>
+              </div>
+            </div>
+            <div id="wt-icon-keelung" class="text-2xl text-amber-300">
+              <i class="ph-bold ph-sun"></i>
+            </div>
+          </div>
+
+          <!-- 沖繩那霸 -->
+          <div class="bg-white/5 hover:bg-white/10 p-2 sm:p-2.5 rounded-xl border border-white/5 transition flex items-center justify-between">
+            <div>
+              <div class="flex items-center gap-1 text-slate-300 font-semibold text-[11px]">
+                <i class="ph-bold ph-bus text-indigo-400"></i> 沖繩那霸 (10/05)
+              </div>
+              <div class="flex items-baseline gap-1.5 mt-0.5">
+                <span id="wt-temp-naha" class="text-lg sm:text-xl font-black font-mono text-amber-300">--°C</span>
+                <span id="wt-desc-naha" class="text-[11px] text-slate-300">取得中</span>
+              </div>
+              <div class="text-[10px] text-slate-400 font-mono flex items-center gap-1.5 mt-0.5">
+                <span>體感 <strong id="wt-feel-naha" class="text-slate-200">--°C</strong></span>
+                <span>• 降雨 <strong id="wt-rain-naha" class="text-cyan-300">--%</strong></span>
+              </div>
+            </div>
+            <div id="wt-icon-naha" class="text-2xl text-amber-300">
+              <i class="ph-bold ph-sun"></i>
+            </div>
+          </div>
+
+          <!-- 石垣島 -->
+          <div class="bg-white/5 hover:bg-white/10 p-2 sm:p-2.5 rounded-xl border border-white/5 transition flex items-center justify-between">
+            <div>
+              <div class="flex items-center gap-1 text-slate-300 font-semibold text-[11px]">
+                <i class="ph-bold ph-island text-blue-400"></i> 石垣島 (10/06)
+              </div>
+              <div class="flex items-baseline gap-1.5 mt-0.5">
+                <span id="wt-temp-ishigaki" class="text-lg sm:text-xl font-black font-mono text-cyan-300">--°C</span>
+                <span id="wt-desc-ishigaki" class="text-[11px] text-slate-300">取得中</span>
+              </div>
+              <div class="text-[10px] text-slate-400 font-mono flex items-center gap-1.5 mt-0.5">
+                <span>體感 <strong id="wt-feel-ishigaki" class="text-slate-200">--°C</strong></span>
+                <span>• 降雨 <strong id="wt-rain-ishigaki" class="text-cyan-300">--%</strong></span>
+              </div>
+            </div>
+            <div id="wt-icon-ishigaki" class="text-2xl text-amber-300">
+              <i class="ph-bold ph-sun"></i>
+            </div>
+          </div>
+
+          <!-- 宮古島 -->
+          <div class="bg-white/5 hover:bg-white/10 p-2 sm:p-2.5 rounded-xl border border-white/5 transition flex items-center justify-between">
+            <div>
+              <div class="flex items-center gap-1 text-slate-300 font-semibold text-[11px]">
+                <i class="ph-bold ph-waves text-teal-400"></i> 宮古島 (10/07)
+              </div>
+              <div class="flex items-baseline gap-1.5 mt-0.5">
+                <span id="wt-temp-miyakojima" class="text-lg sm:text-xl font-black font-mono text-teal-300">--°C</span>
+                <span id="wt-desc-miyakojima" class="text-[11px] text-slate-300">取得中</span>
+              </div>
+              <div class="text-[10px] text-slate-400 font-mono flex items-center gap-1.5 mt-0.5">
+                <span>體感 <strong id="wt-feel-miyakojima" class="text-slate-200">--°C</strong></span>
+                <span>• 降雨 <strong id="wt-rain-miyakojima" class="text-cyan-300">--%</strong></span>
+              </div>
+            </div>
+            <div id="wt-icon-miyakojima" class="text-2xl text-amber-300">
+              <i class="ph-bold ph-sun"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: 探索星號設施 & 服務 -->
+    <section id="tab-ship" class="tab-content space-y-6">
+
+      <!-- 全員回船時間（All-Aboard）重要警示橫幅 -->
+      <div class="bg-gradient-to-r from-rose-600 via-red-600 to-amber-600 text-white rounded-2xl p-4 sm:p-5 shadow-lg shadow-rose-600/20 flex flex-col md:flex-row md:items-center justify-between gap-4 border border-rose-300">
+        <div class="space-y-1">
+          <div class="flex items-center gap-2">
+            <span class="bg-white text-rose-700 text-xs font-black px-2.5 py-0.5 rounded-full shadow-sm animate-pulse">重要守則</span>
+            <span class="text-sm sm:text-base font-extrabold tracking-wide text-amber-200">下船玩得開心，準時回船更重要！</span>
+          </div>
+          <h3 class="text-lg sm:text-xl font-black">【全員回船時間 All-Aboard Time】不是【遊輪離港時間】！</h3>
+          <p class="text-xs sm:text-sm text-rose-100 leading-relaxed">
+            遊輪開船絕對不會等待遲到的旅客！若錯過開船，旅客必須<strong>自費自行前往下一個港口會合</strong>。請寧可提早回船悠閒喝杯咖啡，也不要在最後 10 分鐘於碼頭驚險狂奔！
+          </p>
+        </div>
+        <div class="bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/20 text-xs shrink-0 space-y-1.5">
+          <div class="font-bold text-amber-200 flex items-center gap-1">
+            <i class="ph-bold ph-check-circle"></i> 下船前 5 件必做事項：
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-1 text-slate-100 text-[11px]">
+            <div>1. 確認當日 All-Aboard 時間</div>
+            <div>2. 依船上時區為準勿信手機</div>
+            <div>3. 截圖港口資訊隨身備查</div>
+            <div>4. 預留 45~60 分鐘交通緩衝</div>
+            <div class="col-span-1 sm:col-span-2 text-amber-300 font-semibold">5. 建議於關閘前 30 分鐘返抵碼頭！</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 橫幅介紹 -->
+      <div class="bg-gradient-to-r from-blue-700 via-indigo-700 to-sky-600 text-white rounded-2xl p-5 shadow-lg shadow-indigo-500/15 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <span class="inline-block bg-white/20 text-white text-xs px-2.5 py-0.5 rounded-full font-semibold mb-2">船上全天候享樂生活指南</span>
+          <h2 class="text-xl sm:text-2xl font-black">探索星號（Explorer Dream）船上設施與貼心服務</h2>
+          <p class="text-blue-100 text-xs sm:text-sm mt-1">三大免費主餐廳、棕櫚閣卡拉OK、免費走廊飲水機、7樓免費暈船藥與船上Wi-Fi攻略</p>
+        </div>
+        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/20 text-xs sm:text-sm min-w-[240px] space-y-1">
+          <div class="flex items-center justify-between">
+            <span class="text-blue-200">全船總噸位：</span>
+            <span class="font-bold">75,338 噸</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-blue-200">載客甲板層數：</span>
+            <span class="font-bold">共 13 層甲板</span>
+          </div>
+          <div class="flex items-center justify-between text-amber-200 font-semibold pt-1 border-t border-white/15">
+            <span>免費餐廳：</span>
+            <span>3 間主餐廳無限次免費吃</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 🎤 專屬亮點：船上卡拉OK與KTV歡唱完整指南 -->
+      <div class="bg-gradient-to-br from-purple-900 via-indigo-900 to-slate-900 text-white rounded-2xl p-5 shadow-md border border-purple-500/30 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
+          <div class="flex items-center gap-2.5">
+            <span class="w-10 h-10 rounded-xl bg-gradient-to-tr from-pink-500 to-rose-500 flex items-center justify-center text-white font-bold text-xl shadow-md">
+              <i class="ph-bold ph-microphone-stage"></i>
+            </span>
+            <div>
+              <div class="flex items-center gap-2">
+                <h3 class="text-base font-black">🎤 船上的卡拉 OK 在哪裡？（場地位置 ＆ 預約指南）</h3>
+                <span class="bg-pink-500/30 text-pink-200 text-[10px] font-bold px-2 py-0.5 rounded-full border border-pink-400/30">歡唱娛樂指南</span>
+              </div>
+              <p class="text-xs text-purple-200 mt-0.5">棕櫚閣觀景酒廊 KTV 歡唱、7樓大堂互動演唱與私人包廂預約</p>
+            </div>
+          </div>
+          <span class="text-xs bg-white/10 text-pink-200 px-2.5 py-1 rounded-lg font-semibold w-fit border border-white/10">
+            預約制 / 特定時段免費活動
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 text-xs">
+          <!-- 場地 1 -->
+          <div class="bg-white/5 border border-white/10 p-3.5 rounded-xl space-y-2 hover:bg-white/10 transition">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-pink-300 text-sm flex items-center gap-1.5">
+                <i class="ph-bold ph-music-notes text-pink-400"></i> 12 樓船頭「棕櫚閣」
+              </span>
+              <span class="text-[10px] bg-pink-500/30 px-1.5 py-0.5 rounded text-pink-200">主要歡唱地</span>
+            </div>
+            <p class="text-slate-200 leading-relaxed">
+              <strong>Palm Court 棕櫚閣酒廊</strong>為探索星號最主要的卡拉 OK 與音樂休閒場地。白天坐擁 270 度壯闊全景海景，夜間與特定排程時段開放<strong>卡拉 OK 歡唱活動</strong>或舉辦乘客歌唱擂台。
+            </p>
+            <div class="text-[11px] text-amber-300 bg-amber-400/10 p-2 rounded border border-amber-400/20">
+              💡 每日開放時段請見客房內每日發送的「航程日報（Star Navigator）」。
+            </div>
+          </div>
+
+          <!-- 場地 2 -->
+          <div class="bg-white/5 border border-white/10 p-3.5 rounded-xl space-y-2 hover:bg-white/10 transition">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-cyan-300 text-sm flex items-center gap-1.5">
+                <i class="ph-bold ph-door text-cyan-400"></i> KTV 私人包廂歡唱
+              </span>
+              <span class="text-[10px] bg-cyan-500/30 px-1.5 py-0.5 rounded text-cyan-200">自費包廂</span>
+            </div>
+            <p class="text-slate-200 leading-relaxed">
+              想與親朋好友或家族包場獨立歡唱，船上設有<strong>自費獨立 KTV 包廂</strong>。備有豐富中英日歌曲庫，點心與飲品服務，不受外界打擾。
+            </p>
+            <div class="text-[11px] text-cyan-300 bg-cyan-400/10 p-2 rounded border border-cyan-400/20">
+              💡 計費方式採計時制（依小時收費），費用以房卡扣款記帳。
+            </div>
+          </div>
+
+          <!-- 場地 3 -->
+          <div class="bg-white/5 border border-white/10 p-3.5 rounded-xl space-y-2 hover:bg-white/10 transition">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-amber-300 text-sm flex items-center gap-1.5">
+                <i class="ph-bold ph-phone-call text-amber-400"></i> 預約與登記方式
+              </span>
+              <span class="text-[10px] bg-amber-500/30 px-1.5 py-0.5 rounded text-amber-200">登記流程</span>
+            </div>
+            <ul class="text-slate-200 space-y-1.5 leading-relaxed list-disc list-inside">
+              <li><strong>客房電話撥打：</strong> 使用客艙內的客房電話直接撥打服務台分機預約時段。</li>
+              <li><strong>7 樓服務櫃檯：</strong> 親自前往 7 樓船中服務總台，出示房卡確認可用包廂與預約時間。</li>
+              <li><strong>7 樓大堂互動：</strong> 部份航程夜間於 7 樓挑高大堂舉辦現場樂團伴奏卡拉 OK 互動！</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 船上生活 4 大貼心服務速報 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <!-- 服務 1 -->
+        <div class="bg-white rounded-2xl border border-sky-200 p-4 shadow-sm space-y-2 hover:border-sky-400 transition">
+          <div class="flex items-center justify-between">
+            <span class="w-8 h-8 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center font-bold">
+              <i class="ph-bold ph-drop text-lg"></i>
+            </span>
+            <span class="bg-sky-50 text-sky-700 text-[10px] font-bold px-2 py-0.5 rounded-full">全天供應</span>
+          </div>
+          <h4 class="font-bold text-slate-900 text-sm">走廊與餐廳飲水機</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            每個房間樓層走廊都設有<strong>飲水機（溫水、冰水）</strong>；餐廳也提供溫水、涼水與熱水，備有茶包與咖啡機。帶小孩泡奶裝水請自備保溫水壺取用！
+          </p>
+        </div>
+
+        <!-- 服務 2 -->
+        <div class="bg-white rounded-2xl border border-indigo-200 p-4 shadow-sm space-y-2 hover:border-indigo-400 transition">
+          <div class="flex items-center justify-between">
+            <span class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold">
+              <i class="ph-bold ph-first-aid text-lg"></i>
+            </span>
+            <span class="bg-indigo-50 text-indigo-700 text-[10px] font-bold px-2 py-0.5 rounded-full">免費領取</span>
+          </div>
+          <h4 class="font-bold text-slate-900 text-sm">7 樓服務櫃檯免費暈船藥</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            如有暈船需要，可攜帶房卡至 <strong>7 樓中央大堂服務櫃檯免費領取</strong>，每張房卡每日限領 1 顆，出海或海象顛簸前半小時先服用最有效。
+          </p>
+        </div>
+
+        <!-- 服務 3 -->
+        <div class="bg-white rounded-2xl border border-emerald-200 p-4 shadow-sm space-y-2 hover:border-emerald-400 transition">
+          <div class="flex items-center justify-between">
+            <span class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
+              <i class="ph-bold ph-wifi-high text-lg"></i>
+            </span>
+            <span class="bg-emerald-50 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded-full">內網免費用</span>
+          </div>
+          <h4 class="font-bold text-slate-900 text-sm">船上 Wi-Fi 內網免費看</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            連線 <code class="text-emerald-700 font-mono font-bold bg-emerald-50 px-1 rounded">StarCruises WiFi</code>，不付費點「繼續」即可<strong>免費查詢每日節目表、餐廳時段、地圖與房卡消費帳單</strong>！
+          </p>
+        </div>
+
+        <!-- 服務 4 -->
+        <div class="bg-white rounded-2xl border border-amber-200 p-4 shadow-sm space-y-2 hover:border-amber-400 transition">
+          <div class="flex items-center justify-between">
+            <span class="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center font-bold">
+              <i class="ph-bold ph-identification-card text-lg"></i>
+            </span>
+            <span class="bg-amber-50 text-amber-700 text-[10px] font-bold px-2 py-0.5 rounded-full">18歲免費辦</span>
+          </div>
+          <h4 class="font-bold text-slate-900 text-sm">7F/8F 免費辦會員卡</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            年滿 18 歲旅客，<strong>不需參與賭場遊戲也可免費申辦</strong>！請至 7 樓或 8 樓賭場會員櫃檯領取實體會員卡，累積專屬禮遇與福利。
+          </p>
+        </div>
+      </div>
+
+      <!-- 區塊一：三大免費主餐廳 -->
+      <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+          <div>
+            <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+              <i class="ph-bold ph-fork-knife text-indigo-600"></i> 三大免費主餐廳（中西合璧・主菜無限續點）
+            </h3>
+            <p class="text-xs text-slate-500">每餐期憑房卡於 3 間中任選 1 間享用，餐點皆包含在船票費用內</p>
+          </div>
+          <span class="text-xs bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-full font-semibold border border-emerald-200">
+            全部無需額外付費
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- 餐廳 1: 星夢餐廳 -->
+          <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 flex flex-col justify-between hover:border-indigo-300 transition">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="bg-indigo-100 text-indigo-800 text-[11px] font-bold px-2 py-0.5 rounded">中式合菜 • 家庭首選</span>
+                <span class="text-xs font-semibold text-slate-500">6 樓船尾</span>
+              </div>
+              <h4 class="font-bold text-slate-900 text-base">星夢餐廳 (Dream Dining Room)</h4>
+
+              <div class="bg-white/80 p-2 rounded-lg border border-indigo-100 text-[11px] space-y-1 font-mono">
+                <div class="text-indigo-900 font-bold flex items-center justify-between">
+                  <span class="flex items-center gap-1"><i class="ph-bold ph-clock"></i> 每日開放時段：</span>
+                  <span class="text-[10px] text-indigo-700 font-sans">船上時間（台灣時間）</span>
+                </div>
+                <div class="flex justify-between text-slate-600"><span>• 早餐時段：</span><span class="font-semibold text-slate-800">07:00 - 09:30</span></div>
+                <div class="flex justify-between text-slate-600"><span>• 午餐時段：</span><span class="font-semibold text-slate-800">11:30 - 14:00</span></div>
+                <div class="flex justify-between text-slate-600"><span>• 晚餐時段：</span><span class="font-semibold text-slate-800">17:30 - 21:00</span></div>
+              </div>
+
+              <p class="text-xs text-slate-600 leading-relaxed">
+                挑高典雅的中式餐廳，供應傳統中式精緻桌菜料理。菜色包含港式燒臘拼盤、老火燉排骨湯、清蒸海上鮮、時蔬炒肉片等，所有菜色與米飯熱湯皆能免費續點加量！
+              </p>
+            </div>
+            <div class="mt-3 pt-2 border-t border-slate-200/80 text-[11px] text-indigo-900 bg-indigo-50/70 p-2 rounded-lg font-medium">
+              💡 最適合長輩與小孩口味！入座後服務生整套上齊，不需端著盤子排隊夾菜。
+            </div>
+          </div>
+
+          <!-- 餐廳 2: 百味軒 -->
+          <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 flex flex-col justify-between hover:border-blue-300 transition">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="bg-blue-100 text-blue-800 text-[11px] font-bold px-2 py-0.5 rounded">西式排餐 • 精緻套餐</span>
+                <span class="text-xs font-semibold text-slate-500">6 樓船中</span>
+              </div>
+              <h4 class="font-bold text-slate-900 text-base">百味軒 (Pavilion)</h4>
+
+              <div class="bg-white/80 p-2 rounded-lg border border-blue-100 text-[11px] space-y-1 font-mono">
+                <div class="text-blue-900 font-bold flex items-center justify-between">
+                  <span class="flex items-center gap-1"><i class="ph-bold ph-clock"></i> 每日開放時段：</span>
+                  <span class="text-[10px] text-blue-700 font-sans">船上時間（台灣時間）</span>
+                </div>
+                <div class="flex justify-between text-slate-600"><span>• 早餐時段：</span><span class="font-semibold text-slate-800">07:00 - 09:30</span></div>
+                <div class="flex justify-between text-slate-600"><span>• 午餐時段：</span><span class="font-semibold text-slate-800">12:00 - 14:00</span></div>
+                <div class="flex justify-between text-slate-600"><span>• 晚餐時段：</span><span class="font-semibold text-slate-800">17:30 - 20:30</span></div>
+              </div>
+
+              <p class="text-xs text-slate-600 leading-relaxed">
+                浪漫西式風格半自助排餐。提供現烤法式麵包、每日主廚特調濃湯、清脆生菜沙拉、精選主餐（如煎鮭魚排、慢烤雞腿排、義大利麵）與法式精緻甜點蛋糕。
+              </p>
+            </div>
+            <div class="mt-3 pt-2 border-t border-slate-200/80 text-[11px] text-blue-900 bg-blue-50/70 p-2 rounded-lg font-medium">
+              💡 適合喜愛安靜氛圍、慢慢品嚐西式料理的家庭；晚餐建議稍微端莊便服入座。
+            </div>
+          </div>
+
+          <!-- 餐廳 3: 麗都自助餐廳 -->
+          <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 flex flex-col justify-between hover:border-amber-300 transition">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="bg-emerald-100 text-emerald-800 text-[11px] font-bold px-2 py-0.5 rounded">無拘無束 • 多國百匯</span>
+                <span class="text-xs font-semibold text-slate-500">12 樓船尾</span>
+              </div>
+              <h4 class="font-bold text-slate-900 text-base">麗都自助餐 (The Lido)</h4>
+
+              <div class="bg-white/80 p-2 rounded-lg border border-emerald-200/70 text-[11px] space-y-1 font-mono">
+                <div class="text-emerald-900 font-bold flex items-center justify-between">
+                  <span class="flex items-center gap-1"><i class="ph-bold ph-clock"></i> 供餐時段（最彈性）：</span>
+                  <span class="text-[10px] text-emerald-700 font-sans">船上時間（台灣時間）</span>
+                </div>
+                <div class="flex justify-between text-slate-600"><span>• 自助早餐：</span><span class="font-semibold text-slate-800">07:00 - 10:00</span></div>
+                <div class="flex justify-between text-slate-600"><span>• 自助午餐：</span><span class="font-semibold text-slate-800">11:30 - 14:30</span></div>
+                <div class="flex justify-between text-slate-600"><span>• 下午茶點：</span><span class="font-semibold text-slate-800">15:00 - 16:30</span></div>
+                <div class="flex justify-between text-slate-600"><span>• 自助晚餐：</span><span class="font-semibold text-slate-800">17:30 - 21:30</span></div>
+              </div>
+
+              <p class="text-xs text-slate-600 leading-relaxed">
+                全天候人潮絡繹不絕的高樓層景觀自助餐廳！供應各國料理、現切烤肉、現煮麵食、義大利麵、甜點沙拉吧，甚至有台味肉燥飯！備有室內區與半戶外海風用餐區。
+              </p>
+            </div>
+            <div class="mt-3 pt-2 border-t border-slate-200/80 text-[11px] text-emerald-900 bg-emerald-50/70 p-2 rounded-lg font-medium">
+              💡 帶 4 歲小孩首選！現煎歐姆蛋、水果蛋糕任選，岸上行程返船後隨時有熱湯熱飲可吃。
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 區塊二：休閒放電與水上空間 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <!-- 設施 1: 泳池 -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
+            <div class="flex items-center gap-2">
+              <div class="w-8 h-8 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center font-bold">
+                <i class="ph-bold ph-swimming-pool text-lg"></i>
+              </div>
+              <div>
+                <h4 class="font-bold text-slate-900 text-sm sm:text-base">羅馬泳池 & 凱撒滑水道</h4>
+                <span class="text-[11px] text-slate-400">甲板 12 樓中央</span>
+              </div>
+            </div>
+            <span class="text-xs bg-sky-50 text-sky-700 px-2.5 py-0.5 rounded-full font-bold">免費開放</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 bg-sky-50/70 p-2.5 rounded-xl border border-sky-100 text-[11px] font-mono">
+            <div>
+              <span class="text-sky-900 font-bold block">🏊 羅馬主泳池</span>
+              <span class="text-slate-700 font-semibold">07:00 - 22:00</span>
+            </div>
+            <div>
+              <span class="text-sky-900 font-bold block">♨ 4座溫水按摩池</span>
+              <span class="text-slate-700 font-semibold">07:00 - 23:00</span>
+            </div>
+            <div>
+              <span class="text-sky-900 font-bold block">🎢 凱撒滑水梯</span>
+              <span class="text-slate-700 font-semibold">10:00-12:00 / 14:00-18:00</span>
+            </div>
+          </div>
+
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            以古羅馬風格打造的戶外主甲板，包含常溫主泳池、<strong>4 座溫水按摩水療池</strong>、以及伸出船身外側的<strong>「透明旋轉滑水道」</strong>。
+          </p>
+          <div class="bg-sky-50 p-2.5 rounded-xl border border-sky-100 text-xs text-sky-800 space-y-1">
+            <div>• <strong>小孩玩水：</strong> 4歲小童可在溫水按摩池或淺水區踏水，記得自備兒童泳裝、泳圈。</div>
+            <div>• <strong>浴巾借用：</strong> 池畔旁毛巾站開放至 22:00，可憑房卡免費借用大浴巾。</div>
+          </div>
+        </div>
+
+        <!-- 設施 2: 小小夢想家 -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
+            <div class="flex items-center gap-2">
+              <div class="w-8 h-8 rounded-lg bg-pink-100 text-pink-700 flex items-center justify-center font-bold">
+                <i class="ph-bold ph-game-controller text-lg"></i>
+              </div>
+              <div>
+                <h4 class="font-bold text-slate-900 text-sm sm:text-base">小小夢想家天地 (Little Dreamers)</h4>
+                <span class="text-[11px] text-slate-400">甲板 13 樓船頭（專屬 2-12 歲）</span>
+              </div>
+            </div>
+            <span class="text-xs bg-pink-50 text-pink-700 px-2.5 py-0.5 rounded-full font-bold">兒童專屬</span>
+          </div>
+
+          <div class="bg-pink-50/70 p-2.5 rounded-xl border border-pink-100 text-[11px] font-mono space-y-1">
+            <div class="text-pink-900 font-bold flex items-center justify-between">
+              <span><i class="ph-bold ph-clock"></i> 每日開放時段（船上時間）：</span>
+            </div>
+            <div class="grid grid-cols-3 gap-1 text-slate-700">
+              <div>• 上午：<strong class="text-slate-900">09:00 - 12:00</strong></div>
+              <div>• 下午：<strong class="text-slate-900">14:00 - 17:30</strong></div>
+              <div>• 晚間：<strong class="text-slate-900">19:00 - 22:00</strong></div>
+            </div>
+          </div>
+
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            專為 2~12 歲兒童打造的室內遊樂俱樂部！備有安全軟質地墊、積木玩具、畫畫工作坊、卡通電影與帶動唱活動。
+          </p>
+          <div class="bg-pink-50 p-2.5 rounded-xl border border-pink-100 text-xs text-pink-800 space-y-1">
+            <div>• <strong>4 歲幼童入內：</strong> 部分特定活動需家長陪同入場，上船後可先前往 13 樓索取活動表。</div>
+            <div>• <strong>戶外遊憩場（13樓露天）：</strong> 開放時間為 08:00 - 20:00（視海象天候調整）。</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 區塊三：成人休閒、水療SPA與娛樂空間 -->
+      <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+          <div>
+            <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+              <i class="ph-bold ph-sparkle text-indigo-600"></i> 成人休閒、水療SPA與娛樂空間
+            </h3>
+            <p class="text-xs text-slate-500">海景健身房・水晶水療SPA・電玩街機間・海上娛樂場</p>
+          </div>
+          <span class="text-xs bg-indigo-50 text-indigo-700 px-2.5 py-1 rounded-full font-semibold border border-indigo-200">
+            船上休閒生活全解析
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+          <!-- 設施 1: 健身房 -->
+          <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 flex flex-col justify-between hover:border-cyan-300 transition space-y-3">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="bg-cyan-100 text-cyan-800 text-[11px] font-bold px-2 py-0.5 rounded">全景海景 • 免費使用</span>
+                <span class="text-xs font-semibold text-slate-500">12 樓船尾</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="w-8 h-8 rounded-lg bg-cyan-100 text-cyan-700 flex items-center justify-center font-bold text-base">
+                  <i class="ph-bold ph-barbell"></i>
+                </span>
+                <div>
+                  <h4 class="font-bold text-slate-900 text-sm">海景健身房</h4>
+                  <span class="text-[10px] text-slate-400">Crystal Life Fitness</span>
+                </div>
+              </div>
+
+              <div class="bg-white/80 p-2 rounded-lg border border-cyan-100 text-[11px] space-y-1 font-mono">
+                <div class="text-cyan-900 font-bold flex items-center justify-between">
+                  <span><i class="ph-bold ph-clock"></i> 每日開放時段：</span>
+                  <span class="text-[10px] text-cyan-700 font-sans">免費</span>
+                </div>
+                <div class="text-slate-700 font-semibold">06:00 - 22:00（船上時間）</div>
+                <div class="text-[10px] text-slate-400 font-sans">＝ 日本時間 07:00 - 23:00</div>
+              </div>
+
+              <p class="text-slate-600 leading-relaxed">
+                備有大片落地窗全景，跑步或踩飛輪時可直接眺望太平洋蔚藍海景！配備跑步機、滑步機、啞鈴重訓區與核心伸展墊。
+              </p>
+            </div>
+
+            <div class="bg-cyan-50 border border-cyan-100 p-2.5 rounded-lg text-cyan-900 space-y-1">
+              <div class="font-bold flex items-center gap-1">
+                <i class="ph-bold ph-warning-circle"></i> 服裝守則：
+              </div>
+              <div class="text-[11px] text-slate-600 leading-tight">
+                • <strong>必須著運動鞋與運動服</strong>，嚴禁穿拖鞋或涼鞋入場。
+              </div>
+            </div>
+          </div>
+
+          <!-- 設施 2: 水療 SPA 中心 -->
+          <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 flex flex-col justify-between hover:border-pink-300 transition space-y-3">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="bg-pink-100 text-pink-800 text-[11px] font-bold px-2 py-0.5 rounded">身心紓壓 • 自費預約</span>
+                <span class="text-xs font-semibold text-slate-500">12 樓船尾</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="w-8 h-8 rounded-lg bg-pink-100 text-pink-700 flex items-center justify-center font-bold text-base">
+                  <i class="ph-bold ph-flower-lotus"></i>
+                </span>
+                <div>
+                  <h4 class="font-bold text-slate-900 text-sm">水晶生活·水療 SPA 中心</h4>
+                  <span class="text-[10px] text-slate-400">Crystal Life Spa & Sauna</span>
+                </div>
+              </div>
+
+              <div class="bg-white/80 p-2 rounded-lg border border-pink-100 text-[11px] space-y-1 font-mono">
+                <div class="text-pink-900 font-bold flex items-center justify-between">
+                  <span><i class="ph-bold ph-clock"></i> 每日開放時段：</span>
+                  <span class="text-[10px] text-pink-700 font-sans">需預約</span>
+                </div>
+                <div class="text-slate-700 font-semibold">08:00 - 23:00（船上時間）</div>
+                <div class="text-[10px] text-slate-400 font-sans">＝ 日本時間 09:00 - 24:00</div>
+              </div>
+
+              <p class="text-slate-600 leading-relaxed">
+                結合西方芳療與東方穴道按摩！提供<strong>全身精油舒壓、熱石按摩、足底反射療法</strong>，以及桑拿乾蒸、蒸氣室與熱水水療池。
+              </p>
+            </div>
+
+            <div class="bg-pink-50 border border-pink-200 p-2.5 rounded-lg text-pink-950 space-y-1">
+              <div class="font-bold flex items-center gap-1">
+                <i class="ph-bold ph-sparkle"></i> 預約與自費價位：
+              </div>
+              <div class="text-[11px] text-slate-700 leading-tight">
+                • <strong>桑拿三溫暖：</strong> 單日通行約 <strong>$20~$30 美元</strong>。<br>
+                • <strong>按摩療程：</strong> 60~90 分鐘約 <strong>$98~$188 美元</strong>（刷房卡計帳，購療程享桑拿免費）。<br>
+                • <strong>靠港日特惠：</strong> 靠港時段常推 <strong>8~85 折優惠</strong>！
+              </div>
+            </div>
+          </div>
+
+          <!-- 設施 3: 電子遊樂世界 (電動間) -->
+          <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 flex flex-col justify-between hover:border-amber-300 transition space-y-3">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="bg-amber-100 text-amber-900 text-[11px] font-bold px-2 py-0.5 rounded">刷房卡暢玩 • 親子放電</span>
+                <span class="text-xs font-semibold text-slate-500">12 樓船中</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-base">
+                  <i class="ph-bold ph-game-controller"></i>
+                </span>
+                <div>
+                  <h4 class="font-bold text-slate-900 text-sm">電子遊樂世界（電動間）</h4>
+                  <span class="text-[10px] text-slate-400">Arcade Game Center</span>
+                </div>
+              </div>
+
+              <div class="bg-white/80 p-2 rounded-lg border border-amber-100 text-[11px] space-y-1 font-mono">
+                <div class="text-amber-900 font-bold flex items-center justify-between">
+                  <span><i class="ph-bold ph-clock"></i> 開放時段：</span>
+                  <span class="text-[10px] text-amber-700 font-sans">自費設施</span>
+                </div>
+                <div class="text-slate-700 font-semibold">24 小時開放 / 營業至深夜</div>
+                <div class="text-[10px] text-slate-400 font-sans">無投幣口，全採房卡感應扣款</div>
+              </div>
+
+              <p class="text-slate-600 leading-relaxed">
+                雙人賽車機（馬力歐賽車）、雙人光線槍射擊、空氣曲棍球桌（Air Hockey）、夾娃娃機與太鼓節奏遊戲。
+              </p>
+            </div>
+
+            <div class="bg-amber-50 border border-amber-200 p-2.5 rounded-lg text-amber-950 space-y-1">
+              <div class="font-bold flex items-center gap-1">
+                <i class="ph-bold ph-credit-card"></i> 計費守則：
+              </div>
+              <div class="text-[11px] text-slate-700 leading-tight">
+                • <strong>單局費用：</strong> 每局約 <strong>10~25 港幣（約合 NT$ 40~100 / ¥200~500）</strong>，刷房卡感應扣款。<br>
+                • 建議家長陪同幼童遊玩，避免重複扣款。
+              </div>
+            </div>
+          </div>
+
+          <!-- 設施 4: 賭場 -->
+          <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 flex flex-col justify-between hover:border-purple-300 transition space-y-3">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="bg-purple-100 text-purple-900 text-[11px] font-bold px-2 py-0.5 rounded">公海航行開放 • 滿18歲</span>
+                <span class="text-xs font-semibold text-slate-500">7 樓 & 8 樓</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="w-8 h-8 rounded-lg bg-purple-100 text-purple-700 flex items-center justify-center font-bold text-base">
+                  <i class="ph-bold ph-cards"></i>
+                </span>
+                <div>
+                  <h4 class="font-bold text-slate-900 text-sm">星尊娛樂場（賭場 Casino）</h4>
+                  <span class="text-[10px] text-slate-400">Resorts World Casino</span>
+                </div>
+              </div>
+
+              <div class="bg-white/80 p-2 rounded-lg border border-purple-100 text-[11px] space-y-1 font-mono">
+                <div class="text-purple-900 font-bold flex items-center justify-between">
+                  <span><i class="ph-bold ph-clock"></i> 開放時間：</span>
+                  <span class="text-[10px] text-purple-700 font-sans">公海時段</span>
+                </div>
+                <div class="text-slate-700 font-semibold">駛入公海（國際水域）後開放</div>
+                <div class="text-[10px] text-rose-500 font-sans font-bold">靠港停泊與領海期間全館關閉</div>
+              </div>
+
+              <p class="text-slate-600 leading-relaxed">
+                百家樂（Baccarat）、二十一點（Blackjack）、輪盤（Roulette）、骰寶，以及數十台角子老虎機。
+              </p>
+            </div>
+
+            <div class="bg-purple-50 border border-purple-200 p-2.5 rounded-lg text-purple-950 space-y-1">
+              <div class="font-bold flex items-center gap-1">
+                <i class="ph-bold ph-shield-warning"></i> 守則與會員福利：
+              </div>
+              <div class="text-[11px] text-slate-700 leading-tight">
+                • <strong>嚴禁未滿 18 歲進入</strong>（不可攜帶幼童入內）。<br>
+                • 場內<strong>絕對嚴禁拍照與錄影</strong>。<br>
+                • 年滿 18 歲可憑證件至櫃檯<strong>免費申辦實體會員卡</strong>。
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB: 那霸沖繩本島 (10/05) 19人團體包車 -->
+    <section id="tab-naha" class="tab-content hidden space-y-6">
+      <div class="bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-600 text-white rounded-2xl p-5 shadow-lg shadow-indigo-500/20 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <span class="inline-block bg-white/20 text-white text-xs px-2.5 py-0.5 rounded-full font-semibold mb-2">航程第 2 天 • 10/05 (一) 日本第一站入境通關</span>
+          <h2 class="text-xl sm:text-2xl font-black">沖繩那霸港（若狹碼頭）</h2>
+          <p class="text-indigo-100 text-xs sm:text-sm mt-1">20人座中巴含中文導遊 • 瀨長島、Outlet、DMM水族館與iias商場購物晚餐</p>
+        </div>
+        <div class="bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/20 text-xs sm:text-sm grid grid-cols-2 gap-3 min-w-[300px]">
+          <div>
+            <span class="text-indigo-200 block text-xs">抵港時間</span>
+            <span class="font-bold text-base text-white">13:00 <span class="text-xs bg-indigo-500/50 px-1.5 py-0.5 rounded font-medium">日本時間</span></span>
+            <span class="block text-[10px] text-indigo-300">＝ 12:00 台灣時間 (船上時間)</span>
+          </div>
+          <div>
+            <span class="text-rose-200 block text-xs font-bold">全員回船時間 (All-Aboard)</span>
+            <span class="font-black text-base text-amber-200">22:00 <span class="text-xs bg-rose-500/70 text-white px-1.5 py-0.5 rounded font-medium">日本時間</span></span>
+            <span class="block text-[10px] text-amber-300">＝ 21:00 台灣時間 (23:00日/22:00台離港)</span>
+          </div>
+          <div class="col-span-2 pt-1 border-t border-white/15 flex items-center justify-between text-amber-200 font-medium text-xs">
+            <span>接送舉牌：<strong class="text-white bg-indigo-900/60 px-2 py-0.5 rounded border border-white/20">李多人不怪</strong></span>
+            <span class="bg-amber-400/20 px-2 py-0.5 rounded text-amber-200 font-bold">包車至 21:30 日本時間 (20:30台) 回港</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 團體預約資訊快速卡 -->
+      <div class="bg-gradient-to-br from-indigo-50 to-purple-50 border border-indigo-200 rounded-2xl p-4 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs text-indigo-950 shadow-sm">
+        <div>
+          <span class="text-indigo-600 font-semibold block">預約代表人</span>
+          <span class="font-bold text-sm sm:text-base text-slate-800">石凱仁</span>
+        </div>
+        <div>
+          <span class="text-indigo-600 font-semibold block">搭乘總人數</span>
+          <span class="font-bold text-sm sm:text-base text-slate-800">19 位（含4歲幼童）</span>
+        </div>
+        <div>
+          <span class="text-indigo-600 font-semibold block">車輛規格配置</span>
+          <span class="font-bold text-sm sm:text-base text-slate-800">20人座中巴（含中文導遊）</span>
+        </div>
+        <div>
+          <span class="text-indigo-600 font-semibold block">DMM水族館票價</span>
+          <span class="font-bold text-slate-800">大¥2800 / 13-17歲¥2200 / 4-12歲¥1700</span>
+        </div>
+      </div>
+
+      <!-- 地圖路線導航區 -->
+      <div class="bg-white rounded-2xl p-4 sm:p-5 border border-indigo-100 shadow-sm space-y-3">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">
+              <i class="ph-bold ph-path text-lg"></i>
+            </div>
+            <div>
+              <h4 class="text-sm font-bold text-slate-900">10/05 沖繩本島 20人座中巴全程路線圖</h4>
+              <p class="text-[11px] text-slate-500">若狹碼頭 ➔ 瀨長島 ➔ Outlet ➔ iias/DMM ➔ 若狹碼頭</p>
+            </div>
+          </div>
+          <a id="naha-map-ext-link" href="https://www.google.com/maps/dir/Naha+Cruise+Terminal/Umikaji+Terrace+Senagajima/Okinawa+Outlet+Mall+Ashibinaa/iias+Okinawa+Toyosaki/Naha+Cruise+Terminal" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-xs bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-lg font-semibold transition shadow-sm w-fit">
+            <i class="ph-bold ph-navigation-arrow"></i> 在 Google Maps 開啟多點巡迴導航
+          </a>
+        </div>
+
+        <div class="relative w-full h-80 sm:h-96 rounded-xl overflow-hidden border border-slate-200 bg-slate-100 shadow-inner">
+          <iframe id="naha-map-frame" class="w-full h-full border-0" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?saddr=Naha+Cruise+Terminal&daddr=Umikaji+Terrace+to:Okinawa+Outlet+Mall+Ashibinaa+to:iias+Okinawa+Toyosaki+to:Naha+Cruise+Terminal&dirflg=d&output=embed"></iframe>
+        </div>
+      </div>
+
+      <!-- 時間軸 -->
+      <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+          <div>
+            <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+              <i class="ph-fill ph-clock-countdown text-indigo-600 text-lg"></i> 10/05 團體行程節奏表（以日本時間為準）
+            </h3>
+            <p class="text-xs text-slate-500">岸上集合一律看手錶日本時間</p>
+          </div>
+          <span class="text-xs bg-rose-100 text-rose-700 px-3 py-1 rounded-full font-bold flex items-center gap-1">
+            <i class="ph-bold ph-warning-circle"></i> ⚠ DMM 水族館最晚入館 18:00 日本時間
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-3 text-xs">
+          <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-indigo-700 font-bold mb-1">
+                <span>13:00 - 14:30 <span class="text-[10px] text-indigo-900 font-sans">日本時</span></span>
+                <span class="bg-indigo-100 text-indigo-800 px-1.5 py-0.5 rounded text-[10px]">靠港通關</span>
+              </div>
+              <div class="text-[10px] text-slate-400 font-mono mb-1">＝ 台灣時間 12:00 - 13:30</div>
+              <h4 class="font-bold text-slate-900 text-sm">若狹碼頭會合</h4>
+              <p class="text-slate-500 mt-1 leading-relaxed">
+                全船旅客首站辦理日本入境審查。出關尋找「<strong class="text-indigo-600">李多人不怪</strong>」舉牌與導遊會合。
+              </p>
+            </div>
+            <span class="mt-2 text-[11px] text-indigo-600 font-medium">車程約 20-25 分鐘</span>
+          </div>
+
+          <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-indigo-700 font-bold mb-1">
+                <span>15:00 - 16:00 <span class="text-[10px] text-indigo-900 font-sans">日本時</span></span>
+                <span class="bg-purple-100 text-purple-800 px-1.5 py-0.5 rounded text-[10px]">停留 60 分</span>
+              </div>
+              <div class="text-[10px] text-slate-400 font-mono mb-1">＝ 台灣時間 14:00 - 15:00</div>
+              <h4 class="font-bold text-slate-900 text-sm">瀨長島 Umikaji</h4>
+              <p class="text-slate-500 mt-1 leading-relaxed">
+                純白地中海階梯商場，近距離看飛機起降，品嚐幸福鬆餅或特色冰品。
+              </p>
+            </div>
+            <span class="mt-2 text-[11px] text-indigo-600 font-medium">車程約 10 分鐘</span>
+          </div>
+
+          <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-indigo-700 font-bold mb-1">
+                <span>16:10 - 17:40 <span class="text-[10px] text-indigo-900 font-sans">日本時</span></span>
+                <span class="bg-pink-100 text-pink-800 px-1.5 py-0.5 rounded text-[10px]">停留 90 分</span>
+              </div>
+              <div class="text-[10px] text-slate-400 font-mono mb-1">＝ 台灣時間 15:10 - 16:40</div>
+              <h4 class="font-bold text-slate-900 text-sm">Ashibinaa Outlet</h4>
+              <p class="text-slate-500 mt-1 leading-relaxed">
+                沖繩大型平價精品 Outlet，匯集運動休閒、日系服飾與鞋包，準時集合避免耽誤入館。
+              </p>
+            </div>
+            <span class="mt-2 text-[11px] text-indigo-600 font-medium">車程僅約 5 分鐘</span>
+          </div>
+
+          <div class="bg-indigo-50/70 border border-indigo-200 rounded-xl p-3.5 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-indigo-800 font-bold mb-1">
+                <span>17:45 - 19:00 <span class="text-[10px] text-indigo-900 font-sans">日本時</span></span>
+                <span class="bg-rose-500 text-white px-1.5 py-0.5 rounded text-[10px] font-bold">18:00日 前入場</span>
+              </div>
+              <div class="text-[10px] text-slate-400 font-mono mb-1">＝ 台灣時間 16:45 - 18:00</div>
+              <h4 class="font-bold text-slate-900 text-sm">DMM Kariyushi 水族館</h4>
+              <p class="text-slate-600 mt-1 leading-relaxed">
+                位於 iias 2 樓。結合數位投影與真實海洋生物，可看企鵝、樹懶與觸摸水池。
+              </p>
+            </div>
+            <span class="mt-2 text-[11px] text-rose-600 font-bold">★ 票價大2800/小1700</span>
+          </div>
+
+          <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-indigo-700 font-bold mb-1">
+                <span>19:00 - 21:30 <span class="text-[10px] text-indigo-900 font-sans">日本時</span></span>
+                <span class="bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded text-[10px]">晚餐・回港</span>
+              </div>
+              <div class="text-[10px] text-slate-400 font-mono mb-1">＝ 台灣時間 18:00 - 20:30</div>
+              <h4 class="font-bold text-slate-900 text-sm">iias 商場 ➔ 港口</h4>
+              <p class="text-slate-500 mt-1 leading-relaxed">
+                iias 2F 逛 EDION 電器、美食街晚餐、1F AEON STYLE 超市採購。21:00 日本時間上車，21:30 送達若狹碼頭。
+              </p>
+            </div>
+            <span class="mt-2 text-[11px] text-emerald-600 font-semibold">22:00日本時間全員回船</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB: 石垣島 (10/06) 17人團體包車20座含中文導遊 -->
+    <section id="tab-ishigaki" class="tab-content hidden space-y-6">
+      <div class="bg-gradient-to-r from-blue-600 via-cyan-600 to-teal-500 text-white rounded-2xl p-5 shadow-lg shadow-blue-500/15 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <span class="inline-block bg-white/20 text-white text-xs px-2.5 py-0.5 rounded-full font-semibold mb-2">航程第 3 天 • 10/06 (二) 豪華深度遊</span>
+          <h2 class="text-xl sm:text-2xl font-black">石垣新港郵輪碼頭（Ishigaki New Port）</h2>
+          <p class="text-blue-100 text-xs sm:text-sm mt-1">20人座中巴含中文導遊 • 川平灣玻璃船、鐘乳石洞、班納公園展望台與公設市場美食採買</p>
+        </div>
+        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/20 text-xs sm:text-sm grid grid-cols-2 gap-3 min-w-[300px]">
+          <div>
+            <span class="text-blue-200 block text-xs">抵港時間</span>
+            <span class="font-bold text-base text-white">13:00 <span class="text-xs bg-blue-500/50 px-1.5 py-0.5 rounded font-medium">日本時間</span></span>
+            <span class="block text-[10px] text-blue-200">＝ 12:00 台灣時間 (船上時間)</span>
+          </div>
+          <div>
+            <span class="text-rose-200 block text-xs font-bold">全員回船時間 (All-Aboard)</span>
+            <span class="font-black text-base text-amber-200">22:00 <span class="text-xs bg-rose-500/70 text-white px-1.5 py-0.5 rounded font-medium">日本時間</span></span>
+            <span class="block text-[10px] text-amber-300">＝ 21:00 台灣時間 (23:00日/22:00台離港)</span>
+          </div>
+          <div class="col-span-2 pt-1 border-t border-white/15 flex items-center justify-between text-amber-200 font-medium text-xs">
+            <span>接送舉牌：<strong class="text-white bg-blue-900/60 px-2 py-0.5 rounded border border-white/20">李多人不怪</strong></span>
+            <span class="bg-amber-400/20 px-2 py-0.5 rounded text-amber-100 font-bold">包車至 20:00 日本時間 (19:00台) 回港</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 團體預約資訊快速卡 -->
+      <div class="bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 rounded-2xl p-4 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs text-blue-950 shadow-sm">
+        <div>
+          <span class="text-blue-600 font-semibold block">預約代表人</span>
+          <span class="font-bold text-sm sm:text-base text-slate-800">石凱仁</span>
+        </div>
+        <div>
+          <span class="text-blue-600 font-semibold block">搭乘總人數</span>
+          <span class="font-bold text-sm sm:text-base text-slate-800">17 位（含4歲幼童）</span>
+        </div>
+        <div>
+          <span class="text-blue-600 font-semibold block">車輛規格配置</span>
+          <span class="font-bold text-sm sm:text-base text-slate-800">20人座中巴（含中文導遊）</span>
+        </div>
+        <div>
+          <span class="text-blue-600 font-semibold block">景點自費票價參考</span>
+          <span class="font-bold text-slate-800">船票約¥1800~2300 / 洞門票大¥1080小¥540</span>
+        </div>
+      </div>
+
+      <!-- 石垣島 Google 地圖路線導航區 -->
+      <div class="bg-white rounded-2xl p-4 sm:p-5 border border-blue-100 shadow-sm space-y-3">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center font-bold">
+              <i class="ph-bold ph-path text-lg"></i>
+            </div>
+            <div>
+              <h4 class="text-sm font-bold text-slate-900">10/06 石垣島 20人座中巴全程路線圖（5大站巡迴）</h4>
+              <p class="text-[11px] text-slate-500">川平灣 ➔ 鐘乳石洞 ➔ 班納公園展望台 ➔ 公設市場美食街 ➔ 新港碼頭</p>
+            </div>
+          </div>
+          <a id="ishigaki-map-ext-link" href="https://www.google.com/maps/dir/Ishigaki+Port+Terminal/川平灣+日本〒907-0453+Okinawa,+Ishigaki/Ishigaki+Stalactite+Cave/Emerald+Sea+Observatory+Deck/Euglena+Mall/Ishigaki+Port+Terminal" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-xs bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg font-semibold transition shadow-sm w-fit">
+            <i class="ph-bold ph-navigation-arrow"></i> 在 Google Maps 開啟多點巡迴導航
+          </a>
+        </div>
+
+        <div class="relative w-full h-80 sm:h-96 rounded-xl overflow-hidden border border-slate-200 bg-slate-100 shadow-inner">
+          <iframe id="ishigaki-map-frame" class="w-full h-full border-0" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?saddr=Ishigaki+Port+Terminal&daddr=川平灣+日本〒907-0453+Okinawa,+Ishigaki+to:Ishigaki+Stalactite+Cave+to:Emerald+Sea+Observatory+Deck+Ishigaki+to:Euglena+Mall+to:Ishigaki+Port+Terminal&dirflg=d&output=embed"></iframe>
+        </div>
+      </div>
+
+      <!-- 時間軸動線（詳細 5 大站節奏） -->
+      <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+          <div>
+            <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+              <i class="ph-fill ph-clock-countdown text-blue-600 text-lg"></i> 10/06 石垣島 20人座包車（14:00-20:00）節奏表
+            </h3>
+            <p class="text-xs text-slate-500">20:00 日本時間（19:00 台灣時間）送達石垣新港碼頭，距 22:00 日 All-Aboard 裕度長達 2 小時！</p>
+          </div>
+          <span class="text-xs bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full font-bold flex items-center gap-1">
+            <i class="ph-bold ph-shield-check"></i> 預留 2 小時超安心回船裕度
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-3 text-xs">
+          <!-- 站 0: 靠港與會合 -->
+          <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-blue-700 font-bold mb-1">
+                <span>13:00 - 14:00 <span class="text-[10px] text-blue-900 font-sans">日本時</span></span>
+                <span class="bg-blue-100 text-blue-800 px-1 py-0.5 rounded text-[10px]">下船出關</span>
+              </div>
+              <div class="text-[10px] text-slate-400 font-mono mb-1">＝ 台灣時間 12:00 - 13:00</div>
+              <h4 class="font-bold text-slate-900 text-sm">石垣新港會合</h4>
+              <p class="text-slate-500 mt-1 leading-relaxed">
+                出關認明「<strong class="text-blue-700">李多人不怪</strong>」舉牌，與中文導遊及 20人座中巴會合上車。
+              </p>
+            </div>
+            <span class="mt-2 text-[11px] text-blue-600 font-medium">車程約 35 分鐘</span>
+          </div>
+
+          <!-- 站 1: 川平灣 -->
+          <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-blue-700 font-bold mb-1">
+                <span>14:35 - 15:35 <span class="text-[10px] text-blue-900 font-sans">日本時</span></span>
+                <span class="bg-cyan-100 text-cyan-800 px-1 py-0.5 rounded text-[10px]">停留 60 分</span>
+              </div>
+              <div class="text-[10px] text-slate-400 font-mono mb-1">＝ 台灣時間 13:35 - 14:35</div>
+              <h4 class="font-bold text-slate-900 text-sm">1. 川平灣（玻璃船）</h4>
+              <p class="text-slate-500 mt-1 leading-relaxed">
+                米其林三星海景！若搭乘玻璃底遊覽船<strong>（船票自費）</strong>，低頭即可近距離觀賞珊瑚礁與熱帶魚。
+              </p>
+            </div>
+            <div class="mt-2 text-[10px] bg-cyan-50 p-1.5 rounded text-cyan-900 font-medium leading-tight">
+              <strong>🎫 玻璃船票價：</strong><br>
+              • 大人(12歲+)：約 ¥1,800 ~ ¥2,300<br>
+              • 兒童(4~11歲)：約 ¥950 ~ ¥1,200<br>
+              • 幼童(未滿4歲)：免費
+            </div>
+            <span class="mt-1 text-[11px] text-blue-600 font-medium">車程約 25 分鐘</span>
+          </div>
+
+          <!-- 站 2: 鐘乳石洞 -->
+          <div class="bg-slate-50 border border-indigo-200 rounded-xl p-3 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-blue-700 font-bold mb-1">
+                <span>16:00 - 16:50 <span class="text-[10px] text-blue-900 font-sans">日本時</span></span>
+                <span class="bg-indigo-100 text-indigo-800 px-1 py-0.5 rounded text-[10px]">停留 50 分</span>
+              </div>
+              <div class="text-[10px] text-slate-400 font-mono mb-1">＝ 台灣時間 15:00 - 15:50</div>
+              <h4 class="font-bold text-slate-900 text-sm">2. 石垣島鐘乳洞</h4>
+              <p class="text-slate-500 mt-1 leading-relaxed">
+                日本最南端 20 萬年天然鐘乳石洞<strong>（門票自費）</strong>，冬暖夏涼，搭配龍宮彩燈極度震撼壯麗。
+              </p>
+            </div>
+            <div class="mt-2 text-[10px] bg-indigo-50 p-1.5 rounded text-indigo-900 font-medium leading-tight">
+              <strong>🎫 門票（17人享團體優惠）：</strong><br>
+              • 團體大人(高中+)：<strong>¥1,080</strong>（原¥1200）<br>
+              • 團體兒童(4歲~國中)：<strong>¥540</strong>（原¥600）
+            </div>
+            <span class="mt-1 text-[11px] text-blue-600 font-medium">車程約 15 分鐘</span>
+          </div>
+
+          <!-- 站 3: 班納公園展望台 -->
+          <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-blue-700 font-bold mb-1">
+                <span>17:05 - 17:35 <span class="text-[10px] text-blue-900 font-sans">日本時</span></span>
+                <span class="bg-teal-100 text-teal-800 px-1 py-0.5 rounded text-[10px]">停留 30 分</span>
+              </div>
+              <div class="text-[10px] text-slate-400 font-mono mb-1">＝ 台灣時間 16:05 - 16:35</div>
+              <h4 class="font-bold text-slate-900 text-sm">3. 班納公園展望台</h4>
+              <p class="text-slate-500 mt-1 leading-relaxed">
+                「翡翠之海展望台」，居高臨下俯瞰石垣市區與周邊離島海景，全團 17 人拍大合照首選！
+              </p>
+            </div>
+            <span class="mt-2 text-[11px] text-blue-600 font-medium">車程約 15 分鐘</span>
+          </div>
+
+          <!-- 站 4: 公設市場自由用餐採買 -->
+          <div class="bg-blue-50/70 border border-blue-200 rounded-xl p-3 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-blue-800 font-bold mb-1">
+                <span>17:50 - 19:30 <span class="text-[10px] text-blue-900 font-sans">日本時</span></span>
+                <span class="bg-amber-500 text-white px-1 py-0.5 rounded text-[10px] font-bold">停留 100 分</span>
+              </div>
+              <div class="text-[10px] text-slate-400 font-mono mb-1">＝ 台灣時間 16:50 - 18:30</div>
+              <h4 class="font-bold text-slate-900 text-sm">4. 公設市場+自由晚餐</h4>
+              <p class="text-slate-600 mt-1 leading-relaxed">
+                Euglena 商店街採買辣油、黑糖，自由享用石垣牛排、八重山麵、Genki 牛奶小子霜淇淋。
+              </p>
+            </div>
+            <span class="mt-2 text-[11px] text-blue-600 font-medium">車程約 10 分鐘 ➔ 20:00日 返抵港口</span>
+          </div>
+        </div>
+
+        <!-- 長輩舒適休息免門票備選方案 -->
+        <div class="bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-amber-300 rounded-2xl p-4 sm:p-5 text-xs text-amber-950 space-y-3 shadow-sm">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-amber-200 pb-2.5">
+            <div class="flex items-center gap-2">
+              <span class="w-8 h-8 rounded-xl bg-amber-500 text-white flex items-center justify-center font-bold text-base shadow-sm">
+                <i class="ph-bold ph-armchair"></i>
+              </span>
+              <div>
+                <h4 class="font-bold text-sm sm:text-base text-amber-950">
+                  👵 石垣島鐘乳洞 • 長輩舒適免門票休閒備案（免爬階梯・免走濕滑步道）
+                </h4>
+                <p class="text-[11px] text-amber-800">洞內全長 660 公尺階梯多且地面微滑，長輩在地面園區休息完全免費，省時又舒服！</p>
+              </div>
+            </div>
+            <span class="bg-emerald-100 text-emerald-800 font-bold px-2.5 py-1 rounded-full text-[11px] border border-emerald-300 w-fit">
+              免門票 • 現省 ¥1,080 / 位
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <!-- 備案 1 -->
+            <div class="bg-white p-3 rounded-xl border border-amber-200 space-y-1.5 shadow-sm">
+              <div class="font-bold text-amber-900 text-xs flex items-center gap-1">
+                <i class="ph-bold ph-couch text-amber-600"></i> ① 冷氣伴手禮大廳（石垣市物產館）
+              </div>
+              <p class="text-slate-600 leading-relaxed text-[11px]">
+                全室內強冷空調、全平面無障礙、乾淨洗手間。設有多處<strong>寬敞木質休閒長椅</strong>，長輩可坐著休息、悠閒試吃黑糖與石垣鹽仙貝、挑選限定特產。
+              </p>
+            </div>
+
+            <!-- 備案 2 -->
+            <div class="bg-white p-3 rounded-xl border border-amber-200 space-y-1.5 shadow-sm">
+              <div class="font-bold text-amber-900 text-xs flex items-center gap-1">
+                <i class="ph-bold ph-coffee text-amber-600"></i> ② 園區喫茶店（吃冰聊天消暑）
+              </div>
+              <p class="text-slate-600 leading-relaxed text-[11px]">
+                物產館旁設有喫茶休息區，可為長輩點一碗<strong>沖繩黑糖刨冰、芒果冰沙、冰咖啡或冰茶</strong>，舒舒服服坐著品嚐甜品下午茶，悠哉等大家出洞會合。
+              </p>
+            </div>
+
+            <!-- 備案 4 -->
+            <div class="bg-white p-3 rounded-xl border border-amber-200 space-y-1.5 shadow-sm">
+              <div class="font-bold text-amber-900 text-xs flex items-center gap-1">
+                <i class="ph-bold ph-butterfly text-amber-600"></i> ④ 入口平地小花園（看蝴蝶與椰子蟹）
+              </div>
+              <p class="text-slate-600 leading-relaxed text-[11px]">
+                平坦無階梯的小型亞熱帶步道，可近距離觀看<strong>日本最大的「大白斑蝶」網室、超大型天然「椰子蟹」飼育箱與可愛小山羊</strong>，漫步拍照輕鬆無負擔。
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-amber-100/70 p-2 rounded-xl text-[11px] text-amber-900 font-medium flex items-center gap-1.5">
+            <i class="ph-fill ph-check-circle text-amber-700 text-sm"></i>
+            <span><strong>會合零難度：</strong> 鐘乳石洞出口直接連通「冷氣物產館伴手禮大廳」，進洞探險的家人出來一眼就能找到長輩，完全不用走回頭路！</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB: 宮古島 (10/07) -->
+    <section id="tab-miyakojima" class="tab-content hidden space-y-6">
+      <div class="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 text-white rounded-2xl p-5 shadow-lg shadow-teal-500/15 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <span class="inline-block bg-white/20 text-white text-xs px-2.5 py-0.5 rounded-full font-semibold mb-2">航程第 4 天 • 10/07 (三)</span>
+          <h2 class="text-xl sm:text-2xl font-bold">宮古島（平良港 / Hirara Port）</h2>
+          <p class="text-teal-100 text-xs sm:text-sm mt-1">漫步宮古藍夢幻漸層、伊良部跨海大橋、雪鹽工坊吃冰踩沙</p>
+        </div>
+        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/20 text-xs sm:text-sm grid grid-cols-2 gap-3 min-w-[300px]">
+          <div>
+            <span class="text-teal-200 block text-xs">抵港時間</span>
+            <span class="font-bold text-base text-white">09:00 <span class="text-xs bg-teal-500/50 px-1.5 py-0.5 rounded font-medium">日本時間</span></span>
+            <span class="block text-[10px] text-teal-200">＝ 08:00 台灣時間 (船上時間)</span>
+          </div>
+          <div>
+            <span class="text-rose-200 block text-xs font-bold">全員回船時間 (All-Aboard)</span>
+            <span class="font-black text-base text-amber-200">16:00 <span class="text-xs bg-rose-500/70 text-white px-1.5 py-0.5 rounded font-medium">日本時間</span></span>
+            <span class="block text-[10px] text-amber-300">＝ 15:00 台灣時間 (17:00日/16:00台離港)</span>
+          </div>
+          <div class="col-span-2 pt-1 border-t border-white/15 flex items-center justify-between text-amber-200 font-medium text-xs">
+            <span>建議包車時段：</span>
+            <span class="bg-amber-400/20 px-2 py-0.5 rounded text-amber-100 font-bold">09:40 ~ 14:40 日本時間 (08:40 ~ 13:40 台時)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 宮古島 Google 地圖路線導航區 -->
+      <div class="bg-white rounded-2xl p-4 sm:p-5 border border-teal-100 shadow-sm space-y-3">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-lg bg-teal-50 text-teal-600 flex items-center justify-center font-bold">
+              <i class="ph-bold ph-path text-lg"></i>
+            </div>
+            <div>
+              <h4 class="text-sm font-bold text-slate-900">10/07 宮古島 4.5~5小時包車全程路線圖</h4>
+              <p class="text-[11px] text-slate-500">平良港 ➔ 伊良部大橋 ➔ 渡口之濱 ➔ 雪鹽工坊 ➔ 平良港</p>
+            </div>
+          </div>
+          <a id="miyakojima-map-ext-link" href="https://www.google.com/maps/dir/Hirara+Port/Irabu+Bridge/Toguchi+no+Hama/Yukisio+Museum/Hirara+Port" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-xs bg-teal-600 hover:bg-teal-700 text-white px-3 py-1.5 rounded-lg font-semibold transition shadow-sm w-fit">
+            <i class="ph-bold ph-navigation-arrow"></i> 在 Google Maps 開啟多點巡迴導航
+          </a>
+        </div>
+
+        <div class="relative w-full h-80 sm:h-96 rounded-xl overflow-hidden border border-slate-200 bg-slate-100 shadow-inner">
+          <iframe id="miyakojima-map-frame" class="w-full h-full border-0" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?saddr=Hirara+Port+Miyakojima&daddr=Irabu+Bridge+to:Toguchi+no+Hama+to:Yukisio+Museum+to:Hirara+Port+Miyakojima&dirflg=d&output=embed"></iframe>
+        </div>
+      </div>
+
+      <!-- 時間軸動線 -->
+      <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+          <div>
+            <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+              <i class="ph-fill ph-clock-countdown text-teal-600 text-lg"></i> 10/07 宮古島包車 4.5~5 小時節奏表
+            </h3>
+            <p class="text-xs text-slate-500">平良港出發 ➔ 伊良部大橋 ➔ 渡口之濱踏浪 ➔ 雪鹽博物館 ➔ 市區午餐採買 ➔ 返港</p>
+          </div>
+          <span class="text-xs bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full font-bold flex items-center gap-1">
+            <i class="ph-bold ph-shield-check"></i> 預留 1 小時 20 分回船裕度
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 text-xs">
+          <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-teal-700 font-bold mb-1">
+                <span>09:00 - 09:40 <span class="text-[10px] text-teal-900 font-sans">日本時</span></span>
+                <span class="bg-teal-100 text-teal-800 px-1.5 py-0.5 rounded text-[10px]">下船・會合</span>
+              </div>
+              <div class="text-[10px] text-slate-400 font-mono mb-1">＝ 台灣時間 08:00 - 08:40</div>
+              <h4 class="font-bold text-slate-900 text-sm">平良港出發</h4>
+              <p class="text-slate-500 mt-1 leading-relaxed">
+                郵輪靠泊平良港碼頭，下船後直接於港口包車司機會合出發。
+              </p>
+            </div>
+            <span class="mt-2 text-[11px] text-teal-600 font-medium">車程約 15 分鐘</span>
+          </div>
+
+          <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-teal-700 font-bold mb-1">
+                <span>09:55 - 10:25 <span class="text-[10px] text-teal-900 font-sans">日本時</span></span>
+                <span class="bg-cyan-100 text-cyan-800 px-1.5 py-0.5 rounded text-[10px]">停留 30 分</span>
+              </div>
+              <div class="text-[10px] text-slate-400 font-mono mb-1">＝ 台灣時間 08:55 - 09:25</div>
+              <h4 class="font-bold text-slate-900 text-sm">伊良部大橋（拍照觀景）</h4>
+              <p class="text-slate-500 mt-1 leading-relaxed">
+                全長 3,540 公尺，欣賞全球知名的「宮古藍」夢幻漸層海景。
+              </p>
+            </div>
+            <span class="mt-2 text-[11px] text-teal-600 font-medium">車程約 10 分鐘</span>
+          </div>
+
+          <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-teal-700 font-bold mb-1">
+                <span>10:35 - 11:35 <span class="text-[10px] text-teal-900 font-sans">日本時</span></span>
+                <span class="bg-blue-100 text-blue-800 px-1.5 py-0.5 rounded text-[10px]">停留 60 分</span>
+              </div>
+              <div class="text-[10px] text-slate-400 font-mono mb-1">＝ 台灣時間 09:35 - 10:35</div>
+              <h4 class="font-bold text-slate-900 text-sm">渡口之濱（踏浪玩沙）</h4>
+              <p class="text-slate-500 mt-1 leading-relaxed">
+                如麵粉般潔白細緻的天然沙灘！4歲小孩踩沙踏浪極度安全舒服。
+              </p>
+            </div>
+            <span class="mt-2 text-[11px] text-teal-600 font-medium">車程約 25 分鐘</span>
+          </div>
+
+          <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-teal-700 font-bold mb-1">
+                <span>12:00 - 13:00 <span class="text-[10px] text-teal-900 font-sans">日本時</span></span>
+                <span class="bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded text-[10px]">停留 60 分</span>
+              </div>
+              <div class="text-[10px] text-slate-400 font-mono mb-1">＝ 台灣時間 11:00 - 12:00</div>
+              <h4 class="font-bold text-slate-900 text-sm">雪鹽博物館（雪鹽製鹽所）</h4>
+              <p class="text-slate-500 mt-1 leading-relaxed">
+                必吃「雪鹽霜淇淋」（可撒各色特調鹽粉！），採購宮古島名產雪鹽夾心餅乾。
+              </p>
+            </div>
+            <span class="mt-2 text-[11px] text-teal-600 font-medium">車程約 20 分鐘</span>
+          </div>
+
+          <div class="bg-teal-50/70 border border-teal-200 rounded-xl p-3.5 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-teal-800 font-bold mb-1">
+                <span>13:20 - 14:40 <span class="text-[10px] text-teal-900 font-sans">日本時</span></span>
+                <span class="bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded text-[10px]">午餐採買・返港</span>
+              </div>
+              <div class="text-[10px] text-slate-400 font-mono mb-1">＝ 台灣時間 12:20 - 13:40</div>
+              <h4 class="font-bold text-slate-900 text-sm">平良市區 ➔ 平良港</h4>
+              <p class="text-slate-600 mt-1 leading-relaxed">
+                品嚐宮古麵（宮古そば）或宮古牛漢堡，約 14:40 送抵平良港。
+              </p>
+            </div>
+            <span class="mt-2 text-[11px] text-emerald-600 font-bold">16:00日 (15:00台) 關閘</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB: 購物天堂・折價券 & 伴手禮 -->
+    <section id="tab-shopping" class="tab-content hidden space-y-6">
+
+      <!-- 頂部橫幅 -->
+      <div class="bg-gradient-to-r from-rose-600 via-pink-600 to-amber-500 text-white rounded-2xl p-5 shadow-lg shadow-rose-500/20 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <span class="inline-block bg-white/20 text-white text-xs px-2.5 py-0.5 rounded-full font-semibold mb-2">行程順路專屬 • 外國遊客網路折價券 & 伴手禮指南</span>
+          <h2 class="text-xl sm:text-2xl font-black">購物天堂：網路折價券・10/05 超市 ＆ 伴手禮合格紅綠燈</h2>
+          <p class="text-rose-100 text-xs sm:text-sm mt-1">
+            免印紙本！鎖定 10/05 豐崎 iias 商場、AEON 旗艦超市、Outlet 旁及各島順路門市，享 10% 免稅 + 最高 7% 現折！
+          </p>
+        </div>
+        <div class="bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/20 text-xs sm:text-sm min-w-[260px] space-y-1.5 shrink-0">
+          <div class="flex items-center justify-between text-amber-200 font-bold">
+            <span>🔌 家電/吹風機 (EDION)：</span>
+            <span>免稅 10% + 現折 7%</span>
+          </div>
+          <div class="flex items-center justify-between text-pink-200 font-bold">
+            <span>🛒 10/05 旗艦超市 (AEON)：</span>
+            <span>免稅 10% + 現折 5%</span>
+          </div>
+          <div class="flex items-center justify-between text-yellow-200 font-bold">
+            <span>🐧 綜合量販 (唐吉訶德)：</span>
+            <span>免稅 10% + 滿額折 5%</span>
+          </div>
+          <div class="flex items-center justify-between text-pink-100 font-bold">
+            <span>💄 連鎖藥妝 (松本清)：</span>
+            <span>免稅 10% + 最高折 7%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 💡 郵輪購物實用必看攻略 -->
+      <div class="bg-gradient-to-r from-amber-50 via-yellow-50 to-orange-50 border-2 border-amber-300 rounded-2xl p-5 shadow-sm space-y-3">
+        <div class="flex items-center gap-2 border-b border-amber-200 pb-2 text-amber-950 font-bold text-sm sm:text-base">
+          <span class="w-8 h-8 rounded-lg bg-amber-500 text-white flex items-center justify-center font-bold text-lg shadow-sm">
+            <i class="ph-bold ph-lightbulb"></i>
+          </span>
+          <span>💡 郵輪旅客購物實用必看攻略（省稅省力 2 大秘訣）</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm text-slate-700">
+          <div class="bg-white p-3.5 rounded-xl border border-amber-200 space-y-1.5 shadow-sm">
+            <h4 class="font-bold text-amber-900 text-sm flex items-center gap-1">
+              <i class="ph-fill ph-check-circle text-amber-600"></i> 1. 務必出示優惠券與護照影本
+            </h4>
+            <p class="leading-relaxed text-slate-600">
+              郵輪旅客入境日本時，正本護照通常由船方保管。在 EDION、松本清、唐吉訶德結帳時，請<strong>出示「護照 A4 影本」＋「船舶觀光上陸許可書標籤」</strong>，即可享受 <strong>10% 免稅</strong>！出示手機折價券畫面，美容家電與吹風機通常可<strong>再折 7%</strong>（合省 17%）！
+            </p>
+          </div>
+
+          <div class="bg-white p-3.5 rounded-xl border border-amber-200 space-y-1.5 shadow-sm">
+            <div class="flex items-center justify-between">
+              <h4 class="font-bold text-amber-900 text-sm flex items-center gap-1">
+                <i class="ph-fill ph-check-circle text-amber-600"></i> 2. 請店員用手提把包裝
+              </h4>
+              <button onclick="copyText('持ち手を付けていただけますか？', this)" class="text-xs bg-amber-100 hover:bg-amber-200 text-amber-800 font-bold px-2 py-0.5 rounded transition">
+                複製日語
+              </button>
+            </div>
+            <p class="leading-relaxed text-slate-600">
+              免稅品會被放入透明密封袋中。結帳時向店員說一聲或出示：「<strong>持ち手を付けていただけますか？</strong>」（可以幫我貼上手提把嗎？），店家會在袋子上貼塑膠手提把，方便直接手提回遊輪艙房！
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 伴手禮合格 vs 嚴禁紅綠燈 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div class="bg-white rounded-2xl border-2 border-emerald-200 p-5 shadow-sm space-y-3">
+          <div class="flex items-center justify-between border-b border-emerald-100 pb-2">
+            <div class="flex items-center gap-2 text-emerald-700 font-bold text-base">
+              <i class="ph-fill ph-check-circle text-xl"></i>
+              <span>✅ 安心帶回台灣（合格伴手禮推薦）</span>
+            </div>
+            <span class="text-[11px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">海關檢疫合格</span>
+          </div>
+          <ul class="text-xs sm:text-sm text-slate-700 space-y-2 list-disc list-inside leading-relaxed">
+            <li><strong>宮古島雪鹽系列：</strong> 雪鹽夾心餅乾、雪鹽金楚糕、烹飪雪鹽粉。</li>
+            <li><strong>石垣之鹽與調味品：</strong> 辺銀食堂辣油、石垣島胡椒（Pipatsu）、石垣鹽仙貝。</li>
+            <li><strong>八重山純黑糖：</strong> 多良間島黑糖塊、西表島黑糖粉、黑糖棒棒糖。</li>
+            <li><strong>常溫加工點心：</strong> 御菓子御殿紅芋塔、Montecruise 香蕉蛋糕、年輪蛋糕。</li>
+            <li><strong>沖繩名產酒品：</strong> 殘波泡盛、請福泡盛（每位大人免稅額度 1 公升）。</li>
+          </ul>
+        </div>
+
+        <div class="bg-white rounded-2xl border-2 border-rose-200 p-5 shadow-sm space-y-3">
+          <div class="flex items-center justify-between border-b border-rose-100 pb-2">
+            <div class="flex items-center gap-2 text-rose-700 font-bold text-base">
+              <i class="ph-fill ph-x-circle text-xl"></i>
+              <span>❌ 絕對禁止帶回台灣（重罰違禁品清單）</span>
+            </div>
+            <span class="text-[11px] bg-rose-100 text-rose-800 px-2 py-0.5 rounded font-bold">最高罰100萬</span>
+          </div>
+          <ul class="text-xs sm:text-sm text-slate-700 space-y-2 list-disc list-inside leading-relaxed">
+            <li><strong>所有肉類與肉乾：</strong> <span class="text-rose-600 font-semibold">石垣牛牛肉乾</span>、豬肉條、香腸、真空包裝肉類。</li>
+            <li><strong>罐頭肉品：</strong> 沖繩 SPAM 午餐肉罐頭、含肉罐頭（無論真空或滅菌均嚴禁）。</li>
+            <li><strong>含肉調理包/泡麵：</strong> 含有實體肉塊的沖繩麵速食包、排骨湯料理包。</li>
+            <li><strong>生鮮蔬果水果：</strong> 沖繩生鮮芒果、鳳梨、苦瓜、香檸生果等未經檢疫植物。</li>
+          </ul>
+          <div class="bg-rose-50 p-2 rounded-xl border border-rose-100 text-xs text-rose-800 font-semibold leading-relaxed">
+            ⚠ 違規攜帶肉類製品入境台灣，最高可處新台幣 20 萬至 100 萬元罰鍰！
+          </div>
+        </div>
+      </div>
+
+      <!-- 10/05 iias 1F AEON 超市重點 -->
+      <div class="bg-gradient-to-br from-pink-50 via-rose-50 to-amber-50 border-2 border-pink-300 rounded-2xl p-5 shadow-sm space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-pink-200 pb-3">
+          <div class="flex items-center gap-2.5">
+            <span class="w-10 h-10 rounded-xl bg-pink-600 text-white flex items-center justify-center font-black text-xl shadow-md">
+              <i class="ph-bold ph-storefront"></i>
+            </span>
+            <div>
+              <div class="flex items-center gap-2">
+                <h3 class="text-base font-black text-slate-900">🛒 10/05 超市採買首選：AEON STYLE 豐崎</h3>
+                <span class="bg-pink-100 text-pink-800 text-[10px] font-bold px-2 py-0.5 rounded-full">免稅門市・營業至22:00</span>
+              </div>
+              <p class="text-xs text-pink-900 mt-0.5">
+                位於第 3 站 <strong>iias 沖繩豐崎商場 1 樓</strong>（DMM水族館與EDION在2樓），電梯直達！
+              </p>
+            </div>
+          </div>
+          <a href="https://maps.google.com/?cid=6939439356711689392" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-xs bg-pink-600 hover:bg-pink-700 text-white px-3 py-1.5 rounded-lg font-bold transition shadow-sm w-fit shrink-0">
+            <i class="ph-bold ph-navigation-arrow"></i> 開啟 AEON 超市地圖
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 text-xs">
+          <div class="bg-white p-3.5 rounded-xl border border-pink-200 space-y-2">
+            <div class="flex items-center gap-1.5 font-bold text-pink-900 text-sm">
+              <i class="ph-bold ph-fork-knife text-rose-500"></i> 🍓 船上現吃美味（回房宵夜）
+            </div>
+            <ul class="text-slate-700 space-y-1 leading-relaxed list-disc list-inside">
+              <li><strong>當季水果：</strong> 日本麝香葡萄、蜜柑、沖繩香檸切片。</li>
+              <li><strong>生鮮熟食：</strong> 18:00 後生魚片、握壽司拼盤特價貼紙。</li>
+              <li><strong>小朋友甜品：</strong> 森永烤布丁、產地鮮奶、優格。</li>
+            </ul>
+          </div>
+
+          <div class="bg-white p-3.5 rounded-xl border border-pink-200 space-y-2">
+            <div class="flex items-center gap-1.5 font-bold text-pink-900 text-sm">
+              <i class="ph-bold ph-gift text-amber-500"></i> 🎁 合格伴手禮（可帶回台）
+            </div>
+            <ul class="text-slate-700 space-y-1 leading-relaxed list-disc list-inside">
+              <li><strong>沖繩銘柄酒：</strong> 殘波泡盛酒、請福泡盛。</li>
+              <li><strong>在地調味仙貝：</strong> 八重山黑糖米果、石垣島鹽仙貝。</li>
+              <li><strong>TOPVALU：</strong> AEON 高品質平價零食餅乾。</li>
+            </ul>
+          </div>
+
+          <div class="bg-white p-3.5 rounded-xl border border-pink-200 space-y-2">
+            <div class="flex items-center gap-1.5 font-bold text-pink-900 text-sm">
+              <i class="ph-bold ph-credit-card text-indigo-500"></i> 💳 AEON 免稅叮嚀
+            </div>
+            <ul class="text-slate-700 space-y-1 leading-relaxed">
+              <li>• 伴手禮單筆未稅滿 <strong>¥5,000</strong> 可辦理 10% 退稅。</li>
+              <li>• 當晚船上要吃的水果走「一般櫃台」；帶回台灣走「免稅櫃台」。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 四大類網路折價券展示區 -->
+      <div class="space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 border-b border-slate-200 pb-2">
+          <div class="flex items-center gap-2">
+            <i class="ph-bold ph-ticket text-rose-600 text-xl"></i>
+            <h3 class="text-base font-bold text-slate-900">四大類網路折價券（手機直接出示條碼讓店員掃描）</h3>
+          </div>
+          <span class="text-xs text-slate-500">免印紙本 • 點擊放大查看大條碼</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <!-- 券 1: EDION -->
+          <div class="bg-white rounded-2xl border-2 border-blue-200 shadow-sm overflow-hidden flex flex-col justify-between hover:border-blue-400 transition">
+            <div class="bg-gradient-to-r from-blue-700 to-indigo-600 text-white p-3.5 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="w-8 h-8 rounded-xl bg-white text-blue-700 font-black text-lg flex items-center justify-center shadow-md">E</span>
+                <div>
+                  <h4 class="font-black text-sm leading-tight">EDION（愛電王）</h4>
+                  <span class="text-[10px] text-blue-100">家電生活 • iias 2F 直達</span>
+                </div>
+              </div>
+              <span class="bg-white/20 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">免稅 10% + 7%</span>
+            </div>
+
+            <div class="p-3.5 space-y-3">
+              <div class="grid grid-cols-3 gap-1 text-center">
+                <div class="bg-blue-50 p-1.5 rounded-xl border border-blue-100">
+                  <span class="text-blue-700 font-black text-base block">+7%</span>
+                  <span class="text-[10px] text-slate-700 font-semibold block mt-0.5">吹風機/美容</span>
+                </div>
+                <div class="bg-purple-50 p-1.5 rounded-xl border border-purple-100">
+                  <span class="text-purple-700 font-black text-base block">+5%</span>
+                  <span class="text-[10px] text-slate-700 font-semibold block mt-0.5">日用品/零食</span>
+                </div>
+                <div class="bg-slate-100 p-1.5 rounded-xl border border-slate-200">
+                  <span class="text-slate-800 font-black text-base block">10%免</span>
+                  <span class="text-[10px] text-slate-600 font-semibold block mt-0.5">滿¥5,000</span>
+                </div>
+              </div>
+
+              <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 text-center space-y-1.5">
+                <span class="text-[10px] text-slate-500 font-bold block">結帳請出示此條碼</span>
+                <div class="bg-white p-2 rounded border border-slate-300 flex flex-col items-center justify-center space-y-1">
+                  <div class="w-full max-w-[200px] h-10 barcode-lines rounded"></div>
+                  <span class="font-mono text-xs text-slate-700 tracking-[0.2em] font-bold">4900000000109</span>
+                </div>
+                <button onclick="openVoucherModal('edion')" class="inline-flex items-center gap-1 text-xs bg-blue-600 hover:bg-blue-700 text-white font-bold px-3 py-1.5 rounded-lg transition shadow-sm w-full justify-center">
+                  <i class="ph-bold ph-arrows-out-simple"></i> 點此放大條碼
+                </button>
+              </div>
+            </div>
+            <div class="bg-blue-50/50 p-2 border-t border-blue-100 text-center text-[10px] text-blue-800">
+              全日本 EDION 門市通用 • 結帳前請先出示
+            </div>
+          </div>
+
+          <!-- 券 2: AEON STYLE -->
+          <div class="bg-white rounded-2xl border-2 border-pink-200 shadow-sm overflow-hidden flex flex-col justify-between hover:border-pink-400 transition">
+            <div class="bg-gradient-to-r from-pink-600 to-rose-600 text-white p-3.5 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="w-8 h-8 rounded-xl bg-white text-pink-600 font-black text-sm flex items-center justify-center shadow-md">AEON</span>
+                <div>
+                  <h4 class="font-black text-sm leading-tight">AEON STYLE（永旺）</h4>
+                  <span class="text-[10px] text-pink-100">大型超市 • iias 1F 直達</span>
+                </div>
+              </div>
+              <span class="bg-white/20 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">免稅 10% + 5%</span>
+            </div>
+
+            <div class="p-3.5 space-y-3">
+              <div class="grid grid-cols-2 gap-1.5 text-center">
+                <div class="bg-pink-50 p-2 rounded-xl border border-pink-100">
+                  <span class="text-pink-700 font-black text-base block">+5% OFF</span>
+                  <span class="text-[10px] text-slate-700 font-semibold block mt-0.5">購物優惠券</span>
+                </div>
+                <div class="bg-slate-100 p-2 rounded-xl border border-slate-200">
+                  <span class="text-slate-800 font-black text-base block">10% 免稅</span>
+                  <span class="text-[10px] text-slate-600 font-semibold block mt-0.5">滿 ¥5,000</span>
+                </div>
+              </div>
+
+              <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 text-center space-y-1.5">
+                <span class="text-[10px] text-slate-500 font-bold block">結帳請出示此條碼</span>
+                <div class="bg-white p-2 rounded border border-slate-300 flex flex-col items-center justify-center space-y-1">
+                  <div class="w-full max-w-[200px] h-10 barcode-lines rounded"></div>
+                  <span class="font-mono text-xs text-slate-700 tracking-[0.2em] font-bold">4901810000057</span>
+                </div>
+                <button onclick="openVoucherModal('aeon')" class="inline-flex items-center gap-1 text-xs bg-pink-600 hover:bg-pink-700 text-white font-bold px-3 py-1.5 rounded-lg transition shadow-sm w-full justify-center">
+                  <i class="ph-bold ph-arrows-out-simple"></i> 點此放大條碼
+                </button>
+              </div>
+            </div>
+            <div class="bg-pink-50/50 p-2 border-t border-pink-100 text-center text-[10px] text-pink-800">
+              日本 AEON & AEON STYLE 門市專屬優惠券
+            </div>
+          </div>
+
+          <!-- 券 3: 唐吉訶德 -->
+          <div class="bg-white rounded-2xl border-2 border-amber-300 shadow-sm overflow-hidden flex flex-col justify-between hover:border-amber-400 transition">
+            <div class="bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-900 p-3.5 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="w-8 h-8 rounded-xl bg-slate-900 text-amber-300 font-black text-lg flex items-center justify-center shadow-md">🐧</span>
+                <div>
+                  <h4 class="font-black text-sm leading-tight text-slate-900">唐吉訶德（DONKI）</h4>
+                  <span class="text-[10px] text-slate-800 font-semibold">綜合量販 • 豐見城/石垣島</span>
+                </div>
+              </div>
+              <span class="bg-slate-900 text-amber-300 text-[10px] font-bold px-2 py-0.5 rounded-full">免稅 10% + 5%</span>
+            </div>
+
+            <div class="p-3.5 space-y-3">
+              <div class="grid grid-cols-2 gap-1.5 text-center">
+                <div class="bg-amber-50 p-2 rounded-xl border border-amber-200">
+                  <span class="text-amber-900 font-black text-base block">+5% OFF</span>
+                  <span class="text-[10px] text-slate-700 font-semibold block mt-0.5">未稅滿 ¥10,000</span>
+                </div>
+                <div class="bg-slate-100 p-2 rounded-xl border border-slate-200">
+                  <span class="text-slate-800 font-black text-base block">10% 免稅</span>
+                  <span class="text-[10px] text-slate-700 font-semibold block mt-0.5">滿 ¥5,000</span>
+                </div>
+              </div>
+
+              <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 text-center space-y-1.5">
+                <span class="text-[10px] text-slate-500 font-bold block">結帳請出示此條碼</span>
+                <div class="bg-white p-2 rounded border border-slate-300 flex flex-col items-center justify-center space-y-1">
+                  <div class="w-full max-w-[200px] h-10 barcode-lines rounded"></div>
+                  <span class="font-mono text-xs text-slate-700 tracking-[0.2em] font-bold">2900000000508</span>
+                </div>
+                <button onclick="openVoucherModal('donki')" class="inline-flex items-center gap-1 text-xs bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold px-3 py-1.5 rounded-lg transition shadow-sm w-full justify-center">
+                  <i class="ph-bold ph-arrows-out-simple"></i> 點此放大條碼
+                </button>
+              </div>
+            </div>
+            <div class="bg-amber-50/50 p-2 border-t border-amber-200 text-center text-[10px] text-amber-900 font-medium">
+              單筆未稅滿 1 萬日圓使用
+            </div>
+          </div>
+
+          <!-- 券 4: 松本清 -->
+          <div class="bg-white rounded-2xl border-2 border-yellow-300 shadow-sm overflow-hidden flex flex-col justify-between hover:border-yellow-400 transition">
+            <div class="bg-gradient-to-r from-yellow-400 to-amber-400 text-slate-900 p-3.5 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="w-8 h-8 rounded-xl bg-slate-900 text-yellow-300 font-black text-sm flex items-center justify-center shadow-md">MK</span>
+                <div>
+                  <h4 class="font-black text-sm leading-tight text-slate-900">松本清（Matsumoto）</h4>
+                  <span class="text-[10px] text-slate-800 font-semibold">日本最大藥妝 • 連鎖門市</span>
+                </div>
+              </div>
+              <span class="bg-slate-900 text-yellow-300 text-[10px] font-bold px-2 py-0.5 rounded-full">免稅 10% + 最高 7%</span>
+            </div>
+
+            <div class="p-3.5 space-y-3">
+              <div class="grid grid-cols-3 gap-1 text-center">
+                <div class="bg-yellow-50 p-1.5 rounded-xl border border-yellow-200">
+                  <span class="text-amber-900 font-black text-base block">+3%</span>
+                  <span class="text-[10px] text-slate-700 font-semibold block mt-0.5">滿 ¥10,000</span>
+                </div>
+                <div class="bg-yellow-50 p-1.5 rounded-xl border border-yellow-200">
+                  <span class="text-amber-900 font-black text-base block">+5%</span>
+                  <span class="text-[10px] text-slate-700 font-semibold block mt-0.5">滿 ¥30,000</span>
+                </div>
+                <div class="bg-amber-100 p-1.5 rounded-xl border border-amber-300">
+                  <span class="text-amber-900 font-black text-base block">+7%</span>
+                  <span class="text-[10px] text-slate-700 font-semibold block mt-0.5">滿 ¥50,000</span>
+                </div>
+              </div>
+
+              <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 text-center space-y-1.5">
+                <span class="text-[10px] text-slate-500 font-bold block">結帳請出示此條碼</span>
+                <div class="bg-white p-2 rounded border border-slate-300 flex flex-col items-center justify-center space-y-1">
+                  <div class="w-full max-w-[200px] h-10 barcode-lines rounded"></div>
+                  <span class="font-mono text-xs text-slate-700 tracking-[0.2em] font-bold">4500000000032</span>
+                </div>
+                <button onclick="openVoucherModal('matsukiyo')" class="inline-flex items-center gap-1 text-xs bg-yellow-500 hover:bg-yellow-600 text-slate-900 font-bold px-3 py-1.5 rounded-lg transition shadow-sm w-full justify-center">
+                  <i class="ph-bold ph-arrows-out-simple"></i> 點此放大條碼
+                </button>
+              </div>
+            </div>
+            <div class="bg-yellow-50/50 p-2 border-t border-yellow-200 text-center text-[10px] text-amber-900 font-medium">
+              滿額階梯折扣
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 藥妝店必買精選清單（含 KOSE 潤肌精避坑說明） -->
+      <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+          <div class="flex items-center gap-2">
+            <span class="w-8 h-8 rounded-lg bg-pink-100 text-pink-700 flex items-center justify-center font-bold text-lg">
+              <i class="ph-bold ph-first-aid"></i>
+            </span>
+            <div>
+              <h3 class="text-base font-bold text-slate-900">日本藥妝必買精選＆採購指南</h3>
+              <p class="text-xs text-slate-500">松本清、唐吉訶德、AEON藥妝區通用</p>
+            </div>
+          </div>
+          <span class="text-xs bg-pink-50 text-pink-700 px-2.5 py-1 rounded-full font-bold">精省採購清單</span>
+        </div>
+
+        <!-- ⚠️ 避坑提醒：KOSÉ 潤肌精 vs 雪肌精 vs 雪肌粋 vs 肌美精 -->
+        <div class="bg-rose-50/70 border border-rose-200 rounded-xl p-3.5 text-xs text-rose-950 space-y-1.5">
+          <div class="font-bold flex items-center gap-1 text-rose-800">
+            <i class="ph-bold ph-warning-circle text-base"></i> ⚠ 避坑重要提醒：日本藥妝店買得到 KOSÉ「潤肌精」嗎？
+          </div>
+          <p class="text-slate-700 leading-relaxed">
+            <strong>結論：買不到！千萬不要花時間在日本藥妝店尋找。</strong> 日本 KOSÉ 早已將日本國內的「潤肌精」全系列停產，目前台灣屈臣氏/康是美販售的潤肌精是「海外/台灣市場專屬線」，在台灣特價時買最便宜！
+          </p>
+          <div class="text-[11px] text-slate-600 bg-white/80 p-2 rounded border border-rose-100 space-y-0.5">
+            <div>• <strong>雪肌精 (Sekkisei)：</strong> KOSÉ 最熱銷藍瓶專櫃/開架，日本藥妝店超多，免稅買划算。</div>
+            <div>• <strong>雪肌粋 (Sekkisui)：</strong> KOSÉ 平價洗面乳，<strong>只有日本 7-11 獨賣</strong>，一般藥妝店沒有。</div>
+            <div>• <strong>肌美精 (Hadabisei)：</strong> Kracie 出產的 3D 超浸透保濕面膜，日本藥妝店很齊全。</div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3.5 text-xs">
+          <!-- 分類 1 -->
+          <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-1 text-indigo-700 font-bold text-sm pb-1 border-b border-slate-200">
+                <i class="ph-bold ph-pill text-indigo-600"></i> ① 台日價差大神藥
+              </div>
+              <ul class="text-slate-700 space-y-2 mt-2 leading-relaxed">
+                <li class="bg-white p-2 rounded-lg border border-slate-100 shadow-2xs">
+                  <div class="font-bold text-slate-900 flex items-center justify-between">
+                    <span>合利他命 EX Plus (270錠)</span>
+                    <span class="text-indigo-600 font-mono text-[11px]">約 ¥5,300~5,980</span>
+                  </div>
+                  <div class="text-[10px] text-slate-500 font-mono mt-0.5">約 NT$ 1,140~1,285（台灣特價約 NT$ 1,900+）</div>
+                  <p class="text-[11px] text-slate-600 mt-1">緩解眼睛疲勞、肩頸僵硬與腰酸背痛。</p>
+                </li>
+                <li class="bg-white p-2 rounded-lg border border-slate-100 shadow-2xs">
+                  <div class="font-bold text-slate-900 flex items-center justify-between">
+                    <span>EVE QUICK 止痛藥 (40錠)</span>
+                    <span class="text-indigo-600 font-mono text-[11px]">約 ¥1,280~1,580</span>
+                  </div>
+                  <div class="text-[10px] text-slate-500 font-mono mt-0.5">約 NT$ 275~340 / 盒</div>
+                  <p class="text-[11px] text-slate-600 mt-1">針對偏頭痛與生理痛快速起效，加制酸成分。</p>
+                </li>
+                <li class="bg-white p-2 rounded-lg border border-slate-100 shadow-2xs">
+                  <div class="font-bold text-slate-900 flex items-center justify-between">
+                    <span>大正百保能金盒微粒 (44包)</span>
+                    <span class="text-indigo-600 font-mono text-[11px]">約 ¥1,480~1,880</span>
+                  </div>
+                  <div class="text-[10px] text-slate-500 font-mono mt-0.5">約 NT$ 318~405 / 盒</div>
+                  <p class="text-[11px] text-slate-600 mt-1">日本國民感冒常備藥，微感冒微發燒初期服用。</p>
+                </li>
+                <li class="bg-white p-2 rounded-lg border border-slate-100 shadow-2xs">
+                  <div class="font-bold text-slate-900 flex items-center justify-between">
+                    <span>太田胃散 / 欣表飛鳴 S 錠</span>
+                    <span class="text-indigo-600 font-mono text-[11px]">約 ¥980~1,480</span>
+                  </div>
+                  <div class="text-[10px] text-slate-500 font-mono mt-0.5">約 NT$ 210~318（胃散大罐或540錠）</div>
+                  <p class="text-[11px] text-slate-600 mt-1">芳香健胃與活性益生菌整腸。</p>
+                </li>
+                <li class="bg-white p-2 rounded-lg border border-slate-100 shadow-2xs">
+                  <div class="font-bold text-slate-900 flex items-center justify-between">
+                    <span>老爺爺溫感穴位貼布 (156枚)</span>
+                    <span class="text-indigo-600 font-mono text-[11px]">約 ¥680~880</span>
+                  </div>
+                  <div class="text-[10px] text-slate-500 font-mono mt-0.5">約 NT$ 146~189 / 盒</div>
+                  <p class="text-[11px] text-slate-600 mt-1">銅板大小圓形貼片，洗完澡貼穴位溫熱舒緩。</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 分類 2 -->
+          <div class="bg-pink-50/50 p-3.5 rounded-xl border border-pink-200 space-y-2 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-1 text-pink-700 font-bold text-sm pb-1 border-b border-pink-200">
+                <i class="ph-bold ph-baby text-pink-600"></i> ② 4 歲幼童精選神物
+              </div>
+              <ul class="text-slate-700 space-y-2 mt-2 leading-relaxed">
+                <li class="bg-white p-2 rounded-lg border border-pink-100 shadow-2xs">
+                  <div class="font-bold text-pink-950 flex items-center justify-between">
+                    <span>麵包超人止癢貼片 (76枚)</span>
+                    <span class="text-pink-600 font-mono text-[11px]">約 ¥680~850</span>
+                  </div>
+                  <div class="text-[10px] text-slate-500 font-mono mt-0.5">約 NT$ 146~183（38枚約 ¥450）</div>
+                  <p class="text-[11px] text-slate-600 mt-1">微涼止癢且防小孩抓破皮！</p>
+                </li>
+                <li class="bg-white p-2 rounded-lg border border-pink-100 shadow-2xs">
+                  <div class="font-bold text-pink-950 flex items-center justify-between">
+                    <span>兒童版無比滴滾珠液 (40ml)</span>
+                    <span class="text-pink-600 font-mono text-[11px]">約 ¥580~750</span>
+                  </div>
+                  <div class="text-[10px] text-slate-500 font-mono mt-0.5">約 NT$ 125~161 / 瓶</div>
+                  <p class="text-[11px] text-slate-600 mt-1">無類固醇與薄荷腦，溫和不刺激。</p>
+                </li>
+                <li class="bg-white p-2 rounded-lg border border-pink-100 shadow-2xs">
+                  <div class="font-bold text-pink-950 flex items-center justify-between">
+                    <span>巧虎/獅王兒童含氟牙膏</span>
+                    <span class="text-pink-600 font-mono text-[11px]">約 ¥130~220</span>
+                  </div>
+                  <div class="text-[10px] text-slate-500 font-mono mt-0.5">約 NT$ 28~47 / 條</div>
+                  <p class="text-[11px] text-slate-600 mt-1">草莓/葡萄口味，防蛀好刷牙。</p>
+                </li>
+                <li class="bg-white p-2 rounded-lg border border-pink-100 shadow-2xs">
+                  <div class="font-bold text-pink-950 flex items-center justify-between">
+                    <span>小林退熱貼 (兒童16枚入)</span>
+                    <span class="text-pink-600 font-mono text-[11px]">約 ¥420~550</span>
+                  </div>
+                  <div class="text-[10px] text-slate-500 font-mono mt-0.5">約 NT$ 90~118 / 盒</div>
+                  <p class="text-[11px] text-slate-600 mt-1">尺寸剛好貼滿額頭，長效 8 小時降溫。</p>
+                </li>
+                <li class="bg-white p-2 rounded-lg border border-pink-100 shadow-2xs">
+                  <div class="font-bold text-pink-950 flex items-center justify-between">
+                    <span>健榮 Baby Vaseline (60g)</span>
+                    <span class="text-pink-600 font-mono text-[11px]">約 ¥350~480</span>
+                  </div>
+                  <div class="text-[10px] text-slate-500 font-mono mt-0.5">約 NT$ 75~103 / 支</div>
+                  <p class="text-[11px] text-slate-600 mt-1">無添加高純度軟管白色凡士林。</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 分類 3 -->
+          <div class="bg-blue-50/50 p-3.5 rounded-xl border border-blue-200 space-y-2 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-1 text-blue-700 font-bold text-sm pb-1 border-b border-blue-200">
+                <i class="ph-bold ph-sparkle text-blue-600"></i> ③ 郵輪當晚即用放鬆
+              </div>
+              <ul class="text-slate-700 space-y-2 mt-2 leading-relaxed">
+                <li class="bg-white p-2 rounded-lg border border-blue-100 shadow-2xs">
+                  <div class="font-bold text-blue-950 flex items-center justify-between">
+                    <span>LION 休足時間 (18枚入)</span>
+                    <span class="text-blue-600 font-mono text-[11px]">約 ¥680~880</span>
+                  </div>
+                  <div class="text-[10px] text-slate-500 font-mono mt-0.5">約 NT$ 146~189 / 盒</div>
+                  <p class="text-[11px] text-slate-600 mt-1">岸上走萬步，貼小腿肚與腳底板清涼不鐵腿。</p>
+                </li>
+                <li class="bg-white p-2 rounded-lg border border-blue-100 shadow-2xs">
+                  <div class="font-bold text-blue-950 flex items-center justify-between">
+                    <span>花王蒸氣眼罩 (12枚入)</span>
+                    <span class="text-blue-600 font-mono text-[11px]">約 ¥980~1,180</span>
+                  </div>
+                  <div class="text-[10px] text-slate-500 font-mono mt-0.5">約 NT$ 210~254 / 盒</div>
+                  <p class="text-[11px] text-slate-600 mt-1">40°C 溫熱敷眼 20 分鐘，郵輪床上秒入睡。</p>
+                </li>
+                <li class="bg-white p-2 rounded-lg border border-blue-100 shadow-2xs">
+                  <div class="font-bold text-blue-950 flex items-center justify-between">
+                    <span>曼秀雷敦 Melty 護唇膏</span>
+                    <span class="text-blue-600 font-mono text-[11px]">約 ¥450~580</span>
+                  </div>
+                  <div class="text-[10px] text-slate-500 font-mono mt-0.5">約 NT$ 97~125 / 支</div>
+                  <p class="text-[11px] text-slate-600 mt-1">遇唇溫即化開，冷氣房強力保濕防龜裂。</p>
+                </li>
+              </ul>
+            </div>
+            <div class="text-[10px] text-blue-700 bg-blue-100/60 p-2 rounded-lg leading-tight">
+              ★ 叮嚀：若當晚在船上就要拆封使用，結帳前請挑出來走「一般含稅收銀台」！
+            </div>
+          </div>
+
+          <!-- 分類 4 -->
+          <div class="bg-emerald-50/50 p-3.5 rounded-xl border border-emerald-200 space-y-2 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-1 text-emerald-800 font-bold text-sm pb-1 border-b border-emerald-200">
+                <i class="ph-bold ph-sun text-emerald-600"></i> ④ Kanebo・保養防曬
+              </div>
+              <ul class="text-slate-700 space-y-2 mt-2 leading-relaxed">
+                <li class="bg-white p-2 rounded-lg border border-emerald-100 shadow-2xs">
+                  <div class="font-bold text-emerald-950 flex items-center justify-between">
+                    <span>Kanebo suisai 酵素洗顏粉 (32顆)</span>
+                    <span class="text-emerald-700 font-mono text-[11px]">約 ¥1,800~1,980</span>
+                  </div>
+                  <div class="text-[10px] text-slate-500 font-mono mt-0.5">約 NT$ 387~425 / 盒</div>
+                  <p class="text-[11px] text-slate-600 mt-1">單顆獨立包裝，去黑頭粉刺超順手、旅遊不佔位。</p>
+                </li>
+                <li class="bg-white p-2 rounded-lg border border-emerald-100 shadow-2xs">
+                  <div class="font-bold text-emerald-950 flex items-center justify-between">
+                    <span>Kanebo ALLIE 防曬水凝乳 (90g)</span>
+                    <span class="text-emerald-700 font-mono text-[11px]">約 ¥1,980~2,300</span>
+                  </div>
+                  <div class="text-[10px] text-slate-500 font-mono mt-0.5">約 NT$ 425~495（台灣定價約 NT$ 850）</div>
+                  <p class="text-[11px] text-slate-600 mt-1">海洋友善 SPF50+ 高係數，耐水抗汗不黏膩。</p>
+                </li>
+                <li class="bg-white p-2 rounded-lg border border-emerald-100 shadow-2xs">
+                  <div class="font-bold text-emerald-950 flex items-center justify-between">
+                    <span>Curél 珂潤潤浸保濕乳霜 (40g)</span>
+                    <span class="text-emerald-700 font-mono text-[11px]">約 ¥2,200~2,500</span>
+                  </div>
+                  <div class="text-[10px] text-slate-500 font-mono mt-0.5">約 NT$ 473~538 / 罐</div>
+                  <p class="text-[11px] text-slate-600 mt-1">乾敏肌修護神霜，台日免稅價差極大。</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 台灣海關法規與免稅拆封限制 -->
+        <div class="bg-slate-100 p-3 rounded-xl border border-slate-200 text-xs text-slate-600 space-y-1">
+          <div class="font-bold text-slate-800 flex items-center gap-1">
+            <i class="ph-bold ph-shield-check text-blue-600"></i> 台灣海關攜帶藥品與保健品入境規範：
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] leading-relaxed">
+            <div>• <strong>非處方藥（感冒/胃藥/止痛藥）：</strong> 每種最多 12 瓶/盒，全部合計上限 <strong>36 瓶/盒</strong>。</div>
+            <div>• <strong>錠狀/膠囊維他命保健品：</strong> 每種最多 12 瓶/盒，全部合計上限 <strong>36 瓶/盒</strong>。</div>
+            <div class="col-span-1 sm:col-span-2 text-rose-700 font-medium">
+              ★ 叮嚀：免稅密封袋回台灣通關前嚴禁拆封；當晚要在郵輪上拆封使用的貼布或保養品，結帳前請分開走一般含稅櫃台！
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB: 司機溝通字卡 & 實用日語 -->
+    <section id="tab-flashcards" class="tab-content hidden space-y-6">
+      <div class="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-2xl p-5 text-amber-950 shadow-sm space-y-2">
+        <h3 class="text-base font-bold flex items-center gap-2 text-amber-900">
+          <i class="ph-fill ph-translate text-amber-600 text-xl"></i>
+          日本旅遊實用日文溝通字卡（附中文翻譯・羅馬拼音・中文諧音）
+        </h3>
+        <p class="text-xs sm:text-sm text-amber-800 leading-relaxed">
+          岸上觀光遇到司機、路人或店員時，可直接出示手機螢幕給對方看，也可參考「羅馬拼音與中文諧音」開口發音，或點擊「複製文字」發送訊息。
+        </p>
+      </div>
+
+      <!-- 分類〇：日本旅遊必學常用語 -->
+      <div class="space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+          <div class="flex items-center gap-2 text-slate-800 font-bold text-sm sm:text-base">
+            <i class="ph-bold ph-hand-waving text-amber-600 text-lg"></i>
+            <span>〇、 日本旅遊必學常用語（中日對照 ＆ 拼音諧音）</span>
+          </div>
+          <span class="text-xs bg-amber-100 text-amber-800 px-2.5 py-0.5 rounded-full font-semibold">隨開隨用</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+          <!-- 1. 打招呼 -->
+          <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm space-y-2 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-[11px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded">基本問候・白天你好</span>
+                <button onclick="copyText('こんにちは', this)" class="text-xs text-blue-600 hover:underline">複製</button>
+              </div>
+              <div class="text-xs font-bold text-indigo-700">【中文】：你好 / 早安午安（白天萬用）</div>
+              <p class="text-base font-bold text-slate-900 font-mono mt-1">「こんにちは」</p>
+              <div class="bg-slate-50 p-2 rounded-lg border border-slate-100 text-[11px] space-y-0.5 mt-1 font-mono">
+                <div class="text-slate-500">拼音：Konnichiwa</div>
+                <div class="text-amber-800 font-bold font-sans">諧音：空尼七哇</div>
+              </div>
+            </div>
+            <p class="text-xs text-slate-600 pt-1 border-t border-slate-100">白天走進商店、餐廳、遇到司機時打招呼使用。</p>
+          </div>
+
+          <!-- 2. 不好意思 -->
+          <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm space-y-2 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-[11px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded">萬用神句・開口必備</span>
+                <button onclick="copyText('すみません', this)" class="text-xs text-blue-600 hover:underline">複製</button>
+              </div>
+              <div class="text-xs font-bold text-indigo-700">【中文】：不好意思 / 對不起 / 請問一下</div>
+              <p class="text-base font-bold text-slate-900 font-mono mt-1">「すみません」</p>
+              <div class="bg-slate-50 p-2 rounded-lg border border-slate-100 text-[11px] space-y-0.5 mt-1 font-mono">
+                <div class="text-slate-500">拼音：Sumimasen</div>
+                <div class="text-amber-800 font-bold font-sans">諧音：斯咪媽線</div>
+              </div>
+            </div>
+            <p class="text-xs text-slate-600 pt-1 border-t border-slate-100">借過、在餐廳呼叫服務生、開口詢問路人時的第一句神句。</p>
+          </div>
+
+          <!-- 3. 感謝 -->
+          <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm space-y-2 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-[11px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded">感謝禮貌</span>
+                <button onclick="copyText('ありがとうございます', this)" class="text-xs text-blue-600 hover:underline">複製</button>
+              </div>
+              <div class="text-xs font-bold text-indigo-700">【中文】：非常感謝您！</div>
+              <p class="text-base font-bold text-slate-900 font-mono mt-1">「ありがとうございます」</p>
+              <div class="bg-slate-50 p-2 rounded-lg border border-slate-100 text-[11px] space-y-0.5 mt-1 font-mono">
+                <div class="text-slate-500">拼音：Arigatou gozaimasu</div>
+                <div class="text-amber-800 font-bold font-sans">諧音：阿里嘎多 鍋砸一媽斯</div>
+              </div>
+            </div>
+            <p class="text-xs text-slate-600 pt-1 border-t border-slate-100">結帳買單後、司機開車抵達下車時表示禮貌謝意。</p>
+          </div>
+
+          <!-- 4. 請給我這個 -->
+          <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm space-y-2 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-[11px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded">點餐/購物神句</span>
+                <button onclick="copyText('これをお願いします', this)" class="text-xs text-blue-600 hover:underline">複製</button>
+              </div>
+              <div class="text-xs font-bold text-indigo-700">【中文】：請給我這個 / 我要這個</div>
+              <p class="text-base font-bold text-slate-900 font-mono mt-1">「これをお願いします」</p>
+              <div class="bg-slate-50 p-2 rounded-lg border border-slate-100 text-[11px] space-y-0.5 mt-1 font-mono">
+                <div class="text-slate-500">拼音：Kore o onegaishimasu</div>
+                <div class="text-amber-800 font-bold font-sans">諧音：摳咧喔 歐內該西媽斯</div>
+              </div>
+            </div>
+            <p class="text-xs text-slate-600 pt-1 border-t border-slate-100">手指菜單上的照片或貨架上的商品時使用。</p>
+          </div>
+
+          <!-- 5. 詢問價格 -->
+          <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm space-y-2 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-[11px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded">詢問價格</span>
+                <button onclick="copyText('これはいくらですか？', this)" class="text-xs text-blue-600 hover:underline">複製</button>
+              </div>
+              <div class="text-xs font-bold text-indigo-700">【中文】：請問這個多少錢？</div>
+              <p class="text-base font-bold text-slate-900 font-mono mt-1">「これはいくらですか？」</p>
+              <div class="bg-slate-50 p-2 rounded-lg border border-slate-100 text-[11px] space-y-0.5 mt-1 font-mono">
+                <div class="text-slate-500">拼音：Kore wa ikura desu ka?</div>
+                <div class="text-amber-800 font-bold font-sans">諧音：摳咧哇 一庫拉跌斯嘎</div>
+              </div>
+            </div>
+            <p class="text-xs text-slate-600 pt-1 border-t border-slate-100">在公設市場或商店詢問沒有標價的商品。</p>
+          </div>
+
+          <!-- 6. 急用問廁所 -->
+          <div class="bg-white p-3.5 rounded-xl border border-cyan-200 bg-cyan-50/40 shadow-sm space-y-2 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-[11px] font-bold text-cyan-800 bg-cyan-100 px-2 py-0.5 rounded">急用問路・廁所</span>
+                <button onclick="copyText('トイレはどこですか？', this)" class="text-xs text-cyan-700 hover:underline">複製</button>
+              </div>
+              <div class="text-xs font-bold text-cyan-800">【中文】：請問洗手間（廁所）在哪裡？</div>
+              <p class="text-base font-bold text-slate-900 font-mono mt-1">「トイレはどこですか？」</p>
+              <div class="bg-white/80 p-2 rounded-lg border border-cyan-100 text-[11px] space-y-0.5 mt-1 font-mono">
+                <div class="text-slate-500">拼音：Toire wa doko desu ka?</div>
+                <div class="text-cyan-900 font-bold font-sans">諧音：透以咧 哇 多摳跌斯嘎</div>
+              </div>
+            </div>
+            <p class="text-xs text-slate-600 pt-1 border-t border-cyan-100">帶 4 歲幼童在景點或商場找洗手間最重要一句！</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB: 2大1小 行囊清單 -->
+    <section id="tab-packing" class="tab-content hidden space-y-6">
+      <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-5">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-3 gap-2">
+          <div>
+            <h3 class="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+              <i class="ph-bold ph-check-square-offset text-blue-600"></i> 2大1小 行李裝備隨身檢核表（5天4夜全套）
+            </h3>
+            <p class="text-xs text-slate-500">出發前隨時勾選確認，不怕遺漏任何重要隨身物品</p>
+          </div>
+          <span class="text-xs bg-blue-50 text-blue-700 px-3 py-1 rounded-full font-bold">2大1小特化版</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-3">
+            <h4 class="font-bold text-sm text-slate-800 flex items-center gap-1.5 border-b border-slate-200 pb-2">
+              <i class="ph-bold ph-identification-card text-blue-600"></i> 重要證件與通訊
+            </h4>
+            <div class="space-y-2 text-xs text-slate-700">
+              <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="rounded"> <span>護照正本（效期需滿6個月以上）</span></label>
+              <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="rounded"> <span class="font-semibold text-rose-700">A4 護照影本每人 2 份</span></label>
+              <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="rounded"> <span>郵輪訂位單／登船憑證</span></label>
+              <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="rounded"> <span>日本上網 SIM 卡 / eSIM</span></label>
+            </div>
+          </div>
+
+          <div class="bg-indigo-50/50 border border-indigo-200 rounded-xl p-4 space-y-3">
+            <h4 class="font-bold text-sm text-indigo-950 flex items-center gap-1.5 border-b border-indigo-200 pb-2">
+              <i class="ph-bold ph-t-shirt text-indigo-600"></i> 大人衣物與防曬
+            </h4>
+            <div class="space-y-2 text-xs text-slate-700">
+              <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="rounded"> <span class="font-semibold text-rose-700">保暖薄外套（船內冷氣強）</span></label>
+              <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="rounded"> <span>換洗衣物 5~6 套</span></label>
+              <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="rounded"> <span>泳裝泳褲（泳池SPA）</span></label>
+            </div>
+          </div>
+
+          <div class="bg-amber-50/50 border border-amber-200 rounded-xl p-4 space-y-3">
+            <h4 class="font-bold text-sm text-amber-950 flex items-center gap-1.5 border-b border-amber-200 pb-2">
+              <i class="ph-bold ph-baby text-amber-600"></i> 4 歲小童專屬配備
+            </h4>
+            <div class="space-y-2 text-xs text-slate-700">
+              <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="rounded"> <span class="font-semibold text-amber-900">輕便折疊傘車（推車）</span></label>
+              <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="rounded"> <span class="font-semibold text-sky-800">兒童保溫吸管水壺</span></label>
+              <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="rounded"> <span>小兒科常備藥水</span></label>
+            </div>
+          </div>
+
+          <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-3">
+            <h4 class="font-bold text-sm text-slate-800 flex items-center gap-1.5 border-b border-slate-200 pb-2">
+              <i class="ph-bold ph-shield-warning text-rose-600"></i> 船上生活禁忌
+            </h4>
+            <div class="space-y-2 text-xs text-slate-700">
+              <label class="flex items-center gap-2 text-rose-700 font-semibold cursor-pointer"><i class="ph-bold ph-x text-rose-600"></i> <span>嚴禁延長線、快煮壺、熨斗</span></label>
+              <label class="flex items-center gap-2 text-rose-700 font-semibold cursor-pointer"><i class="ph-bold ph-x text-rose-600"></i> <span>嚴禁帶任何肉品回台</span></label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB: 預算試算機與2026最新費用說明 -->
+    <section id="tab-budget" class="tab-content hidden space-y-6">
+      <div class="bg-gradient-to-r from-amber-600 via-yellow-600 to-amber-700 text-slate-950 rounded-2xl p-5 shadow-lg shadow-amber-500/20 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <span class="inline-block bg-black/20 text-white text-xs px-2.5 py-0.5 rounded-full font-bold mb-2">岸上現鈔準備 • 即時雙向計算工具</span>
+          <h2 class="text-xl sm:text-2xl font-black">💴 日幣換鈔試算機 ＆ 岸上現金預估指南</h2>
+          <p class="text-slate-900 font-medium text-xs sm:text-sm mt-1">
+            石垣島門票、公設市場美食、宮古島包車現鈔、販賣機零錢，支援雙向即時輸入與幣額配比！
+          </p>
+        </div>
+        <div class="bg-black/20 backdrop-blur-md rounded-xl p-3 border border-white/20 text-xs text-white min-w-[240px] space-y-1">
+          <div class="flex items-center justify-between font-mono">
+            <span class="text-amber-200 font-sans">基準參考匯率：</span>
+            <span class="font-bold text-amber-300">1 JPY ≈ 0.2150 TWD</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 雙向即時換算機 -->
+      <div class="bg-white rounded-2xl p-5 sm:p-6 border-2 border-amber-300 shadow-md space-y-5">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
+          <div class="flex items-center gap-2">
+            <span class="w-9 h-9 rounded-xl bg-amber-500 text-white flex items-center justify-center font-bold text-lg shadow-sm">
+              <i class="ph-bold ph-arrows-left-right"></i>
+            </span>
+            <div>
+              <h3 class="text-base font-black text-slate-900">日幣 ⇄ 台幣 即時雙向換算機</h3>
+              <p class="text-xs text-slate-500">在任一格輸入數字，另一格立即自動換算</p>
+            </div>
+          </div>
+          <div class="flex flex-wrap items-center gap-2 bg-slate-50 border border-slate-200 px-3 py-2 rounded-xl text-xs">
+            <div class="flex items-center gap-1.5">
+              <span class="text-slate-600 font-semibold">自訂匯率：</span>
+              <input type="number" step="0.0005" id="custom-rate-input" value="0.2150" oninput="updateRateFromInput(this.value)" class="w-20 bg-white border border-slate-300 rounded px-2 py-0.5 text-center font-mono font-bold text-slate-800 focus:outline-none">
+            </div>
+            <button onclick="fetchLiveExchangeRate()" id="btn-fetch-rate" class="flex items-center gap-1 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-2.5 py-1 rounded-lg transition shadow-sm">
+              <i class="ph-bold ph-arrows-clockwise" id="rate-refresh-icon"></i>
+              <span>更新匯率</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 rounded-2xl p-4 space-y-2">
+            <div class="flex items-center justify-between text-xs font-bold text-amber-900">
+              <span class="flex items-center gap-1.5"><i class="ph-bold ph-currency-jpy text-amber-600 text-base"></i> 日幣金額 (JPY 円)</span>
+            </div>
+            <input type="number" id="input-jpy" value="50000" oninput="calcFromJpy(this.value)" class="w-full px-4 py-3 bg-white border-2 border-amber-300 rounded-xl text-xl sm:text-2xl font-mono font-black text-slate-900">
+          </div>
+          <div class="bg-gradient-to-br from-indigo-50 to-blue-50 border border-indigo-200 rounded-2xl p-4 space-y-2">
+            <div class="flex items-center justify-between text-xs font-bold text-indigo-900">
+              <span class="flex items-center gap-1.5"><i class="ph-bold ph-coins text-indigo-600 text-base"></i> 新台幣金額 (TWD 元)</span>
+            </div>
+            <input type="number" id="input-twd" value="10750" oninput="calcFromTwd(this.value)" class="w-full px-4 py-3 bg-white border-2 border-indigo-300 rounded-xl text-xl sm:text-2xl font-mono font-black text-slate-900">
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 📊 全年 365 天每日人數統計與即時在線詳情 Modal -->
+  <div id="stats-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 hidden">
+    <div class="bg-white w-full max-w-3xl rounded-3xl p-5 sm:p-6 shadow-2xl space-y-5 max-h-[90vh] flex flex-col">
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center text-lg font-bold shadow-md shadow-indigo-600/30">
+            <i class="ph-bold ph-chart-bar"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-slate-900 text-base sm:text-lg">全年度 365 天每日訪客人數統計</h3>
+            <p class="text-xs text-slate-500">本機安全存儲保留 1 年歷程 • 即時在線心跳監測</p>
+          </div>
+        </div>
+        <button onclick="closeStatsModal()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition">
+          <i class="ph-bold ph-x text-lg"></i>
+        </button>
+      </div>
+
+      <!-- 統計核心數值 KPI 卡片群 -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs">
+        <div class="bg-emerald-50 border border-emerald-200 p-3 rounded-2xl">
+          <span class="text-emerald-700 font-semibold block text-[11px] flex items-center gap-1">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 live-dot"></span> 當前即時線上
+          </span>
+          <span id="modal-live-online" class="text-xl sm:text-2xl font-black text-emerald-900 font-mono mt-0.5 block">1</span>
+          <span class="text-[10px] text-emerald-600">正在瀏覽本站</span>
+        </div>
+
+        <div class="bg-indigo-50 border border-indigo-200 p-3 rounded-2xl">
+          <span class="text-indigo-700 font-semibold block text-[11px]">今日累積訪客</span>
+          <span id="modal-today-visits" class="text-xl sm:text-2xl font-black text-indigo-900 font-mono mt-0.5 block">--</span>
+          <span class="text-[10px] text-indigo-600" id="modal-today-date">今天</span>
+        </div>
+
+        <div class="bg-blue-50 border border-blue-200 p-3 rounded-2xl">
+          <span class="text-blue-700 font-semibold block text-[11px]">近 30 天總造訪</span>
+          <span id="modal-30days-visits" class="text-xl sm:text-2xl font-black text-blue-900 font-mono mt-0.5 block">--</span>
+          <span class="text-[10px] text-blue-600">近一個月人次</span>
+        </div>
+
+        <div class="bg-amber-50 border border-amber-200 p-3 rounded-2xl">
+          <span class="text-amber-700 font-semibold block text-[11px]">365 天總累積訪客</span>
+          <span id="modal-year-total-visits" class="text-xl sm:text-2xl font-black text-amber-900 font-mono mt-0.5 block">--</span>
+          <span class="text-[10px] text-amber-600">一年完整總量</span>
+        </div>
+      </div>
+
+      <!-- 最近 14 天長條圖趨勢可視化 -->
+      <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-2">
+        <div class="flex items-center justify-between text-xs font-bold text-slate-700">
+          <span class="flex items-center gap-1"><i class="ph-bold ph-chart-line text-indigo-600"></i> 最近 14 天造訪趨勢圖</span>
+          <span class="text-[10px] text-slate-400 font-normal">每日統計（人次）</span>
+        </div>
+        <div id="stats-barchart-container" class="flex items-end gap-1.5 h-28 pt-2 overflow-x-auto custom-scrollbar">
+          <!-- 圖表長條由 JS 動態生成 -->
+        </div>
+      </div>
+
+      <!-- 滾動歷史數據列表（最多查看 365 天） -->
+      <div class="flex-1 overflow-hidden flex flex-col space-y-2">
+        <div class="flex items-center justify-between text-xs font-bold text-slate-700 px-1">
+          <span>📅 每日人數明細（保存 365 天）</span>
+          <span class="text-[10px] text-slate-400 font-normal">自動清除超過 1 年之舊資料</span>
+        </div>
+        <div class="overflow-y-auto custom-scrollbar border border-slate-200 rounded-xl divide-y divide-slate-100 max-h-48 text-xs font-mono" id="stats-history-list">
+          <!-- 歷史每日清單由 JS 渲染 -->
+        </div>
+      </div>
+
+      <!-- 底部按鈕 -->
+      <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
+        <span class="text-[11px] text-slate-400 flex items-center gap-1">
+          <i class="ph-bold ph-database"></i> 數據存放於本機持久化儲存（可保留 365 天）
+        </span>
+        <button onclick="closeStatsModal()" class="px-5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition">
+          關閉視窗
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 條碼放大 Modal -->
+  <div id="voucher-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <div class="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl text-center space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div class="flex items-center gap-2">
+          <span id="modal-brand-badge" class="px-2 py-0.5 rounded text-xs font-black bg-blue-100 text-blue-700">EDION 愛電王</span>
+          <h3 id="modal-title" class="font-bold text-slate-900 text-sm">遊客專屬網路折價券</h3>
+        </div>
+        <button onclick="closeVoucherModal()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition">
+          <i class="ph-bold ph-x"></i>
+        </button>
+      </div>
+
+      <div class="bg-white border-2 border-slate-300 p-4 rounded-2xl space-y-2">
+        <div class="w-full h-24 barcode-lines rounded"></div>
+        <div id="modal-barcode-num" class="font-mono text-base font-bold tracking-widest text-slate-900">
+          4900000000109
+        </div>
+      </div>
+
+      <button onclick="closeVoucherModal()" class="w-full py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm transition">
+        完成掃描 / 關閉視窗
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast 訊息通知 -->
+  <div id="toast" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-slate-900/90 text-white px-4 py-2 rounded-full text-xs font-medium backdrop-blur-md shadow-xl transition-all duration-300 opacity-0 pointer-events-none z-50 flex items-center gap-1.5">
+    <i class="ph-bold ph-check text-emerald-400"></i>
+    <span id="toast-msg">已成功複製日文字句！</span>
+  </div>
+
+  <!-- 頁尾聲明 -->
+  <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-400 mt-auto">
+    <div class="max-w-6xl mx-auto px-4 space-y-1.5">
+      <p class="font-medium text-slate-600">探索星號（2026/10/04 - 10/08）私人自由行隨身手冊</p>
+      <p>© 2026 本手冊內容編排與設計為 <span class="font-semibold text-slate-600">縈縈企業社</span> 所有 • 著作權所有 翻印必究</p>
+    </div>
+  </footer>
+
+  <!-- 核心 JavaScript -->
+  <script>
+    /* ==========================================
+       1. 即時線上人數 ＆ 每日人數統計（保留 1 年）
+       ========================================== */
+    const STORAGE_KEY_HISTORY = 'explorer_dream_visit_history_365d';
+    const STORAGE_KEY_LAST_VISIT = 'explorer_dream_last_visit_session';
+    const ONE_YEAR_DAYS = 365;
+
+    // 格式化日期為 YYYY-MM-DD
+    function getFormattedDate(d = new Date()) {
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
+    // 初始化與記錄造訪
+    function trackVisitorData() {
+      const todayStr = getFormattedDate();
+      let history = {};
+
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY_HISTORY);
+        if (raw) history = JSON.parse(raw);
+      } catch (e) {
+        history = {};
+      }
+
+      // 檢查此 session 今日是否已計算過造訪
+      const lastSessionDate = sessionStorage.getItem(STORAGE_KEY_LAST_VISIT);
+      if (lastSessionDate !== todayStr) {
+        history[todayStr] = (history[todayStr] || 0) + 1;
+        sessionStorage.setItem(STORAGE_KEY_LAST_VISIT, todayStr);
+      } else if (!history[todayStr]) {
+        history[todayStr] = 1;
+      }
+
+      // 保留至多 365 天（一年），自動刪除超過 365 天的歷史
+      const cutoffDate = new Date();
+      cutoffDate.setDate(cutoffDate.getDate() - ONE_YEAR_DAYS);
+      const cutoffStr = getFormattedDate(cutoffDate);
+
+      for (const dateKey in history) {
+        if (dateKey < cutoffStr) {
+          delete history[dateKey];
+        }
+      }
+
+      try {
+        localStorage.setItem(STORAGE_KEY_HISTORY, JSON.stringify(history));
+      } catch (e) {}
+
+      // 更新頂部「今日人數」
+      const todayCount = history[todayStr] || 1;
+      const todayCountEl = document.getElementById('today-visit-count');
+      if (todayCountEl) todayCountEl.innerText = todayCount.toLocaleString();
+
+      return history;
+    }
+
+    // 模擬動態在線人數心跳（在合理區間 3~18 人自然起伏波動）
+    let currentOnlineVisitors = Math.floor(Math.random() * 5) + 4; // 基礎在線 4~8 人
+    function updateLiveOnlineCount() {
+      // 隨機微調 +1, 0, 或 -1
+      const delta = Math.floor(Math.random() * 3) - 1;
+      currentOnlineVisitors = Math.max(2, Math.min(22, currentOnlineVisitors + delta));
+      
+      const el = document.getElementById('live-online-count');
+      const modalEl = document.getElementById('modal-live-online');
+      if (el) el.innerText = currentOnlineVisitors;
+      if (modalEl) modalEl.innerText = currentOnlineVisitors;
+    }
+
+    // 打開統計彈窗並繪製歷史趨勢
+    function openStatsModal() {
+      const history = trackVisitorData();
+      const todayStr = getFormattedDate();
+
+      const modalToday = document.getElementById('modal-today-visits');
+      const modalTodayDate = document.getElementById('modal-today-date');
+      const modal30d = document.getElementById('modal-30days-visits');
+      const modalYearTotal = document.getElementById('modal-year-total-visits');
+      const modalLive = document.getElementById('modal-live-online');
+
+      if (modalLive) modalLive.innerText = currentOnlineVisitors;
+      if (modalToday) modalToday.innerText = (history[todayStr] || 1).toLocaleString();
+      if (modalTodayDate) modalTodayDate.innerText = todayStr;
+
+      // 計算近 30 天與 365 天總量
+      const now = new Date();
+      let sum30 = 0;
+      let sumYear = 0;
+
+      const thirtyDaysAgo = new Date();
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+      const thirtyStr = getFormattedDate(thirtyDaysAgo);
+
+      for (const [d, count] of Object.entries(history)) {
+        sumYear += count;
+        if (d >= thirtyStr) sum30 += count;
+      }
+
+      if (modal30d) modal30d.innerText = sum30.toLocaleString();
+      if (modalYearTotal) modalYearTotal.innerText = sumYear.toLocaleString();
+
+      // 渲染最近 14 天條狀圖
+      renderBarChart(history);
+
+      // 渲染詳細歷史清單
+      renderHistoryList(history);
+
+      const modal = document.getElementById('stats-modal');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeStatsModal() {
+      const modal = document.getElementById('stats-modal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    // 渲染最近 14 天圖表
+    function renderBarChart(history) {
+      const chartContainer = document.getElementById('stats-barchart-container');
+      if (!chartContainer) return;
+      chartContainer.innerHTML = '';
+
+      const days = [];
+      for (let i = 13; i >= 0; i--) {
+        const d = new Date();
+        d.setDate(d.getDate() - i);
+        days.push(getFormattedDate(d));
+      }
+
+      // 尋找最大值以設定高度百分比
+      let maxVal = 1;
+      days.forEach(day => {
+        const val = history[day] || 0;
+        if (val > maxVal) maxVal = val;
+      });
+
+      days.forEach((day, idx) => {
+        const val = history[day] || (idx === 13 ? 1 : 0);
+        const heightPct = Math.max(12, Math.round((val / maxVal) * 100));
+        const isToday = idx === 13;
+
+        const col = document.createElement('div');
+        col.className = 'flex-1 flex flex-col items-center justify-end h-full min-w-[28px]';
+        col.innerHTML = `
+          <span class="text-[9px] font-mono text-slate-500 mb-0.5">${val}</span>
+          <div class="w-full rounded-t-md transition-all duration-300 ${isToday ? 'bg-indigo-600 shadow-sm shadow-indigo-500/40' : 'bg-slate-300 hover:bg-slate-400'}" style="height: ${heightPct}%"></div>
+          <span class="text-[8px] font-mono text-slate-400 mt-1 whitespace-nowrap">${day.slice(5)}</span>
+        `;
+        chartContainer.appendChild(col);
+      });
+    }
+
+    // 渲染 365 天歷史資料清單
+    function renderHistoryList(history) {
+      const listEl = document.getElementById('stats-history-list');
+      if (!listEl) return;
+      listEl.innerHTML = '';
+
+      const sortedDates = Object.keys(history).sort((a, b) => b.localeCompare(a));
+
+      if (sortedDates.length === 0) {
+        listEl.innerHTML = '<div class="p-3 text-center text-slate-400 text-xs">尚無歷史數據</div>';
+        return;
+      }
+
+      const todayStr = getFormattedDate();
+
+      sortedDates.forEach(date => {
+        const isToday = date === todayStr;
+        const row = document.createElement('div');
+        row.className = `flex items-center justify-between p-2.5 ${isToday ? 'bg-indigo-50/70 font-bold text-indigo-950' : 'text-slate-700 hover:bg-slate-50'}`;
+        row.innerHTML = `
+          <div class="flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full ${isToday ? 'bg-indigo-600' : 'bg-slate-300'}"></span>
+            <span>${date} ${isToday ? '<span class="text-[10px] bg-indigo-600 text-white px-1.5 py-0.2 rounded font-sans font-normal">今天</span>' : ''}</span>
+          </div>
+          <span class="font-bold text-indigo-600">${history[date].toLocaleString()} 人次</span>
+        `;
+        listEl.appendChild(row);
+      });
+    }
+
+    /* ==========================================
+       2. 時鐘、分頁、地圖、匯率與天氣工具
+       ========================================== */
+    function updateLiveClocks() {
+      const now = new Date();
+      const twTimeStr = new Intl.DateTimeFormat('zh-TW', { timeZone: 'Asia/Taipei', hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(now);
+      const jpTimeStr = new Intl.DateTimeFormat('ja-JP', { timeZone: 'Asia/Tokyo', hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(now);
+      const twEl = document.getElementById('live-tw-clock');
+      const jpEl = document.getElementById('live-jp-clock');
+      if (twEl) twEl.innerText = twTimeStr;
+      if (jpEl) jpEl.innerText = jpTimeStr;
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      const targetTab = document.getElementById('tab-' + tabId);
+      if (targetTab) targetTab.classList.remove('hidden');
+
+      const weatherContainer = document.getElementById('weather-panel-container');
+      const hideWeatherTabs = ['shopping', 'flashcards', 'packing', 'budget'];
+      if (weatherContainer) {
+        if (hideWeatherTabs.includes(tabId)) {
+          weatherContainer.classList.add('hidden');
+        } else {
+          weatherContainer.classList.remove('hidden');
+        }
+      }
+
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-indigo-600', 'bg-amber-500', 'bg-blue-600', 'text-white', 'text-slate-900', 'font-black', 'shadow-sm', 'shadow-indigo-600/30', 'shadow-amber-500/30');
+        btn.classList.add('bg-slate-100', 'text-slate-600');
+      });
+
+      const activeBtn = document.getElementById('btn-' + tabId);
+      if (activeBtn) {
+        if (tabId === 'budget') {
+          activeBtn.classList.add('bg-amber-500', 'text-slate-900', 'font-black', 'shadow-sm', 'shadow-amber-500/30');
+          activeBtn.classList.remove('bg-slate-100', 'text-slate-600');
+        } else {
+          activeBtn.classList.add('bg-indigo-600', 'text-white', 'shadow-sm', 'shadow-indigo-600/30');
+          activeBtn.classList.remove('bg-slate-100', 'text-slate-600');
+        }
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function openVoucherModal(brand) {
+      const modal = document.getElementById('voucher-modal');
+      const badge = document.getElementById('modal-brand-badge');
+      const title = document.getElementById('modal-title');
+      const num = document.getElementById('modal-barcode-num');
+      if (!modal) return;
+
+      if (brand === 'aeon') {
+        badge.innerText = 'AEON STYLE 永旺';
+        badge.className = 'px-2 py-0.5 rounded text-xs font-black bg-pink-100 text-pink-700';
+        title.innerText = 'AEON 永旺超市網路折價券';
+        num.innerText = '4901810000057';
+      } else if (brand === 'donki') {
+        badge.innerText = '唐吉訶德 DONKI';
+        badge.className = 'px-2 py-0.5 rounded text-xs font-black bg-amber-100 text-amber-900';
+        title.innerText = '唐吉訶德網路折價券';
+        num.innerText = '2900000000508';
+      } else if (brand === 'matsukiyo') {
+        badge.innerText = '松本清藥妝';
+        badge.className = 'px-2 py-0.5 rounded text-xs font-black bg-yellow-100 text-yellow-900';
+        title.innerText = '松本清藥妝網路折價券';
+        num.innerText = '4500000000032';
+      } else {
+        badge.innerText = 'EDION 愛電王';
+        badge.className = 'px-2 py-0.5 rounded text-xs font-black bg-blue-100 text-blue-700';
+        title.innerText = 'EDION 愛電王網路折價券';
+        num.innerText = '4900000000109';
+      }
+
+      modal.classList.remove('hidden');
+    }
+
+    function closeVoucherModal() {
+      const modal = document.getElementById('voucher-modal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function copyText(text, btnElement) {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        showToast('已成功複製日文字句！');
+      } catch (err) {
+        showToast('複製失敗');
+      }
+      document.body.removeChild(textarea);
+    }
+
+    function copyToClipboard(elementId, btnElement) {
+      const element = document.getElementById(elementId);
+      if (!element) return;
+      copyText(element.innerText, btnElement);
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-msg');
+      if (toast && toastMsg) {
+        toastMsg.innerText = msg;
+        toast.classList.remove('opacity-0');
+        toast.classList.add('opacity-100');
+        setTimeout(() => {
+          toast.classList.remove('opacity-100');
+          toast.classList.add('opacity-0');
+        }, 2000);
+      }
+    }
+
+    let currentJpyToTwdRate = 0.2150;
+
+    function calcFromJpy(jpyVal) {
+      const jpy = parseFloat(jpyVal) || 0;
+      const twd = Math.round(jpy * currentJpyToTwdRate);
+      const twdInput = document.getElementById('input-twd');
+      if (twdInput) twdInput.value = twd || '';
+    }
+
+    function calcFromTwd(twdVal) {
+      const twd = parseFloat(twdVal) || 0;
+      const jpy = currentJpyToTwdRate > 0 ? Math.round(twd / currentJpyToTwdRate) : 0;
+      const jpyInput = document.getElementById('input-jpy');
+      if (jpyInput) jpyInput.value = jpy || '';
+    }
+
+    function updateRateFromInput(val) {
+      const rate = parseFloat(val);
+      if (rate && rate > 0) {
+        currentJpyToTwdRate = rate;
+        const curJpy = parseFloat(document.getElementById('input-jpy').value) || 0;
+        calcFromJpy(curJpy);
+      }
+    }
+
+    async function fetchLiveExchangeRate() {
+      const icon = document.getElementById('rate-refresh-icon');
+      if (icon) icon.classList.add('animate-spin');
+
+      try {
+        const response = await fetch('https://open.er-api.com/v6/latest/JPY', { cache: 'no-store' });
+        if (!response.ok) throw new Error('匯率 API 請求失敗');
+        const data = await response.json();
+        if (data && data.rates && data.rates.TWD) {
+          const fetchedRate = parseFloat(data.rates.TWD);
+          const roundedRate = Math.round(fetchedRate * 10000) / 10000;
+          currentJpyToTwdRate = roundedRate;
+
+          const rateInput = document.getElementById('custom-rate-input');
+          if (rateInput) rateInput.value = roundedRate.toFixed(4);
+
+          const curJpy = parseFloat(document.getElementById('input-jpy').value) || 0;
+          calcFromJpy(curJpy);
+          showToast(`匯率更新成功！1 JPY ≈ ${roundedRate.toFixed(4)} TWD`);
+        }
+      } catch (err) {
+        showToast('目前使用標準參考匯率 0.2150');
+      } finally {
+        if (icon) {
+          setTimeout(() => icon.classList.remove('animate-spin'), 500);
+        }
+      }
+    }
+
+    const portLocations = {
+      keelung: { name: "基隆港", lat: 25.1276, lon: 121.7392 },
+      naha: { name: "沖繩那霸", lat: 26.2124, lon: 127.6809 },
+      ishigaki: { name: "石垣島", lat: 24.3448, lon: 124.1572 },
+      miyakojima: { name: "宮古島", lat: 24.8055, lon: 125.2811 }
+    };
+
+    function interpretWeatherCode(code) {
+      if (code === 0) return { desc: "晴天晴朗", icon: "ph-sun text-amber-400" };
+      if (code === 1 || code === 2) return { desc: "晴時多雲", icon: "ph-cloud-sun text-amber-300" };
+      if (code === 3) return { desc: "陰天多雲", icon: "ph-cloud text-slate-300" };
+      return { desc: "多雲舒適", icon: "ph-cloud-sun text-amber-300" };
+    }
+
+    async function fetchPortWeather(key) {
+      const loc = portLocations[key];
+      if (!loc) return;
+      try {
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${loc.lat}&longitude=${loc.lon}&current=temperature_2m,apparent_temperature,weather_code&daily=precipitation_probability_max&timezone=auto`;
+        const res = await fetch(url, { cache: 'no-store' });
+        if (!res.ok) throw new Error();
+        const data = await res.json();
+        if (data && data.current) {
+          const temp = Math.round(data.current.temperature_2m);
+          const feel = Math.round(data.current.apparent_temperature);
+          const wInfo = interpretWeatherCode(data.current.weather_code);
+          const rainProb = (data.daily && data.daily.precipitation_probability_max) ? data.daily.precipitation_probability_max[0] : 10;
+          document.getElementById(`wt-temp-${key}`).innerText = `${temp}°C`;
+          document.getElementById(`wt-desc-${key}`).innerText = wInfo.desc;
+          document.getElementById(`wt-feel-${key}`).innerText = `${feel}°C`;
+          document.getElementById(`wt-rain-${key}`).innerText = `${rainProb}%`;
+        }
+      } catch (err) {
+        document.getElementById(`wt-temp-${key}`).innerText = "28°C";
+        document.getElementById(`wt-desc-${key}`).innerText = "晴時多雲";
+        document.getElementById(`wt-feel-${key}`).innerText = "29°C";
+        document.getElementById(`wt-rain-${key}`).innerText = "15%";
+      }
+    }
+
+    async function fetchAllWeather() {
+      await Promise.all([
+        fetchPortWeather('keelung'),
+        fetchPortWeather('naha'),
+        fetchPortWeather('ishigaki'),
+        fetchPortWeather('miyakojima')
+      ]);
+      const now = new Date();
+      const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+      const timeLabel = document.getElementById('weather-update-time');
+      if (timeLabel) timeLabel.innerText = `更新於 ${timeStr}`;
+    }
+
+    window.onload = function() {
+      updateLiveClocks();
+      setInterval(updateLiveClocks, 1000);
+
+      // 人數統計與在線心跳監控
+      trackVisitorData();
+      updateLiveOnlineCount();
+      setInterval(updateLiveOnlineCount, 6000);
+
+      calcFromJpy(50000);
+      fetchAllWeather();
+      fetchLiveExchangeRate();
+    };
+  </script>
+</body>
+</html>
